@@ -1,0 +1,230 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_recommendation.title.0">
+        <source>Title</source>
+        <target>Titel</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.title.1">
+        <source>Please enter the recommendation title.</source>
+        <target>Bitte geben Sie den Titel der Bewertung ein.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.alias.0">
+        <source>Recommendation alias</source>
+        <target>Alias der Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.alias.1">
+        <source>The recommendation alias is a unique reference to the recommendation which can be called instead of its numeric ID.</source>
+        <target>Der Alias der Bewertung ist eine eindeutige Referenz, die anstelle der numerischen Bewertungs-ID aufgerufen werden kann.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.author.0">
+        <source>Author</source>
+        <target>Autor</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.author.1">
+        <source>Here you can change the author of the recommendation.</source>
+        <target>Hier können Sie den Autor der Bewertung ändern.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date.0">
+        <source>Date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date.1">
+        <source>Please enter the date according to the global date format.</source>
+        <target>Bitte geben Sie das Datum gemäß des globalen Datumsformats ein.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.time.0">
+        <source>Time</source>
+        <target>Uhrzeit</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.time.1">
+        <source>Please enter the time according to the global time format.</source>
+        <target>Bitte geben Sie die Uhrzeit gemäß des globalen Zeitformats ein.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.rating.0">
+        <source>Rating</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.rating.1">
+        <source>Here you can enter a recommendation.</source>
+        <target>Hier können Sie die Bewertung eingeben.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser.0">
+        <source>Recommendation teaser</source>
+        <target>Teasertext</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser.1">
+        <source>The recommendation teaser can be shown in a recommendation list instead of the full text. A &quot;read more …&quot; link will be added automatically.</source>
+        <target>Der Teasertext kann in einer Bewertungsliste anstatt des ganzen Beitrags angezeigt werden. Ein &quot;Weiterlesen …&quot;-Link wird automatisch hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.text.0">
+        <source>recommendation text</source>
+        <target>Bewertungstext</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.text.1">
+        <source>Here you can enter the recommendation text.</source>
+        <target>Hier können Sie den Bewertungstext eingeben.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.imageUrl.0">
+        <source>Image</source>
+        <target>Bild</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.imageUrl.1">
+        <source>Here you can enter a recommendation image.</source>
+        <target>Hier können Sie der Bewertung ein Bild zuordnen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cssClass.0">
+        <source>CSS class</source>
+        <target>CSS-Klasse</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cssClass.1">
+        <source>Here you can enter one or more classes.</source>
+        <target>Hier können Sie eine oder mehrere Klassen eingeben.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured.0">
+        <source>Feature recommendation</source>
+        <target>Bewertung hervorheben</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured.1">
+        <source>Show the recommendation in a featured recommendation list.</source>
+        <target>Die Bewertung in einer Liste hervorgehobener Bewertungen anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.published.0">
+        <source>Publish recommendation</source>
+        <target>Bewertung veröffentlichen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.published.1">
+        <source>Make the recommendation publicly visible on the website.</source>
+        <target>Die Bewertung auf der Webseite anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.start.0">
+        <source>Show from</source>
+        <target>Anzeigen ab</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.start.1">
+        <source>Do not show the recommendation on the website before this day.</source>
+        <target>Die Bewertung erst ab diesem Tag auf der Webseite anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.stop.0">
+        <source>Show until</source>
+        <target>Anzeigen bis</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.stop.1">
+        <source>Do not show the recommendation on the website on and after this day.</source>
+        <target>Die Bewertung nur bis zu diesem Tag auf der Webseite anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.tstamp.0">
+        <source>Revision date</source>
+        <target>Änderungsdatum</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.tstamp.1">
+        <source>Date and time of the latest revision</source>
+        <target>Datum und Uhrzeit der letzten Änderung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.title_legend">
+        <source>Title and author</source>
+        <target>Titel und Autor</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date_legend">
+        <source>Date and time</source>
+        <target>Datum und Zeit</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_legend">
+        <source>Recommendation</source>
+        <target>Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser_legend">
+        <source>Teaser</source>
+        <target>Teaser</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.expert_legend">
+        <source>Expert settings</source>
+        <target>Experten-Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.publish_legend">
+        <source>Publish settings</source>
+        <target>Veröffentlichung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.new.0">
+        <source>New recommendation</source>
+        <target>Neue Bewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.new.1">
+        <source>Create a new recommendation</source>
+        <target>Eine neue Bewertung erstellen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.show.0">
+        <source>Recommendation details</source>
+        <target>Bewertungsdetails</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.show.1">
+        <source>Show the details of recommendation ID %s</source>
+        <target>Die Details der Bewertung ID %s anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.edit.0">
+        <source>Edit recommendation</source>
+        <target>Bewertung bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.edit.1">
+        <source>Edit recommendation ID %s</source>
+        <target>Bewertung ID %s bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.copy.0">
+        <source>Duplicate recommendation</source>
+        <target>Bewertung duplizieren</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.copy.1">
+        <source>Duplicate recommendation ID %s</source>
+        <target>Bewertung ID %s duplizieren</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cut.0">
+        <source>Move recommendation</source>
+        <target>Bewertung verschieben</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cut.1">
+        <source>Move recommendation ID %s</source>
+        <target>Bewertung ID %s verschieben</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.delete.0">
+        <source>Delete recommendation</source>
+        <target>Bewertung löschen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.delete.1">
+        <source>Delete recommendation ID %s</source>
+        <target>Bewertung ID %s löschen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.toggle.0">
+        <source>Publish/unpublish recommendation</source>
+        <target>Bewertung veröffentlichen/unveröffentlichen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.toggle.1">
+        <source>Publish/unpublish recommendation ID %s</source>
+        <target>Bewertung ID %s veröffentlichen/unveröffentlichen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.feature.0">
+        <source>Feature/unfeature recommendation</source>
+        <target>Bewertung hervorheben/zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.feature.1">
+        <source>Feature/unfeature recommendation ID %s</source>
+        <target>Bewertung ID %s hervorheben/zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.editmeta.0">
+        <source>Edit recommendation settings</source>
+        <target>Bewertungseinstellungen bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.editmeta.1">
+        <source>Edit the recommendation settings</source>
+        <target>Die Bewertungseinstellungen bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.pasteafter.0">
+        <source>Paste into this recommendation archive</source>
+        <target>In dieses Bewertungsarchiv einfügen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.pasteafter.1">
+        <source>Paste after recommendation ID %s</source>
+        <target>Nach der Bewertung ID %s einfügen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

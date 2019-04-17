@@ -1,0 +1,50 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_module.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_module.recommendation_archives.0">
+        <source>Recommendation archives</source>
+        <target>Bewertungsarchive</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_archives.1">
+        <source>Please select one or more recommendation archives.</source>
+        <target>Bitte wählen Sie ein oder mehrere Bewertungsarchive.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_featured.0">
+        <source>Featured items</source>
+        <target>Hervorgehobene Beiträge</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_featured.1">
+        <source>Here you can choose how featured items are handled.</source>
+        <target>Hier legen Sie fest, wie hervorgehobene Beiträge gehandhabt werden.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_metaFields.0">
+        <source>Meta fields</source>
+        <target>Meta-Felder</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_metaFields.1">
+        <source>Here you can select the meta fields.</source>
+        <target>Hier können Sie die Meta-Felder auswählen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_template.0">
+        <source>recommendation template</source>
+        <target>Bewertungstemplate</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_template.1">
+        <source>Here you can select the recommendation template.</source>
+        <target>Hier können Sie das Bewertungstemplate auswählen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.all_items">
+        <source>Show all recommendations</source>
+        <target>Alle Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.featured">
+        <source>Show featured recommendation only</source>
+        <target>Nur hervorgehobene Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.unfeatured">
+        <source>Skip featured recommendations</source>
+        <target>Hervorgehobene Bewertungen überspringen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

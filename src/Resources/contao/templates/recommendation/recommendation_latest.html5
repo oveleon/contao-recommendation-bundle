@@ -1,0 +1,48 @@
+
+<div class="layout_latest arc_<?= $this->archiveId ?> block<?= $this->class ?>">
+
+  <?php if ($this->addInternalImage): ?>
+    <?php $this->insert('image', $this->arrData); ?>
+  <?php elseif ($this->addExternalImage): ?>
+    <figure class="image_container">
+      <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
+    </figure>
+  <?php endif; ?>
+
+  <div class="layout_container">
+    <?php if ($this->hasTitle): ?>
+      <h4 itemprop="name"><?= $this->linkHeadline ?></h4>
+    <?php endif; ?>
+
+    <?php if ($this->addAuthor || $this->addDate || $this->addRating): ?>
+      <div class="info">
+        <?php if ($this->addAuthor): ?>
+          <p class="author"><?= $this->author ?></p>
+        <?php endif; ?>
+
+        <?php if ($this->addDate): ?>
+          <p class="date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></p>
+        <?php endif; ?>
+
+        <?php if ($this->addRating): ?>
+          <div class="rating">
+            <?php for ($i=1;$i<=5;$i++): ?>
+              <span class="star<?= ($i<=$this->rating) ? ' active' : '' ?>">&#9733;</span>
+            <?php endfor; ?>
+          </div>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+
+    <div class="text" itemprop="description">
+      <?php if ($this->teaser): ?>
+        <?= $this->teaser ?>
+      <?php else: ?>
+        <?= $this->text ?>
+      <?php endif; ?>
+    </div>
+
+    <p class="more"><?= $this->more ?></p>
+  </div>
+
+</div>
