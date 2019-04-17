@@ -10,6 +10,14 @@ array_insert($GLOBALS['BE_MOD']['content'], 5, array
         'tables'      => array('tl_recommendation_archive', 'tl_recommendation')
     )
 ));
+array_insert($GLOBALS['BE_MOD']['system'], 3, array
+(
+    'recommendation_settings' => array
+    (
+        'tables'            => array('tl_recommendation_settings'),
+        'hideInNavigation'  => true
+    )
+));
 
 // Front end modules
 array_insert($GLOBALS['FE_MOD'], 2, array
@@ -28,3 +36,9 @@ $GLOBALS['TL_MODELS']['tl_recommendation_archive'] = '\\Oveleon\\ContaoRecommend
 // Add permissions
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendations';
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';
+
+// Style sheet
+if (TL_MODE == 'BE')
+{
+    $GLOBALS['TL_CSS'][] = 'bundles/contaorecommendation/style.css|static';
+}

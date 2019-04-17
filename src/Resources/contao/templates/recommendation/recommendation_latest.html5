@@ -10,8 +10,8 @@
   <?php endif; ?>
 
   <div class="layout_container">
-    <?php if ($this->hasTitle): ?>
-      <h4 itemprop="name"><?= $this->linkHeadline ?></h4>
+    <?php if ($this->headlineLink): ?>
+      <h4 itemprop="name"><?= $this->headlineLink ?></h4>
     <?php endif; ?>
 
     <?php if ($this->addAuthor || $this->addDate || $this->addRating): ?>
@@ -35,14 +35,16 @@
     <?php endif; ?>
 
     <div class="text" itemprop="description">
-      <?php if ($this->teaser): ?>
+      <?php if ($this->teaser && $this->allowRedirect): ?>
         <?= $this->teaser ?>
       <?php else: ?>
         <?= $this->text ?>
       <?php endif; ?>
     </div>
 
-    <p class="more"><?= $this->more ?></p>
+    <?php if ($this->allowRedirect): ?>
+      <p class="more"><?= $this->more ?></p>
+    <?php endif; ?>
   </div>
 
 </div>

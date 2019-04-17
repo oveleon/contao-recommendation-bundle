@@ -49,6 +49,14 @@
         <source>Access protection</source>
         <target>Zugriffsschutz</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation_archive.settings.0">
+        <source>Settings</source>
+        <target>Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_archive.settings.1">
+        <source>Recommendation settings</source>
+        <target>Bewertungen-Einstellungen</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation_archive.new.0">
         <source>New archive</source>
         <target>Neues Archiv</target>

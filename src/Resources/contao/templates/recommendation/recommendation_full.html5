@@ -1,7 +1,7 @@
 
 <div class="layout_full block<?= $this->class ?>">
 
-  <?php if ($this->hasTitle): ?>
+  <?php if ($this->headline): ?>
     <h1 itemprop="name"><?= $this->headline ?></h1>
   <?php endif; ?>
 

@@ -8,9 +8,6 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
-use Contao\FilesModel;
-use Contao\Image\ResizeCoordinates;
-
 /**
  * Parent class for recommendation modules.
  *
@@ -69,13 +66,14 @@ abstract class ModuleRecommendation extends \Module
 	/**
 	 * Parse an item and return it as string
 	 *
-	 * @param RecommendationModel $objRecommendation
-	 * @param string              $strClass
-	 * @param integer             $intCount
+	 * @param RecommendationModel        $objRecommendation
+	 * @param RecommendationArchiveModel $objRecommendationArchive
+	 * @param string                     $strClass
+	 * @param integer                    $intCount
 	 *
 	 * @return string
 	 */
-	protected function parseRecommendation($objRecommendation, $strClass='', $intCount=0)
+	protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
 	{
 		/** @var \FrontendTemplate|object $objTemplate */
 		$objTemplate = new \FrontendTemplate($this->recommendation_template);
@@ -92,16 +90,19 @@ abstract class ModuleRecommendation extends \Module
 		}
 
 		$objTemplate->class = $strClass;
+        $objTemplate->archiveId = $objRecommendationArchive->id;
+
+		if ($objRecommendationArchive->jumpTo)
+        {
+            $objTemplate->allowRedirect = true;
+            $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $objRecommendation->title, true);
+        }
 
 		if ($objRecommendation->title)
         {
-            $objTemplate->hasTitle = true;
-            $objTemplate->linkHeadline = $this->generateLink($objRecommendation->title, $objRecommendation, $objRecommendation->title);
+            $objTemplate->headlineLink = $objRecommendationArchive->jumpTo ? $this->generateLink($objRecommendation->title, $objRecommendation, $objRecommendation->title) : $objRecommendation->title;
             $objTemplate->headline = $objRecommendation->title;
         }
-
-        $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $strTitle, true);
-        $objTemplate->archiveId = $objRecommendation->pid;
 
         $arrMeta = $this->getMetaFields($objRecommendation);
 
@@ -131,29 +132,15 @@ abstract class ModuleRecommendation extends \Module
             {
                 $objModel = \FilesModel::findByPath($objRecommendation->imageUrl);
 
-                if ($objModel !== null && is_file(TL_ROOT . '/' . $objModel->path))
-                {
-                    $objTemplate->addInternalImage = true;
-
-                    // Do not override the field now that we have a model registry (see #6303)
-                    $arrRecommendation = $objRecommendation->row();
-
-                    // Override the default image size
-                    if ($this->imgSize != '')
-                    {
-                        $size = \StringUtil::deserialize($this->imgSize);
-
-                        if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]))
-                        {
-                            $arrRecommendation['size'] = $this->imgSize;
-                        }
-                    }
-
-                    $arrRecommendation['singleSRC'] = $objModel->path;
-                    $this->addImageToTemplate($objTemplate, $arrRecommendation, null, null, $objModel);
-                }
+                $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
             }
 		}
+		elseif (\Config::get('recommendationDefaultImage'))
+        {
+            $objModel = \FilesModel::findByUuid(\Config::get('recommendationDefaultImage'));
+
+            $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
+        }
 
 		// HOOK: add custom logic
 		if (isset($GLOBALS['TL_HOOKS']['parseRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['parseRecommendation']))
@@ -192,7 +179,10 @@ abstract class ModuleRecommendation extends \Module
 			/** @var RecommendationModel $objRecommendation */
 			$objRecommendation = $objRecommendations->current();
 
-			$arrRecommendations[] = $this->parseRecommendation($objRecommendation, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
+            /** @var RecommendationArchiveModel $objRecommendationArchive */
+			$objRecommendationArchive = $objRecommendation->getRelated('pid');
+
+			$arrRecommendations[] = $this->parseRecommendation($objRecommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
 		}
 
 		return $arrRecommendations;
@@ -288,5 +278,37 @@ abstract class ModuleRecommendation extends \Module
         }
 
         return false;
+    }
+
+    /**
+     * Add an internal image to template
+     *
+     * @param \FilesModel $objModel                  The files model
+     * @param RecommendationModel $objRecommendation The recommendation model
+     * @param \FrontendTemplate $objTemplate         The frontend template
+     */
+    protected function addInternalImage($objModel, $objRecommendation, &$objTemplate)
+    {
+        if ($objModel !== null && is_file(TL_ROOT . '/' . $objModel->path))
+        {
+            $objTemplate->addInternalImage = true;
+
+            // Do not override the field now that we have a model registry (see #6303)
+            $arrRecommendation = $objRecommendation->row();
+
+            // Override the default image size
+            if ($this->imgSize != '')
+            {
+                $size = \StringUtil::deserialize($this->imgSize);
+
+                if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]))
+                {
+                    $arrRecommendation['size'] = $this->imgSize;
+                }
+            }
+
+            $arrRecommendation['singleSRC'] = $objModel->path;
+            $this->addImageToTemplate($objTemplate, $arrRecommendation, null, null, $objModel);
+        }
     }
 }

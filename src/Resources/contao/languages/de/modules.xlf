@@ -9,6 +9,14 @@
         <source>Manage recommendations</source>
         <target>Bewertungen verwalten</target>
       </trans-unit>
+      <trans-unit id="MOD.recommendation_settings.0">
+        <source>Recommendation settings</source>
+        <target>Bewertungs-Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="MOD.recommendation_settings.1">
+        <source>Configure recommendation settings</source>
+        <target>Bewertungs-Einstellungen vornehmen</target>
+      </trans-unit>
       <trans-unit id="FMD.recommendation">
         <source>Recommendations</source>
         <target>Bewertungen</target>

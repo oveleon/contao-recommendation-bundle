@@ -46,6 +46,13 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
 		),
 		'global_operations' => array
 		(
+            'settings' => array
+            (
+                'label'               => &$GLOBALS['TL_LANG']['tl_recommendation_archive']['settings'],
+                'href'                => 'do=recommendation_settings',
+                'icon'                => 'edit.svg',
+                'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
+            ),
 			'all' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
@@ -132,7 +139,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
 			'exclude'                 => true,
 			'inputType'               => 'pageTree',
 			'foreignKey'              => 'tl_page.title',
-			'eval'                    => array('mandatory'=>true, 'fieldType'=>'radio', 'tl_class'=>'clr'),
+			'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr'),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'",
 			'relation'                => array('type'=>'hasOne', 'load'=>'eager')
 		),

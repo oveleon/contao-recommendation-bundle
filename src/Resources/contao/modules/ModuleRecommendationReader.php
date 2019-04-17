@@ -88,7 +88,10 @@ class ModuleRecommendationReader extends ModuleRecommendation
 			throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
 		}
 
-		$arrRecommendation = $this->parseRecommendation($objRecommendation);
+		/** @var RecommendationArchiveModel $objRecommendationArchive */
+        $objRecommendationArchive = $objRecommendation->getRelated('pid');
+
+		$arrRecommendation = $this->parseRecommendation($objRecommendation, $objRecommendationArchive);
 		$this->Template->recommendation = $arrRecommendation;
 	}
 }
