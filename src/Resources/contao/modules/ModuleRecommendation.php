@@ -114,6 +114,10 @@ abstract class ModuleRecommendation extends \Module
 		$objTemplate->author = $arrMeta['author'];
 		$objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
 
+		// Add styles
+        $color = unserialize(\Config::get('recommendationActiveColor'))[0];
+        $objTemplate->styles = $color ? ' style="color:#'.$color.'"' : '';
+
         $objTemplate->addExternalImage = false;
         $objTemplate->addInternalImage = false;
 
