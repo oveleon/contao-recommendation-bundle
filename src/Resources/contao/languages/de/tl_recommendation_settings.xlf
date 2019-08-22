@@ -7,7 +7,7 @@
       </trans-unit>
       <trans-unit id="tl_recommendation_settings.recommendationDefaultImage.1">
         <source>The default image is displayed for recommendations that have not set their own image.</source>
-        <target>Das Standard-Bild wird bei Bewertungen angezeigt, die keinen eigenes Bild gesetzt haben.</target>
+        <target>Das Standard-Bild wird bei Bewertungen angezeigt, die kein eigenes Bild gesetzt haben.</target>
       </trans-unit>
       <trans-unit id="tl_recommendation_settings.recommendationActiveColor.0">
         <source>Color of active stars</source>
