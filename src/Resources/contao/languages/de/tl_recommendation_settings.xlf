@@ -8,10 +8,18 @@
       <trans-unit id="tl_recommendation_settings.recommendationDefaultImage.1">
         <source>The default image is displayed for recommendations that have not set their own image.</source>
         <target>Das Standard-Bild wird bei Bewertungen angezeigt, die keinen eigenes Bild gesetzt haben.</target>
-      </trans-unit>#
-      <trans-unit id="tl_recommendation_settings.image_legend">
-        <source>Image settings</source>
-        <target>Bild-Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationActiveColor.0">
+        <source>Color of active stars</source>
+        <target>Farbe für aktive Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationActiveColor.1">
+        <source>Color value will be set as inline css style in the html code.</source>
+        <target>Farbwert wird als inline css style im HTML code gesetzt.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendation_legend">
+        <source>Settings</source>
+        <target>Einstellungen</target>
       </trans-unit>
     </body>
   </file>
