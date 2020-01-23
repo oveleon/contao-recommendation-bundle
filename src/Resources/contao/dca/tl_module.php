@@ -39,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_metaFields'] = array
 	'default'                 => array('date', 'author'),
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
-	'options'                 => array('date', 'author', 'rating'),
+	'options'                 => array('date', 'author', 'rating', 'location'),
 	'reference'               => &$GLOBALS['TL_LANG']['MSC'],
 	'eval'                    => array('multiple'=>true),
 	'sql'                     => "varchar(255) NOT NULL default ''"

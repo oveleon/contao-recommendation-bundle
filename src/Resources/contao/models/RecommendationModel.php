@@ -15,6 +15,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @property integer $pid
  * @property integer $tstamp
  * @property integer $author
+ * @property integer $location
  * @property string  $alias
  * @property integer $date
  * @property integer $time

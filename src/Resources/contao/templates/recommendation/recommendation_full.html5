@@ -13,10 +13,13 @@
     </figure>
   <?php endif; ?>
 
-  <?php if ($this->addAuthor || $this->addDate || $this->addRating): ?>
+  <?php if ($this->addAuthor || $this->addDate || $this->addRating || $this->addLocation): ?>
     <div class="info">
       <?php if ($this->addAuthor): ?>
         <p class="author"><?= $this->author ?></p>
+      <?php endif; ?>
+      <?php if ($this->addLocation): ?>
+          <p class="location"><?= $this->location ?></p>
       <?php endif; ?>
 
       <?php if ($this->addDate): ?>

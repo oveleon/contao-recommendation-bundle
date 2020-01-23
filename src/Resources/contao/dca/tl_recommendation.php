@@ -110,7 +110,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{title_legend},title,alias,author;{date_legend},date,time;{recommendation_legend},rating,text,imageUrl;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
+		'default'                     => '{title_legend},title,alias;{date_legend},date,time;{recommendation_legend},author,location,text,imageUrl,rating;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
 	),
 
 	// Fields
@@ -147,7 +147,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'text',
-            'eval'                    => array('rgxp'=>'alias', 'doNotCopy'=>true, 'unique'=>true, 'maxlength'=>128, 'tl_class'=>'w50 clr'),
+            'eval'                    => array('rgxp'=>'alias', 'doNotCopy'=>true, 'unique'=>true, 'maxlength'=>128, 'tl_class'=>'w50'),
             'save_callback' => array
             (
                 array('tl_recommendation', 'generateAlias')
@@ -163,6 +163,17 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 			'flag'                    => 1,
 			'inputType'               => 'text',
 			'eval'                    => array('doNotCopy'=>true, 'mandatory'=>true, 'maxlength'=>128, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(128) NOT NULL default ''"
+		),
+		'location' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['location'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'sorting'                 => true,
+			'flag'                    => 1,
+			'inputType'               => 'text',
+			'eval'                    => array('doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(128) NOT NULL default ''"
 		),
 		'date' => array

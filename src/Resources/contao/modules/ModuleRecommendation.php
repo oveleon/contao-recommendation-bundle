@@ -109,10 +109,12 @@ abstract class ModuleRecommendation extends \Module
 		// Add the meta information
         $objTemplate->addRating = array_key_exists('rating', $arrMeta);
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
-		$objTemplate->date = $arrMeta['date'];
+        $objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
+        $objTemplate->date = $arrMeta['date'];
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
-		$objTemplate->author = $arrMeta['author'];
-		$objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
+        $objTemplate->author = $arrMeta['author'];
+        $objTemplate->addLocation = array_key_exists('location', $arrMeta);
+        $objTemplate->location = $arrMeta['location'];
 
 		// Add styles
         $color = unserialize(\Config::get('recommendationActiveColor'))[0];
@@ -221,13 +223,8 @@ abstract class ModuleRecommendation extends \Module
 					$return['date'] = \Date::parse($objPage->datimFormat, $objRecommendation->date);
 					break;
 
-				case 'author':
-                    $return['author'] = $objRecommendation->author;
-					break;
-
-                case 'rating':
-                    $return['rating'] = $objRecommendation->rating;
-                    break;
+                default:
+                    $return[ $field ] = $objRecommendation->{$field};
 			}
 		}
 

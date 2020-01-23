@@ -1,0 +1,21 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_user.php" source-language="en">
+    <body>
+      <trans-unit id="tl_user.recommendations.0">
+        <source>Allowed archives</source>
+      </trans-unit>
+      <trans-unit id="tl_user.recommendations.1">
+        <source>Here you can grant access to one or more recommendation archives.</source>
+      </trans-unit>
+      <trans-unit id="tl_user.recommendationp.0">
+        <source>Recommendation permissions</source>
+      </trans-unit>
+      <trans-unit id="tl_user.recommendationp.1">
+        <source>Here you can define the recommendation permissions.</source>
+      </trans-unit>
+      <trans-unit id="tl_user.recommendation_legend">
+        <source>Recommendation permissions</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
