@@ -1,13 +1,11 @@
 <?xml version="1.0" ?><xliff version="1.1">
-  <file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en" target-language="de">
+  <file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en">
     <body>
       <trans-unit id="MSC.rating">
         <source>Rating</source>
-        <target>Bewertung</target>
       </trans-unit>
       <trans-unit id="MSC.location">
         <source>Location</source>
-        <target>Ort</target>
       </trans-unit>
     </body>
   </file>

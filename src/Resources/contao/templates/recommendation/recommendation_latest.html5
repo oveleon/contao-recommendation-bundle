@@ -14,10 +14,13 @@
       <h4 itemprop="name"><?= $this->headlineLink ?></h4>
     <?php endif; ?>
 
-    <?php if ($this->addAuthor || $this->addDate || $this->addRating): ?>
+    <?php if ($this->addAuthor || $this->addDate || $this->addRating || $this->addLocation): ?>
       <p class="info">
         <?php if ($this->addAuthor): ?>
           <span class="author"><?= $this->author ?></span>
+        <?php endif; ?>
+        <?php if ($this->addLocation): ?>
+          <span class="location"><?= $this->location ?></span>
         <?php endif; ?>
 
         <?php if ($this->addDate): ?>
