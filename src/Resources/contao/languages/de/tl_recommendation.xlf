@@ -125,6 +125,18 @@
         <source>Date and time of the latest revision</source>
         <target>Datum und Uhrzeit der letzten Änderung</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.all_items">
+        <source>Show all recommendations</source>
+        <target>Alle Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured">
+        <source>Show featured recommendation only</source>
+        <target>Nur hervorgehobene Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.unfeatured">
+        <source>Skip featured recommendations</source>
+        <target>Hervorgehobene Bewertungen überspringen</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.title_legend">
         <source>Title and author</source>
         <target>Titel und Autor</target>

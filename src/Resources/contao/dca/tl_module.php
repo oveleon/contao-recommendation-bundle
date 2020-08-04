@@ -28,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_featured'] = array
 	'exclude'                 => true,
 	'inputType'               => 'select',
 	'options'                 => array('all_items', 'featured', 'unfeatured'),
-	'reference'               => &$GLOBALS['TL_LANG']['tl_module'],
+	'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "varchar(16) NOT NULL default ''"
 );

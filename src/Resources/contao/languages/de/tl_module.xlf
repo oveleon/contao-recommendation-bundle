@@ -33,18 +33,6 @@
         <source>Here you can select the recommendation template.</source>
         <target>Hier können Sie das Bewertungstemplate auswählen.</target>
       </trans-unit>
-      <trans-unit id="tl_module.all_items">
-        <source>Show all recommendations</source>
-        <target>Alle Bewertungen anzeigen</target>
-      </trans-unit>
-      <trans-unit id="tl_module.featured">
-        <source>Show featured recommendation only</source>
-        <target>Nur hervorgehobene Bewertungen anzeigen</target>
-      </trans-unit>
-      <trans-unit id="tl_module.unfeatured">
-        <source>Skip featured recommendations</source>
-        <target>Hervorgehobene Bewertungen überspringen</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -25,15 +25,6 @@
       <trans-unit id="tl_module.recommendation_template.1">
         <source>Here you can select the recommendation template.</source>
       </trans-unit>
-      <trans-unit id="tl_module.all_items">
-        <source>Show all recommendations</source>
-      </trans-unit>
-      <trans-unit id="tl_module.featured">
-        <source>Show featured recommendation only</source>
-      </trans-unit>
-      <trans-unit id="tl_module.unfeatured">
-        <source>Skip featured recommendations</source>
-      </trans-unit>
     </body>
   </file>
 </xliff>

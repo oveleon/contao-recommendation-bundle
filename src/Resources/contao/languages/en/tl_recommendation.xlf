@@ -94,6 +94,15 @@
       <trans-unit id="tl_recommendation.tstamp.1">
         <source>Date and time of the latest revision</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.all_items">
+        <source>Show all recommendations</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured">
+        <source>Show featured recommendation only</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.unfeatured">
+        <source>Skip featured recommendations</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.title_legend">
         <source>Title and author</source>
       </trans-unit>
