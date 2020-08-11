@@ -33,7 +33,7 @@
           <?php endfor; ?>
         </span>
       <?php endif; ?>
-    </p>
+    </div>
   <?php endif; ?>
 
   <div class="text" itemprop="description">

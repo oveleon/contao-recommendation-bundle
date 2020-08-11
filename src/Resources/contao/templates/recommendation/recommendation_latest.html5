@@ -15,7 +15,7 @@
     <?php endif; ?>
 
     <?php if ($this->addAuthor || $this->addDate || $this->addRating || $this->addLocation): ?>
-      <p class="info">
+      <div class="info">
         <?php if ($this->addAuthor): ?>
           <span class="author"><?= $this->author ?></span>
         <?php endif; ?>
@@ -34,7 +34,7 @@
             <?php endfor; ?>
           </span>
         <?php endif; ?>
-      </p>
+      </div>
     <?php endif; ?>
 
     <div class="text" itemprop="description">
