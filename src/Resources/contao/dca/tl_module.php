@@ -6,6 +6,8 @@
  * (c) https://www.oveleon.de/
  */
 
+Contao\System::loadLanguageFile('tl_recommendation');
+
 // Add palettes to tl_module
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,numberOfItems,recommendation_featured,perPage,skipFirst;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
