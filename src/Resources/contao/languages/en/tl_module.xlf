@@ -7,6 +7,12 @@
       <trans-unit id="tl_module.recommendation_archives.1">
         <source>Please select one or more recommendation archives.</source>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_archive.0">
+        <source>Recommendation archive</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_archive.1">
+        <source>Please select a recommendation archive.</source>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_featured.0">
         <source>Featured items</source>
       </trans-unit>
@@ -18,6 +24,24 @@
       </trans-unit>
       <trans-unit id="tl_module.recommendation_metaFields.1">
         <source>Here you can select the meta fields.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_optionalFormFields.0">
+        <source>Optional recommendation fields</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_optionalFormFields.1">
+        <source>Here you can select one or more recommendation fields. Title, author and text are always mandatory.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.rec_moderate.0">
+        <source>Moderate</source>
+      </trans-unit>
+      <trans-unit id="tl_module.rec_moderate.1">
+        <source>Approve recommendations before they are published on the website.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.rec_disableCaptcha.0">
+        <source>Disable spam protection</source>
+      </trans-unit>
+      <trans-unit id="tl_module.rec_disableCaptcha.1">
+        <source>Here you can disable the spam protection (not recommended).</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_template.0">
         <source>Recommendation template</source>

@@ -69,6 +69,10 @@
         <source>Here you can enter the recommendation text.</source>
         <target>Hier können Sie den Bewertungstext eingeben.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.image.0">
+        <source>Image</source>
+        <target>Bild</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.imageUrl.0">
         <source>Image</source>
         <target>Bild</target>

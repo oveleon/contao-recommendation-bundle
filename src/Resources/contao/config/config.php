@@ -26,6 +26,7 @@ array_insert($GLOBALS['FE_MOD'], 2, array
     (
         'recommendationlist'    => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationList',
         'recommendationreader'  => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationReader',
+        'recommendationform'    => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationForm',
     )
 ));
 

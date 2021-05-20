@@ -37,6 +37,14 @@
         <source>Shows the details of a recommendation</source>
         <target>Stellt eine einzelne Bewertung dar</target>
       </trans-unit>
+      <trans-unit id="FMD.recommendationform.0">
+        <source>Recommendation form</source>
+        <target>Bewertungsformular</target>
+      </trans-unit>
+      <trans-unit id="FMD.recommendationform.1">
+        <source>Adds a recommendation form to the page</source>
+        <target>Fügt der Seite ein Formular für Bewertungen hinzu</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

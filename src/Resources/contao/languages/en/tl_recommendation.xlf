@@ -52,6 +52,9 @@
       <trans-unit id="tl_recommendation.text.1">
         <source>Here you can enter the recommendation text.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.image.0">
+        <source>Image</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.imageUrl.0">
         <source>Image</source>
       </trans-unit>
