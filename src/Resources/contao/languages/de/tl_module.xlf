@@ -38,22 +38,30 @@
         <target>Optionale Bewertungsfelder</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_optionalFormFields.1">
-        <source>Here you can select one or more recommendation fields. Title, author and text are always mandatory.</source>
-        <target>Bitte wählen Sie ein oder mehrere Bewertungsfelder. Titel, Autor und Text sind immer Pflichtfelder.</target>
+        <source>Here you can select one or more recommendation fields. Author, rating and text are mandatory.</source>
+        <target>Bitte wählen Sie ein oder mehrere Bewertungsfelder. Autor, Bewertung und Text sind Pflichtfelder.</target>
       </trans-unit>
-      <trans-unit id="tl_module.rec_moderate.0">
+      <trans-unit id="tl_module.recommendation_notify.0">
+        <source>E-mail notifications</source>
+        <target>E-Mail Benachrichtigungen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_notify.1">
+        <source>Notify me of new recommendations by e-mail. E-Mails will be sent to the system administrator.</source>
+        <target>Über neue Bewertungen per E-Mail benachrichtigen. E-Mails werden an den Webseiten-Administrator gesendet.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_moderate.0">
         <source>Moderate</source>
         <target>Moderieren</target>
       </trans-unit>
-      <trans-unit id="tl_module.rec_moderate.1">
+      <trans-unit id="tl_module.recommendation_moderate.1">
         <source>Approve recommendations before they are published on the website.</source>
         <target>Bewertungen erst nach Bestätigung auf der Webseite veröffentlichen.</target>
       </trans-unit>
-      <trans-unit id="tl_module.rec_disableCaptcha.0">
+      <trans-unit id="tl_module.recommendation_disableCaptcha.0">
         <source>Disable spam protection</source>
         <target>Spam-Schutz deaktivieren</target>
       </trans-unit>
-      <trans-unit id="tl_module.rec_disableCaptcha.1">
+      <trans-unit id="tl_module.recommendation_disableCaptcha.1">
         <source>Here you can disable the spam protection (not recommended).</source>
         <target>Hier können Sie den Spam-Schutz deaktivieren (nicht empfohlen).</target>
       </trans-unit>

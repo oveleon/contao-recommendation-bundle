@@ -184,6 +184,39 @@
       <trans-unit id="tl_recommendation.pasteafter.1">
         <source>Paste after recommendation ID %s</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_submit">
+        <source>Submit recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_confirm">
+        <source>Your recommendation has been added and is now pending for approval.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_added">
+        <source>Your recommendation has been added.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_moderated">
+        <source>This recommendation has to be published in the back end before it will appear on the website!</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_email_subject">
+        <source>New recommendation on %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_email_message">
+        <source>%s has submitted a new recommendation on your website:
+
+---
+
+Recommendation archive: %s
+
+Rating: %s
+
+Text: %s
+
+---
+
+Click here to edit or publish the recommendation:
+
+%s
+</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

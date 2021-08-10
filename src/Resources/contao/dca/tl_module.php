@@ -11,7 +11,7 @@ Contao\System::loadLanguageFile('tl_recommendation');
 // Add palettes to tl_module
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,numberOfItems,recommendation_featured,perPage,skipFirst;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive;{template_legend:hide},recommendation_optionalFormFields,rec_moderate,rec_disableCaptcha,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{redirect_legend},jumpTo;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 // Add fields to tl_module
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_archives'] = array
@@ -30,7 +30,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_archive'] = array
     'exclude'                 => true,
     'inputType'               => 'select',
     'options_callback'        => array('tl_module_recommendation', 'getRecommendationArchives'),
-    'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'tl_class'=>'w50'),
+    'eval'                    => array('mandatory'=>true, 'includeBlankOption'=>true, 'tl_class'=>'w50 clr'),
     'sql'                     => "int(10) unsigned NOT NULL default 0"
 );
 
@@ -63,24 +63,35 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_optionalFormFields'] =
     'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_optionalFormFields'],
     'exclude'                 => true,
     'inputType'               => 'checkbox',
-    'options'                 => array('title', 'location', 'image'),
+    'options'                 => array('title', 'location'),
     'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
-    'eval'                    => array('multiple'=>true, 'tl_class'=>'w50'),
+    'eval'                    => array('multiple'=>true, 'tl_class'=>'w50 clr'),
     'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['rec_moderate'] = array
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_notify'] = array
 (
-    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['rec_moderate'],
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_notify'],
+	'default'				  => true,
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'w50 clr'),
+	'sql'                     => "char(1) NOT NULL default '1'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_moderate'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_moderate'],
+	'default'				  => true,
     'exclude'                 => true,
     'inputType'               => 'checkbox',
     'eval'                    => array('tl_class'=>'w50'),
     'sql'                     => "char(1) NOT NULL default '1'"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['rec_disableCaptcha'] = array
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_disableCaptcha'] = array
 (
-    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['rec_disableCaptcha'],
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_disableCaptcha'],
     'exclude'                 => true,
     'inputType'               => 'checkbox',
     'eval'                    => array('tl_class'=>'w50'),

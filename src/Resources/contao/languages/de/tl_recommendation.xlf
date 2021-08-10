@@ -245,6 +245,60 @@
         <source>Paste after recommendation ID %s</source>
         <target>Nach der Bewertung ID %s einfügen</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_submit">
+        <source>Submit recommendation</source>
+        <target>Bewertung absenden</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_confirm">
+        <source>Your recommendation has been added and is now pending for approval.</source>
+        <target>Ihre Bewertung wurde hinzugefügt und wird nach redaktioneller Prüfung veröffentlicht.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_added">
+        <source>Your recommendation has been added.</source>
+        <target>Ihre Bewertung wurde hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_moderated">
+        <source>This recommendation has to be published in the back end before it will appear on the website!</source>
+        <target>Diese Bewertung muss im Backend veröffentlicht werden, bevor sie auf der Webseite erscheint!</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_email_subject">
+        <source>New recommendation on %s</source>
+        <target>Neue Bewertung auf %s</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_email_message">
+        <source>%s has submitted a new recommendation on your website:
+
+---
+
+Recommendation archive: %s
+
+Rating: %s
+
+Text: %s
+
+---
+
+Click here to edit or publish the recommendation:
+
+%s
+</source>
+        <target>%s hat eine neue Bewertung auf Ihrer Webseite abgegeben.
+
+---
+
+Bewertungsarchiv: %s
+
+Bewertung: %s
+
+Text: %s
+
+---
+
+Klicken Sie hier, um die Bewertung zu bearbeiten oder zu aktivieren:
+
+%s
+</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
