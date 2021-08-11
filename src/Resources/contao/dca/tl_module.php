@@ -8,10 +8,15 @@
 
 Contao\System::loadLanguageFile('tl_recommendation');
 
+// Add a palette selector
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_activate';
+
 // Add palettes to tl_module
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,numberOfItems,recommendation_featured,perPage,skipFirst;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{redirect_legend},jumpTo;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{redirect_legend},jumpTo;{email_legend},recommendation_activate;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['recommendation_activate'] = 'recommendation_activateJumpTo,recommendation_activateText';
 
 // Add fields to tl_module
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_archives'] = array
@@ -98,6 +103,45 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_disableCaptcha'] = arr
     'sql'                     => "char(1) NOT NULL default ''"
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_disableCaptcha'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_disableCaptcha'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_activate'] = array
+(
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('submitOnChange'=>true),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_activateJumpTo'] = array
+(
+	'exclude'                 => true,
+	'inputType'               => 'pageTree',
+	'foreignKey'              => 'tl_page.title',
+	'eval'                    => array('fieldType'=>'radio'),
+	'sql'                     => "int(10) unsigned NOT NULL default 0",
+	'relation'                => array('type'=>'hasOne', 'load'=>'lazy')
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_activateText'] = array
+(
+	'exclude'                 => true,
+	'inputType'               => 'textarea',
+	'eval'                    => array('style'=>'height:120px', 'decodeEntities'=>true, 'alwaysSave'=>true),
+	'load_callback' => array
+	(
+		array('tl_module_recommendation', 'getRecommendationActivationDefault')
+	),
+	'sql'                     => "text NULL"
+);
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_template'],
@@ -151,6 +195,23 @@ class tl_module_recommendation extends Backend
 		}
 
 		return $arrArchives;
+	}
+
+	/**
+	 * Load the default recommendation activation text
+	 *
+	 * @param mixed $varValue
+	 *
+	 * @return mixed
+	 */
+	public function getRecommendationActivationDefault($varValue)
+	{
+		if (trim($varValue) === '')
+		{
+			$varValue = (is_array($GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText']) ? $GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText'][1] : $GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText']);
+		}
+
+		return $varValue;
 	}
 
 	/**

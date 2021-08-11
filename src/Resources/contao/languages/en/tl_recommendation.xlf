@@ -217,6 +217,21 @@ Click here to edit or publish the recommendation:
 %s
 </source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.emailActivationText.0">
+        <source>Your recommendation on %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.emailActivationText.1">
+        <source>Thank you for your recommendation on ##domain##.
+
+Click here to confirm your recommendation:
+
+##link##
+
+The confirmation link is valid for 24 hours.
+
+If you did not submit a recommendation, please ignore this e-mail.
+</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

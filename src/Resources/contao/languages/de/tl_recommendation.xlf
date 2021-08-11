@@ -299,6 +299,32 @@ Klicken Sie hier, um die Bewertung zu bearbeiten oder zu aktivieren:
 %s
 </target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.emailActivationText.0">
+        <source>Your recommendation on %s</source>
+        <target>Ihre Bewertung auf %s</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.emailActivationText.1">
+        <source>Thank you for your recommendation on ##domain##.
+
+Click here to confirm your recommendation:
+
+##link##
+
+The confirmation link is valid for 24 hours.
+
+If you did not submit a recommendation, please ignore this e-mail.
+</source>
+        <target>Vielen Dank für Ihre Bewertung auf ##domain##.
+
+Bitte klicken Sie hier, um Ihre Bewertung zu bestätigen:
+
+##link##
+
+Der Bestätigungslink ist 24 Stunden gültig.
+
+Wenn Sie keine Bewertung abgegeben haben, ignorieren Sie bitte diese E-Mail.
+</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

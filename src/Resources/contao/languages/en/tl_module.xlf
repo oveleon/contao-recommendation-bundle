@@ -49,6 +49,24 @@
       <trans-unit id="tl_module.recommendation_disableCaptcha.1">
         <source>Here you can disable the spam protection (not recommended).</source>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_activate.0">
+        <source>Send activation e-mail</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activate.1">
+        <source>Send an activation e-mail to the user.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateJumpTo.0">
+        <source>Confirmation page</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateJumpTo.1">
+        <source>Please choose the page to which users will be redirected after the request has been completed.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateText.0">
+        <source>Activation message</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateText.1">
+        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link) benutzen.</source>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_template.0">
         <source>Recommendation template</source>
       </trans-unit>
