@@ -110,7 +110,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{title_legend},title,alias;{date_legend},date,time;{recommendation_legend},author,location,text,imageUrl,rating;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
+		'default'                     => '{title_legend},author,title,alias,email,location;{date_legend},date,time;{recommendation_legend},text,imageUrl,rating;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
 	),
 
 	// Fields
@@ -138,7 +138,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
             'sorting'                 => true,
             'flag'                    => 1,
             'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50 clr'),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'alias' => array
@@ -164,6 +164,15 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 			'inputType'               => 'text',
 			'eval'                    => array('doNotCopy'=>true, 'mandatory'=>true, 'maxlength'=>128, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(128) NOT NULL default ''"
+		),
+		'email' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['email'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array('doNotCopy'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'location' => array
 		(

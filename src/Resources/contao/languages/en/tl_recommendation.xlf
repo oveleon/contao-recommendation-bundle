@@ -1,6 +1,15 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation.php" source-language="en">
     <body>
+      <trans-unit id="tl_recommendation.all_items">
+        <source>Show all recommendations</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured">
+        <source>Show featured recommendation only</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.unfeatured">
+        <source>Skip featured recommendations</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.title.0">
         <source>Title</source>
       </trans-unit>
@@ -16,11 +25,14 @@
       <trans-unit id="tl_recommendation.author.0">
         <source>Author</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.author.1">
+        <source>Here you can change the author of the recommendation.</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.location.0">
         <source>Location</source>
       </trans-unit>
-      <trans-unit id="tl_recommendation.author.1">
-        <source>Here you can change the author of the recommendation.</source>
+      <trans-unit id="tl_recommendation.location.1">
+        <source>Here you can enter the name of the location.</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.date.0">
         <source>Date</source>
@@ -51,6 +63,12 @@
       </trans-unit>
       <trans-unit id="tl_recommendation.text.1">
         <source>Here you can enter the recommendation text.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.email.0">
+        <source>E-mail address</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.email.1">
+        <source>The e-mail address will not be published.</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.image.0">
         <source>Image</source>
@@ -96,15 +114,6 @@
       </trans-unit>
       <trans-unit id="tl_recommendation.tstamp.1">
         <source>Date and time of the latest revision</source>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.all_items">
-        <source>Show all recommendations</source>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.featured">
-        <source>Show featured recommendation only</source>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.unfeatured">
-        <source>Skip featured recommendations</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.title_legend">
         <source>Title and author</source>

@@ -28,6 +28,7 @@ use Patchwork\Utf8;
  * @property boolean	$recommendation_moderate
  * @property boolean	$recommendation_disableCaptcha
  * @property integer	$jumpTo
+ * @property boolean	$recommendation_activate
  *
  * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
@@ -111,7 +112,15 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['text'],
                 'inputType' => 'textarea',
                 'eval'      => array('mandatory'=>true, 'rows'=>4, 'cols'=>40)
-            )
+            ),
+			'email' => array
+			(
+				'name'      => 'email',
+				'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['email'],
+				'inputType' => 'text',
+				'eval'      => array('maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true),
+				'optional'  => true
+			),
         );
 
         // Captcha
