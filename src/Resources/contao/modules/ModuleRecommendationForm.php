@@ -22,11 +22,15 @@ use Patchwork\Utf8;
 /**
  * Front end module "recommendation form".
  *
+ * @property integer 	$id
+ * @property string		$headline
+ * @property string		$name
  * @property integer    $recommendation_archive
  * @property array		$recommendation_optionalFormFields
  * @property boolean	$recommendation_notify
  * @property boolean	$recommendation_moderate
  * @property boolean	$recommendation_disableCaptcha
+ * @property string		$recommendation_privacyText
  * @property integer	$jumpTo
  * @property boolean	$recommendation_activate
  *
@@ -95,16 +99,14 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'name'      => 'title',
                 'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['title'],
                 'inputType' => 'text',
-                'eval'      => array('maxlength'=>255),
-                'optional'  => true
+                'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
 			'location' => array
 			(
 				'name'      => 'location',
 				'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['location'],
 				'inputType' => 'text',
-				'eval'      => array('maxlength'=>128),
-				'optional'  => true
+				'eval'      => array('optional'=>true, 'maxlength'=>128),
 			),
             'text' => array
             (
@@ -118,8 +120,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
 				'name'      => 'email',
 				'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['email'],
 				'inputType' => 'text',
-				'eval'      => array('maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true),
-				'optional'  => true
+				'eval'      => array('optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true),
 			),
         );
 
@@ -135,6 +136,25 @@ class ModuleRecommendationForm extends ModuleRecommendation
             );
         }
 
+        // Set e-mail as mandatory and non-optional if comments should be validated via activation mail
+		if ($this->recommendation_activate)
+		{
+			$arrFields['email']['eval']['optional'] = false;
+			$arrFields['email']['eval']['mandatory'] = true;
+		}
+
+		// Set an opt-in checkbox when privacy text is given
+		if ($this->recommendation_privacyText)
+		{
+			$arrFields['privacy'] = array
+			(
+				'name'      => 'privacy',
+				'inputType' => 'checkbox',
+				'options'   => array(1=>$this->recommendation_privacyText),
+				'eval'      => array('mandatory'=>true)
+			);
+		}
+
         $doNotSubmit = false;
         $arrWidgets = array();
         $strFormId = 'recommendation_' . $this->id;
@@ -146,7 +166,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         foreach ($arrFields as $fieldName => $arrField)
         {
             // Check for optional form fields
-            if(isset($arrField['optional']) && !in_array($fieldName, $arrOptionalFormFields))
+            if($arrField['eval']['optional'] && !in_array($fieldName, $arrOptionalFormFields))
             {
                 continue;
             }

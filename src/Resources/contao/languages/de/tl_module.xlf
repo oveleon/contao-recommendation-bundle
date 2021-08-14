@@ -1,6 +1,10 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_module.php" source-language="en" target-language="de">
     <body>
+      <trans-unit id="tl_module.privacy_legend">
+        <source>Data security</source>
+        <target>Datenschutz</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_archives.0">
         <source>Recommendation archives</source>
         <target>Bewertungsarchive</target>
@@ -64,6 +68,14 @@
       <trans-unit id="tl_module.recommendation_disableCaptcha.1">
         <source>Here you can disable the spam protection (not recommended).</source>
         <target>Hier können Sie den Spam-Schutz deaktivieren (nicht empfohlen).</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_privacyText.0">
+        <source>Privacy text</source>
+        <target>Datenschutz Text</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_privacyText.1">
+        <source>The label for a privacy checkbox. Here you can enter a privacy note to make the recommendation GDPR compliant.</source>
+        <target>Die Beschriftung für eine Datenschutz-Checkbox. Hier können Sie einen Datenschutzhinweis eingeben, um die Bewertung DSGVO-konform zu gestalten.</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_activate.0">
         <source>Send activation e-mail</source>
