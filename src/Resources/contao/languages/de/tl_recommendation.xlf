@@ -13,6 +13,10 @@
         <source>Skip featured recommendations</source>
         <target>Hervorgehobene Bewertungen überspringen</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.notVerified">
+        <source>Not verified</source>
+        <target>Nicht verifiziert</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.title.0">
         <source>Title</source>
         <target>Titel</target>
@@ -128,6 +132,10 @@
       <trans-unit id="tl_recommendation.published.1">
         <source>Make the recommendation publicly visible on the website.</source>
         <target>Die Bewertung auf der Webseite anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.verified">
+        <source>Verified</source>
+        <target>Verifiziert</target>
       </trans-unit>
       <trans-unit id="tl_recommendation.start.0">
         <source>Show from</source>
@@ -268,6 +276,10 @@
       <trans-unit id="tl_recommendation.recommendation_added">
         <source>Your recommendation has been added.</source>
         <target>Ihre Bewertung wurde hinzugefügt.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_verified">
+        <source>Your recommendation has been verified.</source>
+        <target>Ihre Bewertung wurde verifiziert.</target>
       </trans-unit>
       <trans-unit id="tl_recommendation.recommendation_moderated">
         <source>This recommendation has to be published in the back end before it will appear on the website!</source>

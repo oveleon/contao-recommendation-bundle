@@ -9,8 +9,10 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\CoreBundle\OptIn\OptIn;
 use Contao\Email;
 use Contao\Environment;
+use Contao\FrontendTemplate;
 use Contao\Idna;
 use Contao\Input;
 use Contao\PageModel;
@@ -33,12 +35,12 @@ use Patchwork\Utf8;
  * @property string		$recommendation_privacyText
  * @property integer	$jumpTo
  * @property boolean	$recommendation_activate
+ * @property string		$recommendation_activateText
  *
  * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
 class ModuleRecommendationForm extends ModuleRecommendation
 {
-
     /**
      * Template
      * @var string
@@ -75,6 +77,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     protected function compile()
     {
+		// Verify recommendation
+		if (strncmp(Input::get('token'), 'rec-', 4) === 0)
+		{
+			$this->verifyRecommendation();
+
+			return;
+		}
 
         // Form fields
         $arrFields = array
@@ -241,14 +250,14 @@ class ModuleRecommendationForm extends ModuleRecommendation
 			// Prevent cross-site request forgeries
 			$strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strText);
 
-
 			// Prepare the record
-            $arrSet = array
+			$arrData = array
             (
                 'tstamp'    => $time,
                 'pid'       => $this->recommendation_archive,
                 'title'     => $arrWidgets['title']->value ?: '',
                 'author'    => $arrWidgets['author']->value,
+                'email'		=> $arrWidgets['email']->value ?: '',
                 'location'  => $arrWidgets['location']->value ?: '',
                 'date'      => $time,
                 'time'      => $time,
@@ -259,10 +268,11 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
             // Store the recommendation
             $objRecommendation = new RecommendationModel();
-            $objRecommendation->setRow($arrSet)->save();
+            $objRecommendation->setRow($arrData)->save();
 
 			// Notify system administrator via e-mail
-			if ($this->recommendation_notify) {
+			if ($this->recommendation_notify)
+			{
 
 				$objEmail = new Email();
 				$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
@@ -277,20 +287,31 @@ class ModuleRecommendationForm extends ModuleRecommendation
 				// Add the recommendation details
 				$objEmail->text = sprintf(
 					$GLOBALS['TL_LANG']['tl_recommendation']['recommendation_email_message'],
-					$arrSet['author'],
+					$arrData['author'],
 					RecommendationArchiveModel::findById($this->recommendation_archive)->title,
-					$arrSet['rating'],
+					$arrData['rating'],
 					$strText,
 					Idna::decode(Environment::get('base')) . 'contao?do=recommendation&table=tl_recommendation&id=' . $objRecommendation->id . '&act=edit'
 				);
 
 				// Add a moderation hint to the e-mail
-				if ($this->recommendation_moderate) {
+				if ($this->recommendation_moderate)
+				{
 					$objEmail->text .= "\n" . $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_moderated'] . "\n";
 				}
 
 				// Send E-mail
 				$objEmail->sendTo($GLOBALS['TL_ADMIN_EMAIL']);
+			}
+
+			// Send verification e-mail
+			if ($this->recommendation_activate)
+			{
+				// Unverify recommendation
+				$objRecommendation->verified = 0;
+				$objRecommendation->save();
+
+				$this->sendVerificationMail($arrData, $objRecommendation->id);
 			}
 
 			// Check whether there is a jumpTo page
@@ -338,5 +359,109 @@ class ModuleRecommendationForm extends ModuleRecommendation
 		);
 
 		return preg_replace(array_keys($arrReplace), array_values($arrReplace), $strText);
+	}
+
+	/**
+	 * Send the verification mail
+	 *
+	 * @param array		$arrData
+	 * @param integer	$id
+	 */
+	protected function sendVerificationMail($arrData, $id)
+	{
+		/** @var OptIn $optIn */
+		$optIn = System::getContainer()->get('contao.opt-in');
+		$optInToken = $optIn->create('rec', $arrData['email'], array('tl_recommendation'=>array($id)));
+
+		// Prepare the simple token data
+		$arrTokenData = $arrData;
+		$arrTokenData['token'] = $optInToken->getIdentifier();
+		$arrTokenData['domain'] = Idna::decode(Environment::get('host'));
+		$arrTokenData['link'] = Idna::decode(Environment::get('base')) . Environment::get('request') . ((strpos(Environment::get('request'), '?') !== false) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
+		$arrTokenData['channel'] = '';
+
+		// Send the token
+		$optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
+	}
+
+	/**
+	 * Verifies the recommendation
+	 */
+	protected function verifyRecommendation()
+	{
+		$this->Template = new FrontendTemplate('mod_message');
+
+		/** @var OptIn $optin */
+		$optIn = System::getContainer()->get('contao.opt-in');
+
+		// Find an unconfirmed token
+		if ((!$optInToken = $optIn->find(Input::get('token'))) || !$optInToken->isValid() || \count($arrRelated = $optInToken->getRelatedRecords()) < 1 || key($arrRelated) != 'tl_recommendation' || \count($arrIds = current($arrRelated)) < 1)
+		{
+			$this->Template->type = 'error';
+			$this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
+
+			return;
+		}
+
+		if ($optInToken->isConfirmed())
+		{
+			$this->Template->type = 'error';
+			$this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenConfirmed'];
+
+			return;
+		}
+
+		// ToDo: Fix ArgumentCountError
+		$arrRecommendations = array();
+
+		foreach ($arrIds as $intId)
+		{
+			if (!$objRecommendation = RecommendationModel::findByPk($intId))
+			{
+				$this->Template->type = 'error';
+				$this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
+
+				return;
+			}
+
+			if ($optInToken->getEmail() != $objRecommendation->email)
+			{
+				$this->Template->type = 'error';
+				$this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenEmailMismatch'];
+
+				return;
+			}
+
+			$arrRecommendations[] = $objRecommendation;
+		}
+
+		$objRecommendation->verified = 1;
+		$objRecommendation->save();
+
+		$optInToken->confirm();
+
+		// HOOK: post activation callback
+		if (isset($GLOBALS['TL_HOOKS']['verifyRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['verifyRecommendation']))
+		{
+			foreach ($GLOBALS['TL_HOOKS']['verifyRecommendation'] as $callback)
+			{
+				$this->import($callback[0]);
+				$this->{$callback[0]}->{$callback[1]}($objRecommendation, $this);
+			}
+		}
+
+		// Log activity
+		$this->log('Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', __METHOD__, TL_ACCESS);
+
+		// Redirect to the jumpTo page
+		if (($objTarget = $this->objModel->getRelated('recommendation_activateJumpTo')) instanceof PageModel)
+		{
+			/** @var PageModel $objTarget */
+			$this->redirect($objTarget->getFrontendUrl());
+		}
+		
+		// Confirm activation
+		$this->Template->type = 'confirm';
+		$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_verified'];
 	}
 }

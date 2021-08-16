@@ -14,7 +14,8 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @property integer $id
  * @property integer $pid
  * @property integer $tstamp
- * @property integer $author
+ * @property string	 $author
+ * @property string	 $email
  * @property integer $location
  * @property string  $alias
  * @property integer $date
@@ -24,6 +25,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @property integer $rating
  * @property string  $cssClass
  * @property boolean $featured
+ * @property boolean $verified
  * @property boolean $published
  * @property string  $start
  * @property string  $stop
@@ -35,6 +37,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static RecommendationModel|null findOneByPid($val, array $opt=array())
  * @method static RecommendationModel|null findOneByTstamp($val, array $opt=array())
  * @method static RecommendationModel|null findOneByAuthor($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByEmail($val, array $opt=array())
  * @method static RecommendationModel|null findOneByAlias($val, array $opt=array())
  * @method static RecommendationModel|null findOneByDate($val, array $opt=array())
  * @method static RecommendationModel|null findOneByTime($val, array $opt=array())
@@ -43,6 +46,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static RecommendationModel|null findOneByRating($val, array $opt=array())
  * @method static RecommendationModel|null findOneByCssClass($val, array $opt=array())
  * @method static RecommendationModel|null findOneByFeatured($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByVerified($val, array $opt=array())
  * @method static RecommendationModel|null findOneByPublished($val, array $opt=array())
  * @method static RecommendationModel|null findOneByStart($val, array $opt=array())
  * @method static RecommendationModel|null findOneByStop($val, array $opt=array())
@@ -50,6 +54,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByPid($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByTstamp($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByAuthor($val, array $opt=array())
+ * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByEmail($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByAlias($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByDate($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByTime($val, array $opt=array())
@@ -58,6 +63,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByRating($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByCssClass($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByFeatured($val, array $opt=array())
+ * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByVerified($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByPublished($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByStart($val, array $opt=array())
  * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByStop($val, array $opt=array())
@@ -69,6 +75,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static integer countByPid($val, array $opt=array())
  * @method static integer countByTstamp($val, array $opt=array())
  * @method static integer countByAuthor($val, array $opt=array())
+ * @method static integer countByEmail($val, array $opt=array())
  * @method static integer countByAlias($val, array $opt=array())
  * @method static integer countByDate($val, array $opt=array())
  * @method static integer countByTime($val, array $opt=array())
@@ -77,6 +84,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static integer countByRating($val, array $opt=array())
  * @method static integer countByCssClass($val, array $opt=array())
  * @method static integer countByFeatured($val, array $opt=array())
+ * @method static integer countByVerified($val, array $opt=array())
  * @method static integer countByPublished($val, array $opt=array())
  * @method static integer countByStart($val, array $opt=array())
  * @method static integer countByStop($val, array $opt=array())

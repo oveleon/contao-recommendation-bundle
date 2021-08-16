@@ -15,12 +15,6 @@
           <?= $field->parse() ?>
         <?php endforeach; ?>
 
-        <?php /*if ($this->privacyText): */?><!--
-          <div class="widget widget-explanation">
-            <?/*= $this->privacyText */?>
-          </div>
-        --><?php /*endif; */?>
-
         <div class="widget widget-submit">
           <button type="submit" class="submit"><?= $this->submit ?></button>
         </div>

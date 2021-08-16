@@ -271,6 +271,14 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 			'eval'                    => array('tl_class'=>'w50 m12'),
 			'sql'                     => "char(1) NOT NULL default ''"
 		),
+		'verified' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['verified'],
+			'exclude'                 => true,
+			'filter'                  => true,
+			'eval'                    => array('isBoolean'=>true, 'doNotCopy'=>true),
+			'sql'                     => "char(1) NOT NULL default '1'"
+		),
 		'published' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['published'],
@@ -401,6 +409,11 @@ class tl_recommendation extends Backend
 	 */
 	public function listRecommendations($arrRow)
 	{
+		if(!$arrRow['verified'])
+		{
+			return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#fe3922;padding-left:3px">[' . $GLOBALS['TL_LANG']['tl_recommendation']['notVerified'] . ']</span></div>';
+		}
+
 		return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#999;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['date']) . ']</span></div>';
 	}
 
