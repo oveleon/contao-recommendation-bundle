@@ -77,6 +77,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     protected function compile()
     {
+		System::loadLanguageFile('tl_recommendation_notification');
+
 		// Verify recommendation
 		if (strncmp(Input::get('token'), 'rec-', 4) === 0)
 		{
@@ -271,37 +273,9 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $objRecommendation->setRow($arrData)->save();
 
 			// Notify system administrator via e-mail
-			if ($this->recommendation_notify)
+			if ($this->recommendation_notify && !$this->recommendation_activate)
 			{
-
-				$objEmail = new Email();
-				$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
-				$objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
-				$objEmail->subject = sprintf($GLOBALS['TL_LANG']['tl_recommendation']['recommendation_email_subject'], Idna::decode(Environment::get('host')));
-
-				// Convert the recommendation to plain text
-				$strText = strip_tags($strText);
-				$strText = StringUtil::decodeEntities($strText);
-				$strText = str_replace(array('[&]', '[lt]', '[gt]'), array('&', '<', '>'), $strText);
-
-				// Add the recommendation details
-				$objEmail->text = sprintf(
-					$GLOBALS['TL_LANG']['tl_recommendation']['recommendation_email_message'],
-					$arrData['author'],
-					RecommendationArchiveModel::findById($this->recommendation_archive)->title,
-					$arrData['rating'],
-					$strText,
-					Idna::decode(Environment::get('base')) . 'contao?do=recommendation&table=tl_recommendation&id=' . $objRecommendation->id . '&act=edit'
-				);
-
-				// Add a moderation hint to the e-mail
-				if ($this->recommendation_moderate)
-				{
-					$objEmail->text .= "\n" . $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_moderated'] . "\n";
-				}
-
-				// Send E-mail
-				$objEmail->sendTo($GLOBALS['TL_ADMIN_EMAIL']);
+				$this->sendNotificationMail($objRecommendation);
 			}
 
 			// Send verification e-mail
@@ -319,14 +293,9 @@ class ModuleRecommendationForm extends ModuleRecommendation
 			{
 				$this->jumpToOrReload($objJumpTo->row());
 			}
-			// Pending for approval
-			else if ($this->recommendation_moderate)
-			{
-				$session->getFlashBag()->set('recommendation_added', $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_confirm']);
-			}
 			else
 			{
-				$session->getFlashBag()->set('recommendation_added', $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_added']);
+				$session->getFlashBag()->set('recommendation_added', $this->getFlashBagMessage());
 			}
 
             $this->reload();
@@ -362,6 +331,68 @@ class ModuleRecommendationForm extends ModuleRecommendation
 	}
 
 	/**
+	 * Get flashbag message
+	 *
+	 * @return string
+	 */
+	protected function getFlashBagMessage()
+	{
+		// Confirmation e-mail
+		if ($this->recommendation_activate)
+		{
+			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['confirm'];
+		}
+		// Needs approval
+		else if ($this->recommendation_moderate)
+		{
+			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
+		}
+		else
+		{
+			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['added'];
+		}
+	}
+
+	/**
+	 * Sends a notification to the administrator
+	 *
+	 * @param object	$objRecommendation
+	 */
+	protected function sendNotificationMail($objRecommendation)
+	{
+		$strText = $objRecommendation->text;
+
+		$objEmail = new Email();
+		$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
+		$objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
+		$objEmail->subject = sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_subject'], Idna::decode(Environment::get('host')));
+
+		// Convert the recommendation to plain text
+		$strText = strip_tags($strText);
+		$strText = StringUtil::decodeEntities($strText);
+		$strText = str_replace(array('[&]', '[lt]', '[gt]'), array('&', '<', '>'), $strText);
+
+		// Add the recommendation details
+		$objEmail->text = sprintf(
+			$GLOBALS['TL_LANG']['tl_recommendation_notification']['email_message'],
+			$objRecommendation->author,
+			RecommendationArchiveModel::findById($this->recommendation_archive)->title,
+			$objRecommendation->rating,
+			$strText,
+			Idna::decode(Environment::get('base')) . 'contao?do=recommendation&table=tl_recommendation&id=' . $objRecommendation->id . '&act=edit'
+		);
+
+		// Add a moderation hint to the e-mail
+		if ($this->recommendation_moderate)
+		{
+			$objEmail->text .= "\n" . $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_moderated'] . "\n";
+		}
+
+		// Send E-mail
+		$objEmail->sendTo($GLOBALS['TL_ADMIN_EMAIL']);
+	}
+
+	/**
 	 * Send the verification mail
 	 *
 	 * @param array		$arrData
@@ -381,7 +412,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
 		$arrTokenData['channel'] = '';
 
 		// Send the token
-		$optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
+		$optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
 	}
 
 	/**
@@ -437,6 +468,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
 		$objRecommendation->verified = 1;
 		$objRecommendation->save();
 
+
+		// Notify system administrator via e-mail
+		if ($this->recommendation_notify)
+		{
+			$this->sendNotificationMail($objRecommendation);
+		}
+
 		$optInToken->confirm();
 
 		// Log activity
@@ -451,6 +489,12 @@ class ModuleRecommendationForm extends ModuleRecommendation
 		
 		// Confirm activation
 		$this->Template->type = 'confirm';
-		$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_verified'];
+
+		$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['verified'];
+
+		if ($this->recommendation_moderate)
+		{
+			$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
+		}
 	}
 }
