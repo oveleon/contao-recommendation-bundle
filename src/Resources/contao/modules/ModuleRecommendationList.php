@@ -89,7 +89,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 		}
 
 		$this->Template->recommendations = array();
-		$this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyList'];
+		$this->Template->empty = $GLOBALS['TL_LANG']['tl_recommendation']['emptyList'];
 
 		// Get the total number of items
 		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured);
