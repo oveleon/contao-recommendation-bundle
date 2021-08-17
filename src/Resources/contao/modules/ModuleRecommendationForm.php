@@ -411,7 +411,6 @@ class ModuleRecommendationForm extends ModuleRecommendation
 			return;
 		}
 
-		// ToDo: Fix ArgumentCountError
 		$arrRecommendations = array();
 
 		foreach ($arrIds as $intId)
@@ -439,16 +438,6 @@ class ModuleRecommendationForm extends ModuleRecommendation
 		$objRecommendation->save();
 
 		$optInToken->confirm();
-
-		// HOOK: post activation callback
-		if (isset($GLOBALS['TL_HOOKS']['verifyRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['verifyRecommendation']))
-		{
-			foreach ($GLOBALS['TL_HOOKS']['verifyRecommendation'] as $callback)
-			{
-				$this->import($callback[0]);
-				$this->{$callback[0]}->{$callback[1]}($objRecommendation, $this);
-			}
-		}
 
 		// Log activity
 		$this->log('Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', __METHOD__, TL_ACCESS);

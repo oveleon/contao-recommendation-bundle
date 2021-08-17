@@ -34,9 +34,6 @@ array_insert($GLOBALS['FE_MOD'], 2, array
 $GLOBALS['TL_MODELS']['tl_recommendation']         = '\\Oveleon\\ContaoRecommendationBundle\\RecommendationModel';
 $GLOBALS['TL_MODELS']['tl_recommendation_archive'] = '\\Oveleon\\ContaoRecommendationBundle\\RecommendationArchiveModel';
 
-// Register hooks
-$GLOBALS['TL_HOOKS']['verifyRecommendation'][] = array('\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationForm', 'verifyRecommendation');
-
 // Add permissions
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendations';
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';

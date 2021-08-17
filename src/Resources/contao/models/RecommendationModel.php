@@ -118,7 +118,7 @@ class RecommendationModel extends \Model
 
         $t = static::$strTable;
         $arrColumns = !is_numeric($varId) ? array("$t.alias=?") : array("$t.id=?");
-        $arrColumns[] = "$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ")";
+        $arrColumns[] = "$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ") AND $t.verified='1'";
 
         if (!static::isPreviewMode($arrOptions))
         {
@@ -148,7 +148,7 @@ class RecommendationModel extends \Model
         }
 
         $t = static::$strTable;
-        $arrColumns = array("$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ")");
+        $arrColumns = array("$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ") AND $t.verified='1'");
 
         if ($blnFeatured === true)
         {
@@ -193,7 +193,7 @@ class RecommendationModel extends \Model
         }
 
         $t = static::$strTable;
-        $arrColumns = array("$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ")");
+        $arrColumns = array("$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ") AND $t.verified='1'");
 
         if ($blnFeatured === true)
         {
