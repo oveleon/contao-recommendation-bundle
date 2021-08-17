@@ -24,19 +24,22 @@ array_insert($GLOBALS['FE_MOD'], 2, array
 (
     'recommendation' => array
     (
-        'recommendationlist'    => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationList',
-        'recommendationreader'  => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationReader',
-        'recommendationform'    => '\\Oveleon\\ContaoRecommendationBundle\\ModuleRecommendationForm',
+        'recommendationlist'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationList',
+        'recommendationreader'  => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader',
+        'recommendationform'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm',
     )
 ));
 
 // Models
-$GLOBALS['TL_MODELS']['tl_recommendation']         = '\\Oveleon\\ContaoRecommendationBundle\\RecommendationModel';
-$GLOBALS['TL_MODELS']['tl_recommendation_archive'] = '\\Oveleon\\ContaoRecommendationBundle\\RecommendationArchiveModel';
+$GLOBALS['TL_MODELS']['tl_recommendation']         = 'Oveleon\ContaoRecommendationBundle\RecommendationModel';
+$GLOBALS['TL_MODELS']['tl_recommendation_archive'] = 'Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel';
 
 // Add permissions
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendations';
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';
+
+// Cron jobs
+$GLOBALS['TL_CRON']['daily']['purgeRecommendations'] = array('Oveleon\ContaoRecommendationBundle\Recommendation', 'purgeRecommendations');
 
 // Style sheet
 if (TL_MODE == 'BE')

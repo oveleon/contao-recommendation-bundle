@@ -477,6 +477,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
 		$optInToken->confirm();
 
+		// Todo: Change to $logger
 		// Log activity
 		$this->log('Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', __METHOD__, TL_ACCESS);
 

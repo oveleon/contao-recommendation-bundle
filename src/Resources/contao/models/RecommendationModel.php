@@ -8,6 +8,8 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\Database;
+
 /**
  * Reads and writes recommendations
  *
@@ -212,4 +214,27 @@ class RecommendationModel extends \Model
 
         return static::countBy($arrColumns, null, $arrOptions);
     }
+
+	/**
+	 * Find registrations that have not been activated for more than 24 hours
+	 *
+	 * @param array $arrOptions An optional options array
+	 *
+	 * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
+	 */
+	public static function findExpiredRecommendations(array $arrOptions=array())
+	{
+		$t = static::$strTable;
+		$objDatabase = Database::getInstance();
+
+		$objResult = $objDatabase->prepare("SELECT * FROM $t WHERE verified='0' AND EXISTS (SELECT * FROM tl_opt_in_related r LEFT JOIN tl_opt_in o ON r.pid=o.id WHERE r.relTable='$t' AND r.relId=$t.id AND o.createdOn<=? AND o.confirmedOn=0)")
+								 ->execute(strtotime('-24 hours'));
+
+		if ($objResult->numRows < 1)
+		{
+			return null;
+		}
+
+		return static::createCollectionFromDbResult($objResult, $t);
+	}
 }
