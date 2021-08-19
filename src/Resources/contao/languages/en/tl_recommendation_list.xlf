@@ -1,0 +1,21 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation_list.php" source-language="en">
+    <body>
+      <trans-unit id="tl_recommendation_list.emptyList">
+        <source>Currently there are no recommendations.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.all_items">
+        <source>Show all recommendations</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.featured">
+        <source>Show featured recommendation only</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.unfeatured">
+        <source>Skip featured recommendations</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.featured_first">
+        <source>Show featured recommendations first</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

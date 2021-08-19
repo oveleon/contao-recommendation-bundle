@@ -96,7 +96,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 		}
 
 		$this->Template->recommendations = array();
-		$this->Template->empty = $GLOBALS['TL_LANG']['tl_recommendation']['emptyList'];
+		$this->Template->empty = $GLOBALS['TL_LANG']['tl_recommendation_list']['emptyList'];
 
 		// Get the total number of items
 		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured);
@@ -211,6 +211,14 @@ class ModuleRecommendationList extends ModuleRecommendation
 			}
 		}
 
-		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset);
+		$t = RecommendationModel::getTable();
+		$order = '';
+
+		if ($this->recommendation_featured == 'featured_first')
+		{
+			$order .= "$t.featured DESC";
+		}
+
+		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, array('order'=>$order));
 	}
 }

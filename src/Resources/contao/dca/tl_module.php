@@ -7,6 +7,7 @@
  */
 
 Contao\System::loadLanguageFile('tl_recommendation');
+Contao\System::loadLanguageFile('tl_recommendation_list');
 
 // Add a palette selector
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_activate';
@@ -45,8 +46,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_featured'] = array
 	'default'                 => 'all_items',
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'                 => array('all_items', 'featured', 'unfeatured'),
-	'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
+	'options'                 => array('all_items', 'featured', 'unfeatured', 'featured_first'),
+	'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation_list'],
 	'eval'                    => array('tl_class'=>'w50'),
 	'sql'                     => "varchar(16) NOT NULL default ''"
 );
