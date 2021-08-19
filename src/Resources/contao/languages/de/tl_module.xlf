@@ -117,6 +117,14 @@
         <source>Here you can select the recommendation template.</source>
         <target>Hier können Sie das Bewertungstemplate auswählen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_order.0">
+        <source>Sort order</source>
+        <target>Sortierreihenfolge</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_order.1">
+        <source>Here you can choose the sort order.</source>
+        <target>Hier können Sie die Sortierreihenfolge festlegen.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

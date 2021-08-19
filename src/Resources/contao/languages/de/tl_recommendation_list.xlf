@@ -21,6 +21,22 @@
         <source>Show featured recommendations first</source>
         <target>Hervorgehobene Bewertungen zuerst anzeigen</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_asc">
+        <source>Date ascending</source>
+        <target>Datum aufsteigend</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_desc">
+        <source>Date descending</source>
+        <target>Datum absteigend</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_random">
+        <source>Random order</source>
+        <target>Zufällige Reihenfolge</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_rating_desc">
+        <source>Rating descending</source>
+        <target>Bewertung absteigend</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

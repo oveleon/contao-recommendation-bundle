@@ -16,6 +16,18 @@
       <trans-unit id="tl_recommendation_list.featured_first">
         <source>Show featured recommendations first</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_asc">
+        <source>Date ascending</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_desc">
+        <source>Date descending</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_random">
+        <source>Random order</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_rating_desc">
+        <source>Rating descending</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

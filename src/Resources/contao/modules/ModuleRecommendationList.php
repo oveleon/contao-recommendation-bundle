@@ -17,6 +17,7 @@ use Patchwork\Utf8;
  *
  * @property array  $recommendation_archives
  * @property string $recommendation_featured
+ * @property string $recommendation_order
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
@@ -216,7 +217,25 @@ class ModuleRecommendationList extends ModuleRecommendation
 
 		if ($this->recommendation_featured == 'featured_first')
 		{
-			$order .= "$t.featured DESC";
+			$order .= "$t.featured DESC, ";
+		}
+
+		switch ($this->recommendation_order)
+		{
+			case 'order_random':
+				$order .= "RAND()";
+				break;
+
+			case 'order_date_asc':
+				$order .= "$t.date";
+				break;
+
+			case 'order_rating_desc':
+				$order .= "$t.rating DESC";
+				break;
+
+			default:
+				$order .= "$t.date DESC";
 		}
 
 		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, array('order'=>$order));
