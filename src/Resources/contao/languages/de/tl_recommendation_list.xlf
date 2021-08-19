@@ -5,6 +5,22 @@
         <source>Currently there are no recommendations.</source>
         <target>Zurzeit sind keine Bewertungen vorhanden.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation_list.minTwo">
+        <source>At least 2 stars</source>
+        <target>Mindestens 2 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minThree">
+        <source>At least 3 stars</source>
+        <target>Mindestens 3 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFour">
+        <source>At least 4 stars</source>
+        <target>Mindestens 4 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFive">
+        <source>At least 5 stars</source>
+        <target>Mindestens 5 Sterne</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation_list.all_items">
         <source>Show all recommendations</source>
         <target>Alle Bewertungen anzeigen</target>

@@ -140,9 +140,9 @@ class RecommendationModel extends \Model
      * @param integer $intOffset   An optional offset
      * @param array   $arrOptions  An optional options array
      *
-     * @return }Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
+     * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
      */
-    public static function findPublishedByPids($arrPids, $blnFeatured=null, $intLimit=0, $intOffset=0, array $arrOptions=array())
+    public static function findPublishedByPids($arrPids, $blnFeatured=null, $intLimit=0, $intOffset=0, $minRating=null, array $arrOptions=array())
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -160,6 +160,11 @@ class RecommendationModel extends \Model
         {
             $arrColumns[] = "$t.featured=''";
         }
+
+		if ($minRating)
+		{
+			$arrColumns[]  = "$t.rating >= $minRating";
+		}
 
         if (!static::isPreviewMode($arrOptions))
         {
@@ -187,7 +192,7 @@ class RecommendationModel extends \Model
      *
      * @return integer The number of recommendations
      */
-    public static function countPublishedByPids($arrPids, $blnFeatured=null, array $arrOptions=array())
+    public static function countPublishedByPids($arrPids, $blnFeatured=null, $minRating=null, array $arrOptions=array())
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -205,6 +210,11 @@ class RecommendationModel extends \Model
         {
             $arrColumns[] = "$t.featured=''";
         }
+
+		if ($minRating)
+		{
+			$arrColumns[]  = "$t.rating >= $minRating";
+		}
 
         if (!static::isPreviewMode($arrOptions))
         {

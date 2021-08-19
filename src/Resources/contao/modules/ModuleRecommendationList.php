@@ -76,6 +76,9 @@ class ModuleRecommendationList extends ModuleRecommendation
 		$limit = null;
 		$offset = 0;
 
+		$minRating = $this->recommendation_minRating;
+		
+
 		// Maximum number of items
 		if ($this->numberOfItems > 0)
 		{
@@ -100,7 +103,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 		$this->Template->empty = $GLOBALS['TL_LANG']['tl_recommendation_list']['emptyList'];
 
 		// Get the total number of items
-		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured);
+		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured, $minRating);
 
 		if ($intTotal < 1)
 		{
@@ -144,7 +147,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			$this->Template->pagination = $objPagination->generate("\n  ");
 		}
 
-		$objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset);
+		$objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset, $minRating);
 
 		// Add recommendations
 		if ($objRecommendations !== null)
@@ -161,7 +164,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 *
 	 * @return integer
 	 */
-	protected function countItems($recommendationArchives, $blnFeatured)
+	protected function countItems($recommendationArchives, $blnFeatured, $minRating)
 	{
 		// HOOK: add custom logic
 		if (isset($GLOBALS['TL_HOOKS']['recommendationListCountItems']) && \is_array($GLOBALS['TL_HOOKS']['recommendationListCountItems']))
@@ -180,7 +183,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			}
 		}
 
-		return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured);
+		return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured, $minRating);
 	}
 
 	/**
@@ -190,10 +193,11 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 * @param boolean $blnFeatured
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @param integer $minRating
 	 *
 	 * @return \Model\Collection|RecommendationModel|null
 	 */
-	protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset)
+	protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset, $minRating)
 	{
 		// HOOK: add custom logic
 		if (isset($GLOBALS['TL_HOOKS']['recommendationListFetchItems']) && \is_array($GLOBALS['TL_HOOKS']['recommendationListFetchItems']))
@@ -238,6 +242,6 @@ class ModuleRecommendationList extends ModuleRecommendation
 				$order .= "$t.date DESC";
 		}
 
-		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, array('order'=>$order));
+		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, array('order'=>$order));
 	}
 }

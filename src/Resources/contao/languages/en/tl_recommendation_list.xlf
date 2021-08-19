@@ -4,6 +4,18 @@
       <trans-unit id="tl_recommendation_list.emptyList">
         <source>Currently there are no recommendations.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation_list.minTwo">
+        <source>At least 2 stars</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minThree">
+        <source>At least 3 stars</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFour">
+        <source>At least 4 stars</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFive">
+        <source>At least 5 stars</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation_list.all_items">
         <source>Show all recommendations</source>
       </trans-unit>

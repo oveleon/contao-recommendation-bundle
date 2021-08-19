@@ -125,6 +125,14 @@
         <source>Here you can choose the sort order.</source>
         <target>Hier können Sie die Sortierreihenfolge festlegen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_minRating.0">
+        <source>Minimum rating</source>
+        <target>Mindestbewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_minRating.1">
+        <source>Show only recommendations with a minimum rating.</source>
+        <target>Nur Bewertungen mit einem Mindestrating anzeigen.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
