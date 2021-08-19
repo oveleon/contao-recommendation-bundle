@@ -22,6 +22,12 @@
       <trans-unit id="tl_module.recommendation_featured.1">
         <source>Here you can choose how featured items are handled.</source>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.0">
+        <source>Recommendation reader module</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.1">
+        <source>Automatically switch to the recommendation reader if an item has been selected.</source>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_metaFields.0">
         <source>Meta fields</source>
       </trans-unit>

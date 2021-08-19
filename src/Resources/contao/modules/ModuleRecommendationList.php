@@ -8,6 +8,7 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Patchwork\Utf8;
 
@@ -55,6 +56,12 @@ class ModuleRecommendationList extends ModuleRecommendation
 		if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
 		{
 			return '';
+		}
+
+		// Show the recommendation reader if an item has been selected
+		if ($this->recommendation_readerModule > 0 && (isset($_GET['items']) || (Config::get('useAutoItem') && isset($_GET['auto_item']))))
+		{
+			return $this->getFrontendModule($this->recommendation_readerModule, $this->strColumn);
 		}
 
 		return parent::generate();

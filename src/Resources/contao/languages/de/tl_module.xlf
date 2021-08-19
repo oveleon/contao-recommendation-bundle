@@ -29,6 +29,14 @@
         <source>Here you can choose how featured items are handled.</source>
         <target>Hier legen Sie fest, wie hervorgehobene Beiträge gehandhabt werden.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.0">
+        <source>Recommendation reader module</source>
+        <target>Bewertungsleser</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.1">
+        <source>Automatically switch to the recommendation reader if an item has been selected.</source>
+        <target>Automatisch zum Bewertungsleser wechseln, wenn eine Bewertung ausgewählt wurde.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_metaFields.0">
         <source>Meta fields</source>
         <target>Meta-Felder</target>
