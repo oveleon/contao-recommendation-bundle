@@ -73,7 +73,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 	protected function compile()
 	{
 		$limit = null;
-		$offset = (int) $this->skipFirst;
+		$offset = 0;
 
 		// Maximum number of items
 		if ($this->numberOfItems > 0)
@@ -130,7 +130,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			// Set limit and offset
 			$limit = $this->perPage;
 			$offset += (max($page, 1) - 1) * $this->perPage;
-			$skip = (int) $this->skipFirst;
+			$skip = 0;
 
 			// Overall limit
 			if ($offset + $limit > $total + $skip)
