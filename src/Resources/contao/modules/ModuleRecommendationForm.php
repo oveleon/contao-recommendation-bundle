@@ -9,6 +9,7 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\OptIn\OptIn;
 use Contao\Email;
 use Contao\Environment;
@@ -20,6 +21,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 use Patchwork\Utf8;
+use Psr\Log\LogLevel;
 
 /**
  * Front end module "recommendation form".
@@ -479,9 +481,9 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
 		$optInToken->confirm();
 
-		// Todo: Change to $logger
 		// Log activity
-		$this->log('Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', __METHOD__, TL_ACCESS);
+		$logger = System::getContainer()->get('monolog.logger.contao');
+		$logger->log(LogLevel::INFO, 'Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', array('contao' => new ContaoContext(__METHOD__, TL_ACCESS)));
 
 		// Redirect to the jumpTo page
 		if (($objTarget = $this->objModel->getRelated('recommendation_activateJumpTo')) instanceof PageModel)
