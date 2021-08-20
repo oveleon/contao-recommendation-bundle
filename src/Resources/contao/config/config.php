@@ -41,6 +41,9 @@ $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';
 // Cron jobs
 $GLOBALS['TL_CRON']['daily']['purgeRecommendations'] = array('Oveleon\ContaoRecommendationBundle\Recommendation', 'purgeRecommendations');
 
+// Register hooks
+$GLOBALS['TL_HOOKS']['getSearchablePages'][] = array('Oveleon\ContaoRecommendationBundle\Recommendation', 'getSearchablePages');
+
 // Style sheet
 if (TL_MODE == 'BE')
 {

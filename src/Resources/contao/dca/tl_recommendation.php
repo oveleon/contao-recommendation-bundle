@@ -18,11 +18,21 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 		'enableVersioning'            => true,
 		'onload_callback' => array
 		(
-			array('tl_recommendation', 'checkPermission')
+			array('tl_recommendation', 'checkPermission'),
+			array('tl_recommendation', 'generateSitemap')
+		),
+		'oncut_callback' => array
+		(
+			array('tl_recommendation', 'scheduleUpdate')
+		),
+		'ondelete_callback' => array
+		(
+			array('tl_recommendation', 'scheduleUpdate')
 		),
         'onsubmit_callback' => array
         (
-            array('tl_recommendation', 'adjustTime')
+            array('tl_recommendation', 'adjustTime'),
+			array('tl_recommendation', 'scheduleUpdate')
         ),
 		'sql' => array
 		(
@@ -434,6 +444,54 @@ class tl_recommendation extends Backend
 		$arrSet['time'] = $arrSet['date'];
 
 		$this->Database->prepare("UPDATE tl_recommendation %s WHERE id=?")->set($arrSet)->execute($dc->id);
+	}
+
+	/**
+	 * Check for modified recommendation and update the XML files if necessary
+	 */
+	public function generateSitemap()
+	{
+		/** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
+		$objSession = Contao\System::getContainer()->get('session');
+
+		$session = $objSession->get('recommendation_updater');
+
+		if (empty($session) || !is_array($session))
+		{
+			return;
+		}
+
+		$this->import('Contao\Automator', 'Automator');
+		$this->Automator->generateSitemap();
+
+		$objSession->set('recommendation_updater', null);
+	}
+
+	/**
+	 * Schedule a recommendation update
+	 *
+	 * This method is triggered when a single recommendation or multiple recommendations
+	 * are modified (edit/editAll), moved (cut/cutAll) or deleted (delete/deleteAll).
+	 * Since duplicated items are unpublished by default, it is not necessary to
+	 * schedule updates on copyAll as well.
+	 *
+	 * @param Contao\DataContainer $dc
+	 */
+	public function scheduleUpdate(Contao\DataContainer $dc)
+	{
+		// Return if there is no ID
+		if (!$dc->activeRecord || !$dc->activeRecord->pid || Contao\Input::get('act') == 'copy')
+		{
+			return;
+		}
+
+		/** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
+		$objSession = Contao\System::getContainer()->get('session');
+
+		// Store the ID in the session
+		$session = $objSession->get('recommendation_updater');
+		$session[] = $dc->activeRecord->pid;
+		$objSession->set('recommendation_updater', array_unique($session));
 	}
 
 	/**

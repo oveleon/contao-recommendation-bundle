@@ -131,6 +131,33 @@ class RecommendationModel extends \Model
         return static::findOneBy($arrColumns, $varId, $arrOptions);
     }
 
+	/**
+	 * Find published recommendations with the default redirect target by their parent ID
+	 *
+	 * @param integer $intPid     The recommendation archive ID
+	 * @param array   $arrOptions An optional options array
+	 *
+	 * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
+	 */
+	public static function findPublishedByPid($intPid, array $arrOptions=array())
+	{
+		$t = static::$strTable;
+		$arrColumns = array("$t.pid=? AND $t.verified='1'");
+
+		if (!static::isPreviewMode($arrOptions))
+		{
+			$time = \Date::floorToMinute();
+			$arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
+		}
+
+		if (!isset($arrOptions['order']))
+		{
+			$arrOptions['order'] = "$t.date DESC";
+		}
+
+		return static::findBy($arrColumns, $intPid, $arrOptions);
+	}
+
     /**
      * Find published recommendations by their parent ID
      *

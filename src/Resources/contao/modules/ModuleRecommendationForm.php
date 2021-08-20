@@ -77,6 +77,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     protected function compile()
     {
+		System::loadLanguageFile('tl_recommendation');
 		System::loadLanguageFile('tl_recommendation_notification');
 
 		// Verify recommendation
@@ -258,6 +259,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'tstamp'    => $time,
                 'pid'       => $this->recommendation_archive,
                 'title'     => $arrWidgets['title']->value ?: '',
+                'alias'		=> $arrWidgets['title']->value ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
                 'author'    => $arrWidgets['author']->value,
                 'email'		=> $arrWidgets['email']->value ?: '',
                 'location'  => $arrWidgets['location']->value ?: '',
