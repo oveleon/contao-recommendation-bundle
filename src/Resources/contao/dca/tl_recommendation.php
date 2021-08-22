@@ -286,7 +286,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['verified'],
 			'exclude'                 => true,
 			'filter'                  => true,
-			'eval'                    => array('isBoolean'=>true, 'doNotCopy'=>true),
+			'eval'                    => array('isBoolean'=>true),
 			'sql'                     => "char(1) NOT NULL default '1'"
 		),
 		'published' => array
