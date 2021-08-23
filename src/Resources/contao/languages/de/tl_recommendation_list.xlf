@@ -1,9 +1,9 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation_list.php" source-language="en" target-language="de">
     <body>
-      <trans-unit id="tl_recommendation_list.emptyList">
-        <source>Currently there are no recommendations.</source>
-        <target>Zurzeit sind keine Bewertungen vorhanden.</target>
+      <trans-unit id="tl_recommendation_list.minOne">
+        <source>Show all recommendations</source>
+        <target>Alle Bewertungen anzeigen</target>
       </trans-unit>
       <trans-unit id="tl_recommendation_list.minTwo">
         <source>At least 2 stars</source>

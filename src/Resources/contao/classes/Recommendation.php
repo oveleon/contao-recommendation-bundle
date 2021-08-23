@@ -9,6 +9,7 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\Backend;
+use Contao\Config;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\PageModel;
 use Contao\System;
@@ -117,7 +118,7 @@ class Recommendation extends Backend
 					}
 
 					// Generate the URL
-					$arrProcessed[$objRecommendationArchive->jumpTo] = $objParent->getAbsoluteUrl(\Config::get('useAutoItem') ? '/%s' : '/items/%s');
+					$arrProcessed[$objRecommendationArchive->jumpTo] = $objParent->getAbsoluteUrl(Config::get('useAutoItem') ? '/%s' : '/items/%s');
 				}
 
 				$strUrl = $arrProcessed[$objRecommendationArchive->jumpTo];

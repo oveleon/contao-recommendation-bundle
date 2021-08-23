@@ -91,8 +91,11 @@
       <trans-unit id="tl_recommendation.published.1">
         <source>Make the recommendation publicly visible on the website.</source>
       </trans-unit>
-      <trans-unit id="tl_recommendation.verified">
+      <trans-unit id="tl_recommendation.verified.0">
         <source>Verified</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.verified.1">
+        <source>Indicates if the rating is verified.</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.start.0">
         <source>Show from</source>

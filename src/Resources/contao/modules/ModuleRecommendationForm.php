@@ -8,7 +8,8 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
-use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\BackendTemplate;
+use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\OptIn\OptIn;
 use Contao\Email;
@@ -56,11 +57,11 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     public function generate()
     {
-        if (TL_MODE == 'BE')
-        {
-            /** @var \BackendTemplate|object $objTemplate */
-            $objTemplate = new \BackendTemplate('be_wildcard');
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
+        if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
+        {
+            $objTemplate = new BackendTemplate('be_wildcard');
             $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationform'][0]) . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
@@ -70,12 +71,18 @@ class ModuleRecommendationForm extends ModuleRecommendation
             return $objTemplate->parse();
         }
 
+        $this->recommendation_archives = $this->sortOutProtected([$this->recommendation_archive]);
+
+        if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
+        {
+            throw new InternalServerErrorException('The recommendation form ID ' . $this->id . ' has no archive specified.');
+        }
+
         return parent::generate();
     }
 
     /**
      * Generate the module
-     *
      */
     protected function compile()
     {
@@ -180,7 +187,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         foreach ($arrFields as $fieldName => $arrField)
         {
             // Check for optional form fields
-            if(($arrField['eval']['optional'] ?? null) && !in_array($fieldName, $arrOptionalFormFields))
+            if(($arrField['eval']['optional'] ?? null) && !\in_array($fieldName, $arrOptionalFormFields))
             {
                 continue;
             }
@@ -230,12 +237,6 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
 			if ($flashBag->has('recommendation_added'))
 			{
-				/** @var PageModel $objPage */
-				global $objPage;
-
-				$objPage->noSearch = 1;
-				$objPage->cache = 0;
-
 				$this->Template->confirm = $flashBag->get('recommendation_added')[0];
 			}
 		}
@@ -309,13 +310,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
 	/**
 	 * Convert line feeds to <br /> tags
 	 *
-	 * @param string $strRecommendation
+	 * @param string $strText
 	 *
 	 * @return string
 	 */
 	public function convertLineFeeds($strText)
 	{
-		$strText = nl2br_pre($strText);
+        $strText = preg_replace('/\r?\n/', '<br>', $strText);
 
 		// Use paragraphs to generate new lines
 		if (strncmp('<p>', $strText, 3) !== 0)
@@ -360,7 +361,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
 	/**
 	 * Sends a notification to the administrator
 	 *
-	 * @param object	$objRecommendation
+	 * @param RecommendationModel $objRecommendation
 	 */
 	protected function sendNotificationMail($objRecommendation)
 	{

@@ -9,6 +9,10 @@
         <source>Location</source>
         <target>Ort</target>
       </trans-unit>
+      <trans-unit id="MSC.emptyRecommendationList">
+        <source>Currently there are no recommendations.</source>
+        <target>Zurzeit sind keine Bewertungen vorhanden.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

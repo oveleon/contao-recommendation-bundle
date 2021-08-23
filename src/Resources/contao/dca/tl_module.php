@@ -89,10 +89,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_minRating'] = array
 (
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options'                 => array(2=>'minTwo', 3=>'minThree', 4=>'minFour', 5=>'minFive'),
+	'options'                 => array(1=> 'minOne', 2=>'minTwo', 3=>'minThree', 4=>'minFour', 5=>'minFive'),
 	'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation_list'],
-	'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
-	'sql'                     => "char(1) NOT NULL default ''"
+	'eval'                    => array('tl_class'=>'w50'),
+	'sql'                     => "char(1) NOT NULL default '1'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_optionalFormFields'] = array
@@ -199,7 +199,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = array
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
-class tl_module_recommendation extends Backend
+class tl_module_recommendation extends Contao\Backend
 {
 
 	/**
@@ -208,7 +208,7 @@ class tl_module_recommendation extends Backend
 	public function __construct()
 	{
 		parent::__construct();
-		$this->import('BackendUser', 'User');
+		$this->import('Contao\BackendUser', 'User');
 	}
 
 	/**
@@ -218,7 +218,7 @@ class tl_module_recommendation extends Backend
 	 */
 	public function getRecommendationArchives()
 	{
-		if (!$this->User->isAdmin && !\is_array($this->User->recommendations))
+		if (!$this->User->isAdmin && !is_array($this->User->recommendations))
 		{
 			return array();
 		}

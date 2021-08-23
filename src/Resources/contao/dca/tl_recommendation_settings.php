@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = array
 		(
             'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation_settings']['recommendationDefaultImage'],
             'inputType'               => 'fileTree',
-            'eval'                    => array('fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=>Config::get('validImageTypes'), 'tl_class'=>'clr')
+            'eval'                    => array('fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=>Contao\Config::get('validImageTypes'), 'tl_class'=>'clr')
 		),
         'recommendationActiveColor' => array
         (

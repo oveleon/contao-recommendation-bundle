@@ -8,8 +8,15 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\Environment;
+use Contao\Input;
+use Contao\Model\Collection;
+use Contao\Pagination;
+use Contao\StringUtil;
+use Contao\System;
 use Patchwork\Utf8;
 
 /**
@@ -37,11 +44,11 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 */
 	public function generate()
 	{
-		if (TL_MODE == 'BE')
-		{
-			/** @var \BackendTemplate|object $objTemplate */
-			$objTemplate = new \BackendTemplate('be_wildcard');
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
+        if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
+        {
+			$objTemplate = new BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationlist'][0]) . ' ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -51,7 +58,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			return $objTemplate->parse();
 		}
 
-		$this->recommendation_archives = $this->sortOutProtected(\StringUtil::deserialize($this->recommendation_archives));
+		$this->recommendation_archives = $this->sortOutProtected(StringUtil::deserialize($this->recommendation_archives));
 
 		// Return if there are no archives
 		if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
@@ -100,7 +107,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 		}
 
 		$this->Template->recommendations = array();
-		$this->Template->empty = $GLOBALS['TL_LANG']['tl_recommendation_list']['emptyList'];
+		$this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyRecommendationList'];
 
 		// Get the total number of items
 		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured, $minRating);
@@ -123,12 +130,12 @@ class ModuleRecommendationList extends ModuleRecommendation
 
 			// Get the current page
 			$id = 'page_n' . $this->id;
-			$page = (\Input::get($id) !== null) ? \Input::get($id) : 1;
+			$page = Input::get($id) ?? 1;
 
 			// Do not index or cache the page if the page number is outside the range
 			if ($page < 1 || $page > max(ceil($total/$this->perPage), 1))
 			{
-				throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
+				throw new PageNotFoundException('Page not found: ' . Environment::get('uri'));
 			}
 
 			// Set limit and offset
@@ -143,7 +150,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			}
 
 			// Add the pagination menu
-			$objPagination = new \Pagination($total, $this->perPage, \Config::get('maxPaginationLinks'), $id);
+			$objPagination = new Pagination($total, $this->perPage, Config::get('maxPaginationLinks'), $id);
 			$this->Template->pagination = $objPagination->generate("\n  ");
 		}
 
@@ -171,7 +178,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 		{
 			foreach ($GLOBALS['TL_HOOKS']['recommendationListCountItems'] as $callback)
 			{
-				if (($intResult = \System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $this)) === false)
+				if (($intResult = System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $this)) === false)
 				{
 					continue;
 				}
@@ -195,7 +202,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 * @param integer $offset
 	 * @param integer $minRating
 	 *
-	 * @return \Model\Collection|RecommendationModel|null
+	 * @return Collection|RecommendationModel|null
 	 */
 	protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset, $minRating)
 	{
@@ -204,12 +211,12 @@ class ModuleRecommendationList extends ModuleRecommendation
 		{
 			foreach ($GLOBALS['TL_HOOKS']['recommendationListFetchItems'] as $callback)
 			{
-				if (($objCollection = \System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $limit, $offset, $this)) === false)
+				if (($objCollection = System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $limit, $offset, $this)) === false)
 				{
 					continue;
 				}
 
-				if ($objCollection === null || $objCollection instanceof \Model\Collection)
+				if ($objCollection === null || $objCollection instanceof Collection)
 				{
 					return $objCollection;
 				}

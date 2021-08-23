@@ -8,7 +8,14 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\BackendTemplate;
+use Contao\Config;
+use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\Environment;
+use Contao\Input;
+use Contao\StringUtil;
+use Contao\System;
 use Patchwork\Utf8;
 
 /**
@@ -34,11 +41,11 @@ class ModuleRecommendationReader extends ModuleRecommendation
 	 */
 	public function generate()
 	{
-		if (TL_MODE == 'BE')
-		{
-			/** @var \BackendTemplate|object $objTemplate */
-			$objTemplate = new \BackendTemplate('be_wildcard');
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
+        if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
+        {
+			$objTemplate = new BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationreader'][0]) . ' ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -49,24 +56,23 @@ class ModuleRecommendationReader extends ModuleRecommendation
 		}
 
 		// Set the item from the auto_item parameter
-		if (!isset($_GET['items']) && \Config::get('useAutoItem') && isset($_GET['auto_item']))
+		if (!isset($_GET['items']) && isset($_GET['auto_item']) && Config::get('useAutoItem'))
 		{
-			\Input::setGet('items', \Input::get('auto_item'));
+			Input::setGet('items', Input::get('auto_item'));
 		}
 
-		$this->recommendation_archives = $this->sortOutProtected(\StringUtil::deserialize($this->recommendation_archives));
+        // Return an empty string if "items" is not set (to combine list and reader on same page)
+        if (!Input::get('items'))
+        {
+            return '';
+        }
 
-		// Do not index or cache the page if no recommendation item has been specified
-		if (!\Input::get('items') || empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
-		{
-			/** @var \PageModel $objPage */
-			global $objPage;
+		$this->recommendation_archives = $this->sortOutProtected(StringUtil::deserialize($this->recommendation_archives));
 
-			$objPage->noSearch = 1;
-			$objPage->cache = 0;
-
-			return '';
-		}
+        if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
+        {
+            throw new InternalServerErrorException('The recommendation reader ID ' . $this->id . ' has no archives specified.');
+        }
 
 		return parent::generate();
 	}
@@ -81,11 +87,11 @@ class ModuleRecommendationReader extends ModuleRecommendation
 		$this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
 		// Get the news item
-		$objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(\Input::get('items'), $this->recommendation_archives);
+		$objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(Input::get('items'), $this->recommendation_archives);
 
 		if (null === $objRecommendation)
 		{
-			throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
+			throw new PageNotFoundException('Page not found: ' . Environment::get('uri'));
 		}
 
 		/** @var RecommendationArchiveModel $objRecommendationArchive */

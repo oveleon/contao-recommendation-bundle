@@ -9,6 +9,9 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\Database;
+use Contao\Date;
+use Contao\Model;
+use Contao\Model\Collection;
 
 /**
  * Reads and writes recommendations
@@ -16,12 +19,14 @@ use Contao\Database;
  * @property integer $id
  * @property integer $pid
  * @property integer $tstamp
+ * @property string	 $title
+ * @property string  $alias
  * @property string	 $author
  * @property string	 $email
  * @property integer $location
- * @property string  $alias
  * @property integer $date
  * @property integer $time
+ * @property string  $teaser
  * @property string  $text
  * @property string  $imageUrl
  * @property integer $rating
@@ -38,11 +43,14 @@ use Contao\Database;
  * @method static RecommendationModel|null findOneBy($col, $val, array $opt=array())
  * @method static RecommendationModel|null findOneByPid($val, array $opt=array())
  * @method static RecommendationModel|null findOneByTstamp($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByTitle($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByAlias($val, array $opt=array())
  * @method static RecommendationModel|null findOneByAuthor($val, array $opt=array())
  * @method static RecommendationModel|null findOneByEmail($val, array $opt=array())
- * @method static RecommendationModel|null findOneByAlias($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByLocation($val, array $opt=array())
  * @method static RecommendationModel|null findOneByDate($val, array $opt=array())
  * @method static RecommendationModel|null findOneByTime($val, array $opt=array())
+ * @method static RecommendationModel|null findOneByTeaser($val, array $opt=array())
  * @method static RecommendationModel|null findOneByText($val, array $opt=array())
  * @method static RecommendationModel|null findOneByImageUrl($val, array $opt=array())
  * @method static RecommendationModel|null findOneByRating($val, array $opt=array())
@@ -53,34 +61,40 @@ use Contao\Database;
  * @method static RecommendationModel|null findOneByStart($val, array $opt=array())
  * @method static RecommendationModel|null findOneByStop($val, array $opt=array())
  *
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByPid($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByTstamp($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByAuthor($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByEmail($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByAlias($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByDate($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByTime($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByText($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByImageUrl($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByRating($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByCssClass($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByFeatured($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByVerified($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByPublished($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByStart($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findByStop($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findMultipleByIds($val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findBy($col, $val, array $opt=array())
- * @method static \Model\Collection|RecommendationModel[]|RecommendationModel|null findAll(array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByPid($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByTstamp($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByTitle($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByAlias($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByAuthor($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByEmail($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByLocation($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByDate($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByTime($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByTeaser($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByText($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByImageUrl($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByRating($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByCssClass($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByFeatured($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByVerified($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByPublished($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByStart($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findByStop($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findMultipleByIds($val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findBy($col, $val, array $opt=array())
+ * @method static Collection|RecommendationModel[]|RecommendationModel|null findAll(array $opt=array())
  *
  * @method static integer countById($id, array $opt=array())
  * @method static integer countByPid($val, array $opt=array())
  * @method static integer countByTstamp($val, array $opt=array())
+ * @method static integer countByTitle($val, array $opt=array())
+ * @method static integer countByAlias($val, array $opt=array())
  * @method static integer countByAuthor($val, array $opt=array())
  * @method static integer countByEmail($val, array $opt=array())
- * @method static integer countByAlias($val, array $opt=array())
+ * @method static integer countByLocation($val, array $opt=array())
  * @method static integer countByDate($val, array $opt=array())
  * @method static integer countByTime($val, array $opt=array())
+ * @method static integer countByTeaser($val, array $opt=array())
  * @method static integer countByText($val, array $opt=array())
  * @method static integer countByImageUrl($val, array $opt=array())
  * @method static integer countByRating($val, array $opt=array())
@@ -93,7 +107,7 @@ use Contao\Database;
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
-class RecommendationModel extends \Model
+class RecommendationModel extends Model
 {
 
 	/**
@@ -124,7 +138,7 @@ class RecommendationModel extends \Model
 
         if (!static::isPreviewMode($arrOptions))
         {
-            $time = \Date::floorToMinute();
+            $time = Date::floorToMinute();
             $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
         }
 
@@ -137,7 +151,7 @@ class RecommendationModel extends \Model
 	 * @param integer $intPid     The recommendation archive ID
 	 * @param array   $arrOptions An optional options array
 	 *
-	 * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
+	 * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
 	 */
 	public static function findPublishedByPid($intPid, array $arrOptions=array())
 	{
@@ -146,7 +160,7 @@ class RecommendationModel extends \Model
 
 		if (!static::isPreviewMode($arrOptions))
 		{
-			$time = \Date::floorToMinute();
+			$time = Date::floorToMinute();
 			$arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
 		}
 
@@ -167,7 +181,7 @@ class RecommendationModel extends \Model
      * @param integer $intOffset   An optional offset
      * @param array   $arrOptions  An optional options array
      *
-     * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
+     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
      */
     public static function findPublishedByPids($arrPids, $blnFeatured=null, $intLimit=0, $intOffset=0, $minRating=null, array $arrOptions=array())
     {
@@ -188,14 +202,14 @@ class RecommendationModel extends \Model
             $arrColumns[] = "$t.featured=''";
         }
 
-		if ($minRating)
+		if ($minRating > 1)
 		{
 			$arrColumns[]  = "$t.rating >= $minRating";
 		}
 
         if (!static::isPreviewMode($arrOptions))
         {
-            $time = \Date::floorToMinute();
+            $time = Date::floorToMinute();
             $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
         }
 
@@ -238,14 +252,14 @@ class RecommendationModel extends \Model
             $arrColumns[] = "$t.featured=''";
         }
 
-		if ($minRating)
+		if ($minRating > 1)
 		{
 			$arrColumns[]  = "$t.rating >= $minRating";
 		}
 
         if (!static::isPreviewMode($arrOptions))
         {
-            $time = \Date::floorToMinute();
+            $time = Date::floorToMinute();
             $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
         }
 
@@ -257,7 +271,7 @@ class RecommendationModel extends \Model
 	 *
 	 * @param array $arrOptions An optional options array
 	 *
-	 * @return \Model\Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
+	 * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
 	 */
 	public static function findExpiredRecommendations(array $arrOptions=array())
 	{
