@@ -7,6 +7,7 @@
  */
 
 Contao\System::loadLanguageFile('tl_recommendation');
+Contao\System::loadLanguageFile('tl_recommendation_notification');
 Contao\System::loadLanguageFile('tl_recommendation_list');
 
 // Add a palette selector
@@ -265,7 +266,7 @@ class tl_module_recommendation extends Backend
 	{
 		if (trim($varValue) === '')
 		{
-			$varValue = (is_array($GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText']) ? $GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText'][1] : $GLOBALS['TL_LANG']['tl_recommendation']['emailActivationText']);
+			$varValue = (is_array($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'] ?? null) ? $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][1] : ($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'] ?? null));
 		}
 
 		return $varValue;
