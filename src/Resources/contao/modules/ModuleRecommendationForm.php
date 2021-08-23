@@ -180,7 +180,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         foreach ($arrFields as $fieldName => $arrField)
         {
             // Check for optional form fields
-            if($arrField['eval']['optional'] && !in_array($fieldName, $arrOptionalFormFields))
+            if(($arrField['eval']['optional'] ?? null) && !in_array($fieldName, $arrOptionalFormFields))
             {
                 continue;
             }
@@ -194,10 +194,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 continue;
             }
 
-            $arrField['eval']['required'] = $arrField['eval']['mandatory'];
+            $arrField['eval']['required'] = $arrField['eval']['mandatory'] ?? null;
 
             /** @var Widget $objWidget */
-            $objWidget = new $strClass($strClass::getAttributesFromDca($arrField, $arrField['name'], $arrField['value']));
+            $objWidget = new $strClass($strClass::getAttributesFromDca($arrField, $arrField['name'], $arrField['value'] ?? null));
 
             // Append the parent ID to prevent duplicate IDs (see #1493)
             $objWidget->id .= '_' . $this->id;

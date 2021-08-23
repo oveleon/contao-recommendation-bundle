@@ -110,11 +110,11 @@ abstract class ModuleRecommendation extends \Module
         $objTemplate->addRating = array_key_exists('rating', $arrMeta);
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
         $objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
-        $objTemplate->date = $arrMeta['date'];
+        $objTemplate->date = $arrMeta['date'] ?? null;
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
-        $objTemplate->author = $arrMeta['author'];
+        $objTemplate->author = $arrMeta['author'] ?? null;
         $objTemplate->addLocation = array_key_exists('location', $arrMeta);
-        $objTemplate->location = $arrMeta['location'];
+        $objTemplate->location = $arrMeta['location'] ?? null;
 
 		// Add styles
         $color = unserialize(\Config::get('recommendationActiveColor'))[0];
