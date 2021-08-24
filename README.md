@@ -152,9 +152,6 @@ The recommendation list can display published (and verified) recommendations fro
     <td>Number of recommendations per page - Activates pagination</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Meta fields</td>
     <td>Here you can select meta fields to display</td>
   </tr>
@@ -167,14 +164,8 @@ The recommendation list can display published (and verified) recommendations fro
     <td>The modules template that is being used</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Image settings</td>
     <td>You have the possibility to add pictures to your recommendations. These are the image settings for them</td>
-  </tr>
-  <tr>
-    <td colspan="2"></td>
   </tr>
   <tr>
     <td>Access protection</td>
@@ -201,9 +192,6 @@ The recommendation list can display published (and verified) recommendations fro
     <td>Here you can select one or more archives to read recommendations from</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Meta fields</td>
     <td>Here you can select meta fields to display</td>
   </tr>
@@ -216,14 +204,8 @@ The recommendation list can display published (and verified) recommendations fro
     <td>The modules template that is being used</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Image settings</td>
     <td>You have the possibility to add pictures to your recommendations. These are the image settings for them</td>
-  </tr>
-  <tr>
-    <td colspan="2"></td>
   </tr>
   <tr>
     <td>Access protection</td>
@@ -267,21 +249,12 @@ The recommendation form can be used to let your visitors submit recommendations 
     <td>Disables the spam protection for the recommendation form</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Data security</td>
     <td>Here you can add a label for a checkbox to make the recommendation form GDPR compliant. A checkbox will appear if you add any text.</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Redirect page</td>
     <td>A redirect page to which visitors will be redirected after submitting the form</td>
-  </tr>
-  <tr>
-    <td colspan="2"></td>
   </tr>
   <tr>
     <td>Send activation e-mail</td>
@@ -296,14 +269,8 @@ The recommendation form can be used to let your visitors submit recommendations 
     <td>The activation message that users receive after submitting a form</td>
   </tr>
   <tr>
-    <td colspan="2"></td>
-  </tr>
-  <tr>
     <td>Module template</td>
     <td>The modules template that is being used</td>
-  </tr>
-  <tr>
-    <td colspan="2"></td>
   </tr>
   <tr>
     <td>Access protection</td>
