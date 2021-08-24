@@ -58,11 +58,11 @@
       <trans-unit id="tl_module.recommendation_disableCaptcha.1">
         <source>Here you can disable the spam protection (not recommended).</source>
       </trans-unit>
-      <trans-unit id="tl_module.recommendation_privacy.0">
+      <trans-unit id="tl_module.recommendation_privacyText.0">
         <source>Privacy text</source>
       </trans-unit>
-      <trans-unit id="tl_module.recommendation_privacy.1">
-        <source>The label for a privacy checkbox. Here you can enter a privacy note to make the newsletter subscription GDPR compliant.</source>
+      <trans-unit id="tl_module.recommendation_privacyText.1">
+        <source>The label for a privacy checkbox. Here you can enter a privacy note to make the recommendation GDPR compliant.</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_activate.0">
         <source>Send activation e-mail</source>
@@ -80,7 +80,7 @@
         <source>Activation message</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_activateText.1">
-        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link) benutzen.</source>
+        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link).</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_template.0">
         <source>Recommendation template</source>

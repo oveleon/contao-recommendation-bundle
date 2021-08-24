@@ -106,7 +106,7 @@
         <target>Aktivierungsmail</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_activateText.1">
-        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link) benutzen.</source>
+        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link).</source>
         <target>Sie können die Platzhalter &lt;em&gt;##domain##&lt;/em&gt; (Domainname) and &lt;em&gt;##link##&lt;/em&gt; (Aktivierungslink) benutzen.</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_template.0">

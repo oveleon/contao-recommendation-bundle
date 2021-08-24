@@ -53,7 +53,7 @@
         <source>The recommendation teaser can be shown in a recommendation list instead of the full text. A &quot;read more …&quot; link will be added automatically.</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.text.0">
-        <source>recommendation text</source>
+        <source>Recommendation text</source>
       </trans-unit>
       <trans-unit id="tl_recommendation.text.1">
         <source>Here you can enter the recommendation text.</source>
