@@ -49,8 +49,6 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
 
 ## Installation
 
----
-
 #### Via composer
 ```
 composer require oveleon/contao-recommendation-bundle
@@ -65,8 +63,6 @@ Search for contao recommendation bundle and add it to your extensions.
 After installing the contao-recommendation-bundle, you need to run a **contao install**.
 
 ## Initial setup
-
----
 
 The recommendation bundle is close to the core-bundles of contao cms. 
 If you are familiar using the news- or events bundle, you should be able to set it up without further knowledge.
@@ -86,7 +82,7 @@ If you are familiar using the news- or events bundle, you should be able to set 
     ![Admin View: Recommendation](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/recommendation.jpg)
 
 
-3. To display your recommendations, you will need a recommendation-list. The recommendation-list is a front end module that can be setup in your layout.
+3. To display your recommendations, you will need a recommendation-list.
    1. Create the front end module *recommendation-list*
    2. Choose your recommendation archive/s
    3. Choose the meta fields you want to show in your front end
@@ -114,8 +110,6 @@ If you are familiar using the news- or events bundle, you should be able to set 
 Recommendation List on your website
 ![Admin View: Recommendation Frontend](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/frontendList.jpg)
 ## Front end modules
-
----
 
 ### Recommendation list
 The recommendation list can display published (and verified) recommendations from selected archives.
@@ -320,16 +314,12 @@ The recommendation form can be used to let your visitors submit recommendations 
 
 ## Sitemap
 
----
-
 Recommendation archives that are not protected and have a jumpTo page will add their published recommendations to your sitemap.xml.
 It is recommended to have a title for your recommendations as they are being used to create an alias.
 If you do not want certain recommendations to be shown on your sitemap, you can unpublish them.
 
 
 ## Verified recommendations / GDPR
-
----
 
 When adding a privacy text to the recommendation form, it will create a mandatory checkbox that visitors have to accept to submit their forms.
 
@@ -340,6 +330,6 @@ A cronjob will purge the unverified recommendations after 24 hours.
 
 ![Admin View: Unverified Recommendations](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/unverifiedRecommendations.jpg)
 
-The recommendation form does not save the IP of the user. However, it will save the e-mail-address of a user if they verified their recommendation.
+The recommendation form does not save the IP of the user. However, it will save the e-mail-address of a user if they verified their recommendation
 with the opt-in token.
 
