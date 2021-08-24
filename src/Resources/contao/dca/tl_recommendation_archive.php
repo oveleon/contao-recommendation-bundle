@@ -8,7 +8,6 @@
 
 $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
 (
-
 	// Config
 	'config' => array
 	(
@@ -20,6 +19,14 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
 		(
 			array('tl_recommendation_archive', 'checkPermission')
 		),
+        'oncreate_callback' => array
+        (
+            array('tl_recommendation_archive', 'adjustPermissions')
+        ),
+        'oncopy_callback' => array
+        (
+            array('tl_recommendation_archive', 'adjustPermissions')
+        ),
 		'sql' => array
 		(
 			'keys' => array
@@ -50,6 +57,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
             (
                 'label'               => &$GLOBALS['TL_LANG']['tl_recommendation_archive']['settings'],
                 'href'                => 'do=recommendation_settings',
+                'class'				  => '',
                 'icon'                => 'edit.svg',
                 'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
             ),
@@ -88,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_recommendation_archive']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.svg',
-				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
+				'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"',
 				'button_callback'     => array('tl_recommendation_archive', 'deleteArchive')
 			),
 			'show' => array
@@ -170,7 +178,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
-class tl_recommendation_archive extends Backend
+class tl_recommendation_archive extends Contao\Backend
 {
 
 	/**
@@ -179,7 +187,7 @@ class tl_recommendation_archive extends Backend
 	public function __construct()
 	{
 		parent::__construct();
-		$this->import('BackendUser', 'User');
+		$this->import('Contao\BackendUser', 'User');
 	}
 
 	/**
@@ -195,7 +203,7 @@ class tl_recommendation_archive extends Backend
 		}
 
 		// Set root IDs
-		if (empty($this->User->recommendations) || !\is_array($this->User->recommendations))
+		if (empty($this->User->recommendations) || !is_array($this->User->recommendations))
 		{
 			$root = array(0);
 		}
@@ -210,90 +218,50 @@ class tl_recommendation_archive extends Backend
 		if (!$this->User->hasAccess('create', 'recommendationp'))
 		{
 			$GLOBALS['TL_DCA']['tl_recommendation_archive']['config']['closed'] = true;
+            $GLOBALS['TL_DCA']['tl_recommendation_archive']['config']['notCreatable'] = true;
+            $GLOBALS['TL_DCA']['tl_recommendation_archive']['config']['notCopyable'] = true;
 		}
 
+        // Check permissions to delete calendars
+        if (!$this->User->hasAccess('delete', 'recommendationp'))
+        {
+            $GLOBALS['TL_DCA']['tl_recommendation_archive']['config']['notDeletable'] = true;
+        }
+
 		/** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
-		$objSession = System::getContainer()->get('session');
+		$objSession = Contao\System::getContainer()->get('session');
 
 		// Check current action
-		switch (Input::get('act'))
+		switch (Contao\Input::get('act'))
 		{
-			case 'create':
 			case 'select':
 				// Allow
 				break;
 
+			case 'create':
+                if (!$this->User->hasAccess('create', 'recommendationp'))
+                {
+                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to create recommendation archives.');
+                }
+                break;
+
 			case 'edit':
-				// Dynamically add the record to the user profile
-				if (!\in_array(Input::get('id'), $root))
-				{
-					/** @var Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface $objSessionBag */
-					$objSessionBag = $objSession->getBag('contao_backend');
-
-					$arrNew = $objSessionBag->get('new_records');
-
-					if (\is_array($arrNew['tl_recommendation_archive']) && \in_array(Input::get('id'), $arrNew['tl_recommendation_archive']))
-					{
-						// Add the permissions on group level
-						if ($this->User->inherit != 'custom')
-						{
-							$objGroup = $this->Database->execute("SELECT id, recommendations, recommendationp FROM tl_user_group WHERE id IN(" . implode(',', array_map('\intval', $this->User->groups)) . ")");
-
-							while ($objGroup->next())
-							{
-								$arrRecommendationp = StringUtil::deserialize($objGroup->recommendationp);
-
-								if (\is_array($arrRecommendationp) && \in_array('create', $arrRecommendationp))
-								{
-									$arrRecommendation = StringUtil::deserialize($objGroup->recommendations, true);
-									$arrRecommendation[] = Input::get('id');
-
-									$this->Database->prepare("UPDATE tl_user_group SET recommendations=? WHERE id=?")
-												   ->execute(serialize($arrRecommendation), $objGroup->id);
-								}
-							}
-						}
-
-						// Add the permissions on user level
-						if ($this->User->inherit != 'group')
-						{
-							$objUser = $this->Database->prepare("SELECT recommendations, recommendationp FROM tl_user WHERE id=?")
-													   ->limit(1)
-													   ->execute($this->User->id);
-
-							$arrRecommendationp = StringUtil::deserialize($objUser->recommendationp);
-
-							if (\is_array($arrRecommendationp) && \in_array('create', $arrRecommendationp))
-							{
-								$arrRecommendation = StringUtil::deserialize($objUser->recommendations, true);
-								$arrRecommendation[] = Input::get('id');
-
-								$this->Database->prepare("UPDATE tl_user SET recommendations=? WHERE id=?")
-											   ->execute(serialize($arrRecommendation), $this->User->id);
-							}
-						}
-
-						// Add the new element to the user object
-						$root[] = Input::get('id');
-						$this->User->recommendations = $root;
-					}
-				}
-				// No break;
-
 			case 'copy':
 			case 'delete':
 			case 'show':
-				if (!\in_array(Input::get('id'), $root) || (Input::get('act') == 'delete' && !$this->User->hasAccess('delete', 'recommendationp')))
+				if (!in_array(Contao\Input::get('id'), $root) || (Contao\Input::get('act') == 'delete' && !$this->User->hasAccess('delete', 'recommendationp')))
 				{
-					throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' recommendation archive ID ' . Input::get('id') . '.');
+					throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to ' . Contao\Input::get('act') . ' recommendation archive ID ' . Contao\Input::get('id') . '.');
 				}
 				break;
 
 			case 'editAll':
 			case 'deleteAll':
 			case 'overrideAll':
+            case 'copyAll':
 				$session = $objSession->all();
-				if (Input::get('act') == 'deleteAll' && !$this->User->hasAccess('delete', 'recommendationp'))
+
+				if (Contao\Input::get('act') == 'deleteAll' && !$this->User->hasAccess('delete', 'recommendationp'))
 				{
 					$session['CURRENT']['IDS'] = array();
 				}
@@ -305,13 +273,99 @@ class tl_recommendation_archive extends Backend
 				break;
 
 			default:
-				if (\strlen(Input::get('act')))
+				if (strlen(Contao\Input::get('act')))
 				{
 					throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to ' . Input::get('act') . ' recommendation archives.');
 				}
 				break;
 		}
 	}
+
+    /**
+     * Add the new archive to the permissions
+     *
+     * @param $insertId
+     */
+    public function adjustPermissions($insertId)
+    {
+        // The oncreate_callback passes $insertId as second argument
+        if (func_num_args() == 4)
+        {
+            $insertId = func_get_arg(1);
+        }
+
+        if ($this->User->isAdmin)
+        {
+            return;
+        }
+
+        // Set root IDs
+        if (empty($this->User->recommendations) || !is_array($this->User->recommendations))
+        {
+            $root = array(0);
+        }
+        else
+        {
+            $root = $this->User->recommendations;
+        }
+
+        // The archive is enabled already
+        if (in_array($insertId, $root))
+        {
+            return;
+        }
+
+        /** @var Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface $objSessionBag */
+        $objSessionBag = Contao\System::getContainer()->get('session')->getBag('contao_backend');
+
+        $arrNew = $objSessionBag->get('new_records');
+
+        if (is_array($arrNew['tl_recommendation_archive']) && in_array($insertId, $arrNew['tl_recommendation_archive']))
+        {
+            // Add the permissions on group level
+            if ($this->User->inherit != 'custom')
+            {
+                $objGroup = $this->Database->execute("SELECT id, recommendations, recommendationp FROM tl_user_group WHERE id IN(" . implode(',', array_map('\intval', $this->User->groups)) . ")");
+
+                while ($objGroup->next())
+                {
+                    $arrRecommendationp = Contao\StringUtil::deserialize($objGroup->recommendationp);
+
+                    if (is_array($arrRecommendationp) && in_array('create', $arrRecommendationp))
+                    {
+                        $arrRecommendations = Contao\StringUtil::deserialize($objGroup->recommendations, true);
+                        $arrRecommendations[] = $insertId;
+
+                        $this->Database->prepare("UPDATE tl_user_group SET recommendations=? WHERE id=?")
+                            ->execute(serialize($arrRecommendations), $objGroup->id);
+                    }
+                }
+            }
+
+            // Add the permissions on user level
+            if ($this->User->inherit != 'group')
+            {
+                $objUser = $this->Database->prepare("SELECT recommendations, recommendationp FROM tl_user WHERE id=?")
+                    ->limit(1)
+                    ->execute($this->User->id);
+
+                $arrRecommendationp = Contao\StringUtil::deserialize($objUser->recommendationp);
+
+                if (is_array($arrRecommendationp) && in_array('create', $arrRecommendationp))
+                {
+                    $arrRecommendations = Contao\StringUtil::deserialize($objUser->recommendations, true);
+                    $arrRecommendations[] = $insertId;
+
+                    $this->Database->prepare("UPDATE tl_user SET recommendations=? WHERE id=?")
+                        ->execute(serialize($arrRecommendations), $this->User->id);
+                }
+            }
+
+            // Add the new element to the user object
+            $root[] = $insertId;
+            $this->User->recommendations = $root;
+        }
+    }
 
 	/**
 	 * Return the edit header button
@@ -327,7 +381,7 @@ class tl_recommendation_archive extends Backend
 	 */
 	public function editHeader($row, $href, $label, $title, $icon, $attributes)
 	{
-		return $this->User->canEditFieldsOf('tl_recommendation_archive') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+		return $this->User->canEditFieldsOf('tl_recommendation_archive') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label).'</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
 	}
 
 	/**
@@ -344,7 +398,7 @@ class tl_recommendation_archive extends Backend
 	 */
 	public function copyArchive($row, $href, $label, $title, $icon, $attributes)
 	{
-		return $this->User->hasAccess('create', 'recommendationp') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+		return $this->User->hasAccess('create', 'recommendationp') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label).'</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
 	}
 
 	/**
@@ -361,6 +415,6 @@ class tl_recommendation_archive extends Backend
 	 */
 	public function deleteArchive($row, $href, $label, $title, $icon, $attributes)
 	{
-		return $this->User->hasAccess('delete', 'recommendationp') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+		return $this->User->hasAccess('delete', 'recommendationp') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label).'</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
 	}
 }

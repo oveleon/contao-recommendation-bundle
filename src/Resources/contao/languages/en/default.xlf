@@ -7,6 +7,9 @@
       <trans-unit id="MSC.location">
         <source>Location</source>
       </trans-unit>
+      <trans-unit id="MSC.emptyRecommendationList">
+        <source>Currently there are no recommendations.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

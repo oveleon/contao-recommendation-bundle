@@ -8,6 +8,9 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\Model;
+use Contao\Model\Collection;
+
 /**
  * Reads and writes recommendation archives
  *
@@ -28,14 +31,14 @@ namespace Oveleon\ContaoRecommendationBundle;
  * @method static RecommendationArchiveModel|null findOneByProtected($val, array $opt=array())
  * @method static RecommendationArchiveModel|null findOneByGroups($val, array $opt=array())
  *
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTstamp($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTitle($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByJumpTo($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByProtected($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByGroups($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findMultipleByIds($val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findBy($col, $val, array $opt=array())
- * @method static \Model\Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findAll(array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTstamp($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTitle($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByJumpTo($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByProtected($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByGroups($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findMultipleByIds($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findBy($col, $val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findAll(array $opt=array())
  *
  * @method static integer countById($id, array $opt=array())
  * @method static integer countByTstamp($val, array $opt=array())
@@ -46,7 +49,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
-class RecommendationArchiveModel extends \Model
+class RecommendationArchiveModel extends Model
 {
 
 	/**
@@ -54,5 +57,4 @@ class RecommendationArchiveModel extends \Model
 	 * @var string
 	 */
 	protected static $strTable = 'tl_recommendation_archive';
-
 }

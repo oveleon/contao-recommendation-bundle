@@ -1,6 +1,10 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_module.php" source-language="en" target-language="de">
     <body>
+      <trans-unit id="tl_module.privacy_legend">
+        <source>Data security</source>
+        <target>Datenschutz</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_archives.0">
         <source>Recommendation archives</source>
         <target>Bewertungsarchive</target>
@@ -9,13 +13,29 @@
         <source>Please select one or more recommendation archives.</source>
         <target>Bitte wählen Sie ein oder mehrere Bewertungsarchive.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_archive.0">
+        <source>Recommendation archive</source>
+        <target>Bewertungsarchiv</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_archive.1">
+        <source>Please select a recommendation archive.</source>
+        <target>Bitte wählen Sie ein Bewertungsarchiv aus.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_featured.0">
         <source>Featured items</source>
-        <target>Hervorgehobene Beiträge</target>
+        <target>Hervorgehobene Bewertungen</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_featured.1">
         <source>Here you can choose how featured items are handled.</source>
-        <target>Hier legen Sie fest, wie hervorgehobene Beiträge gehandhabt werden.</target>
+        <target>Hier legen Sie fest, wie hervorgehobene Bewertungen gehandhabt werden.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.0">
+        <source>Recommendation reader module</source>
+        <target>Bewertungsleser</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_readerModule.1">
+        <source>Automatically switch to the recommendation reader if an item has been selected.</source>
+        <target>Automatisch zum Bewertungsleser wechseln, wenn eine Bewertung ausgewählt wurde.</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_metaFields.0">
         <source>Meta fields</source>
@@ -25,13 +45,93 @@
         <source>Here you can select the meta fields.</source>
         <target>Hier können Sie die Meta-Felder auswählen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_optionalFormFields.0">
+        <source>Optional recommendation fields</source>
+        <target>Optionale Bewertungsfelder</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_optionalFormFields.1">
+        <source>Here you can select one or more recommendation fields. Author, rating and text are mandatory.</source>
+        <target>Bitte wählen Sie ein oder mehrere Bewertungsfelder. Autor, Bewertung und Text sind Pflichtfelder.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_notify.0">
+        <source>E-mail notifications</source>
+        <target>E-Mail Benachrichtigungen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_notify.1">
+        <source>Notify me of new recommendations by e-mail. E-Mails will be sent to the system administrator.</source>
+        <target>Über neue Bewertungen per E-Mail benachrichtigen. E-Mails werden an den Webseiten-Administrator gesendet.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_moderate.0">
+        <source>Moderate</source>
+        <target>Moderieren</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_moderate.1">
+        <source>Approve recommendations before they are published on the website.</source>
+        <target>Bewertungen erst nach Bestätigung auf der Webseite veröffentlichen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_disableCaptcha.0">
+        <source>Disable spam protection</source>
+        <target>Spam-Schutz deaktivieren</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_disableCaptcha.1">
+        <source>Here you can disable the spam protection (not recommended).</source>
+        <target>Hier können Sie den Spam-Schutz deaktivieren (nicht empfohlen).</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_privacyText.0">
+        <source>Privacy text</source>
+        <target>Datenschutz Text</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_privacyText.1">
+        <source>The label for a privacy checkbox. Here you can enter a privacy note to make the recommendation GDPR compliant.</source>
+        <target>Die Beschriftung für eine Datenschutz-Checkbox. Hier können Sie einen Datenschutzhinweis eingeben, um die Bewertung DSGVO-konform zu gestalten.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activate.0">
+        <source>Send activation e-mail</source>
+        <target>Aktivierungsmail verschicken</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activate.1">
+        <source>Send an activation e-mail to the user.</source>
+        <target>Eine Aktivierungsmail an den Benutzer senden.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateJumpTo.0">
+        <source>Confirmation page</source>
+        <target>Bestätigungsseite</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateJumpTo.1">
+        <source>Please choose the page to which users will be redirected after the request has been completed.</source>
+        <target>Bitte wählen Sie die Seite aus, zu der Benutzer nach Verarbeitung der Anfrage weitergeleitet werden.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateText.0">
+        <source>Activation message</source>
+        <target>Aktivierungsmail</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_activateText.1">
+        <source>You can use the wildcards &lt;em&gt;##domain##&lt;/em&gt; (domain name) and &lt;em&gt;##link##&lt;/em&gt; (activation link).</source>
+        <target>Sie können die Platzhalter &lt;em&gt;##domain##&lt;/em&gt; (Domainname) and &lt;em&gt;##link##&lt;/em&gt; (Aktivierungslink) benutzen.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_template.0">
-        <source>recommendation template</source>
+        <source>Recommendation template</source>
         <target>Bewertungstemplate</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_template.1">
         <source>Here you can select the recommendation template.</source>
         <target>Hier können Sie das Bewertungstemplate auswählen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_order.0">
+        <source>Sort order</source>
+        <target>Sortierreihenfolge</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_order.1">
+        <source>Here you can choose the sort order.</source>
+        <target>Hier können Sie die Sortierreihenfolge festlegen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_minRating.0">
+        <source>Minimum rating</source>
+        <target>Mindestbewertung</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_minRating.1">
+        <source>Show only recommendations with a minimum rating.</source>
+        <target>Nur Bewertungen mit einem Mindestrating anzeigen.</target>
       </trans-unit>
     </body>
   </file>

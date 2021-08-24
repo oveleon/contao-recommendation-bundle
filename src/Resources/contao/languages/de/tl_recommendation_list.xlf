@@ -1,0 +1,58 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation_list.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_recommendation_list.minOne">
+        <source>Show all recommendations</source>
+        <target>Alle Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minTwo">
+        <source>At least 2 stars</source>
+        <target>Mindestens 2 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minThree">
+        <source>At least 3 stars</source>
+        <target>Mindestens 3 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFour">
+        <source>At least 4 stars</source>
+        <target>Mindestens 4 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.minFive">
+        <source>At least 5 stars</source>
+        <target>Mindestens 5 Sterne</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.all_items">
+        <source>Show all recommendations</source>
+        <target>Alle Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.featured">
+        <source>Show featured recommendation only</source>
+        <target>Nur hervorgehobene Bewertungen anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.unfeatured">
+        <source>Skip featured recommendations</source>
+        <target>Hervorgehobene Bewertungen überspringen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.featured_first">
+        <source>Show featured recommendations first</source>
+        <target>Hervorgehobene Bewertungen zuerst anzeigen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_asc">
+        <source>Date ascending</source>
+        <target>Datum aufsteigend</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_date_desc">
+        <source>Date descending</source>
+        <target>Datum absteigend</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_random">
+        <source>Random order</source>
+        <target>Zufällige Reihenfolge</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_list.order_rating_desc">
+        <source>Rating descending</source>
+        <target>Bewertung absteigend</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

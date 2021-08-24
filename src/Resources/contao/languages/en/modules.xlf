@@ -28,6 +28,12 @@
       <trans-unit id="FMD.recommendationreader.1">
         <source>Shows the details of a recommendation</source>
       </trans-unit>
+      <trans-unit id="FMD.recommendationform.0">
+        <source>Recommendation form</source>
+      </trans-unit>
+      <trans-unit id="FMD.recommendationform.1">
+        <source>Adds a recommendation form to the page</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

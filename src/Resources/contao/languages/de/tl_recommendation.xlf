@@ -1,6 +1,10 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/tl_recommendation.php" source-language="en" target-language="de">
     <body>
+      <trans-unit id="tl_recommendation.notVerified">
+        <source>Not verified</source>
+        <target>Nicht verifiziert</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.title.0">
         <source>Title</source>
         <target>Titel</target>
@@ -21,13 +25,17 @@
         <source>Author</source>
         <target>Autor</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.author.1">
+        <source>Here you can change the author of the recommendation.</source>
+        <target>Hier können Sie den Autor der Bewertung ändern.</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.location.0">
         <source>Location</source>
         <target>Ort</target>
       </trans-unit>
-      <trans-unit id="tl_recommendation.author.1">
-        <source>Here you can change the author of the recommendation.</source>
-        <target>Hier können Sie den Autor der Bewertung ändern.</target>
+      <trans-unit id="tl_recommendation.location.1">
+        <source>Here you can enter the name of the location.</source>
+        <target>Hier können Sie den Namen des Ortes eingeben.</target>
       </trans-unit>
       <trans-unit id="tl_recommendation.date.0">
         <source>Date</source>
@@ -69,6 +77,18 @@
         <source>Here you can enter the recommendation text.</source>
         <target>Hier können Sie den Bewertungstext eingeben.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.email.0">
+        <source>E-mail address</source>
+        <target>E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.email.1">
+        <source>The e-mail address will not be published.</source>
+        <target>Die E-Mail-Adresse wird nicht veröffentlicht.</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.image.0">
+        <source>Image</source>
+        <target>Bild</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.imageUrl.0">
         <source>Image</source>
         <target>Bild</target>
@@ -101,6 +121,14 @@
         <source>Make the recommendation publicly visible on the website.</source>
         <target>Die Bewertung auf der Webseite anzeigen.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.verified.0">
+        <source>Verified</source>
+        <target>Verifiziert</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.verified.1">
+        <source>Indicates if the rating is verified.</source>
+        <target>Gibt an, ob die Bewertung verifiziert ist.</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.start.0">
         <source>Show from</source>
         <target>Anzeigen ab</target>
@@ -124,18 +152,6 @@
       <trans-unit id="tl_recommendation.tstamp.1">
         <source>Date and time of the latest revision</source>
         <target>Datum und Uhrzeit der letzten Änderung</target>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.all_items">
-        <source>Show all recommendations</source>
-        <target>Alle Bewertungen anzeigen</target>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.featured">
-        <source>Show featured recommendation only</source>
-        <target>Nur hervorgehobene Bewertungen anzeigen</target>
-      </trans-unit>
-      <trans-unit id="tl_recommendation.unfeatured">
-        <source>Skip featured recommendations</source>
-        <target>Hervorgehobene Bewertungen überspringen</target>
       </trans-unit>
       <trans-unit id="tl_recommendation.title_legend">
         <source>Title and author</source>
@@ -240,6 +256,10 @@
       <trans-unit id="tl_recommendation.pasteafter.1">
         <source>Paste after recommendation ID %s</source>
         <target>Nach der Bewertung ID %s einfügen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_submit">
+        <source>Submit recommendation</source>
+        <target>Bewertung absenden</target>
       </trans-unit>
     </body>
   </file>

@@ -8,6 +8,17 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\Config;
+use Contao\Controller;
+use Contao\Date;
+use Contao\FilesModel;
+use Contao\FrontendTemplate;
+use Contao\FrontendUser;
+use Contao\Model\Collection;
+use Contao\Module;
+use Contao\PageModel;
+use Contao\StringUtil;
+
 /**
  * Parent class for recommendation modules.
  *
@@ -16,7 +27,7 @@ namespace Oveleon\ContaoRecommendationBundle;
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
-abstract class ModuleRecommendation extends \Module
+abstract class ModuleRecommendation extends Module
 {
 
     /**
@@ -33,7 +44,7 @@ abstract class ModuleRecommendation extends \Module
             return $arrArchives;
         }
 
-        $this->import('FrontendUser', 'User');
+        $this->import(FrontendUser::class, 'User');
         $objArchive = RecommendationArchiveModel::findMultipleByIds($arrArchives);
         $arrArchives = array();
 
@@ -48,7 +59,7 @@ abstract class ModuleRecommendation extends \Module
                         continue;
                     }
 
-                    $groups = \StringUtil::deserialize($objArchive->groups);
+                    $groups = StringUtil::deserialize($objArchive->groups);
 
                     if (empty($groups) || !\is_array($groups) || !\count(array_intersect($groups, $this->User->groups)))
                     {
@@ -75,8 +86,8 @@ abstract class ModuleRecommendation extends \Module
 	 */
 	protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
 	{
-		/** @var \FrontendTemplate|object $objTemplate */
-		$objTemplate = new \FrontendTemplate($this->recommendation_template);
+		/** @var FrontendTemplate|object $objTemplate */
+		$objTemplate = new FrontendTemplate($this->recommendation_template);
 		$objTemplate->setData($objRecommendation->row());
 
 		if ($objRecommendation->cssClass != '')
@@ -110,14 +121,14 @@ abstract class ModuleRecommendation extends \Module
         $objTemplate->addRating = array_key_exists('rating', $arrMeta);
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
         $objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
-        $objTemplate->date = $arrMeta['date'];
+        $objTemplate->date = $arrMeta['date'] ?? null;
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
-        $objTemplate->author = $arrMeta['author'];
+        $objTemplate->author = $arrMeta['author'] ?? null;
         $objTemplate->addLocation = array_key_exists('location', $arrMeta);
-        $objTemplate->location = $arrMeta['location'];
+        $objTemplate->location = $arrMeta['location'] ?? null;
 
 		// Add styles
-        $color = unserialize(\Config::get('recommendationActiveColor'))[0];
+        $color = unserialize(Config::get('recommendationActiveColor'))[0];
         $objTemplate->styles = $color ? ' style="color:#'.$color.'"' : '';
 
         $objTemplate->addExternalImage = false;
@@ -126,7 +137,7 @@ abstract class ModuleRecommendation extends \Module
 		// Add an image
 		if ($objRecommendation->imageUrl != '')
 		{
-            $objRecommendation->imageUrl = \Controller::replaceInsertTags($objRecommendation->imageUrl);
+            $objRecommendation->imageUrl = Controller::replaceInsertTags($objRecommendation->imageUrl);
 
             if ($this->isExternal($objRecommendation->imageUrl))
             {
@@ -136,14 +147,14 @@ abstract class ModuleRecommendation extends \Module
             }
             else
             {
-                $objModel = \FilesModel::findByPath($objRecommendation->imageUrl);
+                $objModel = FilesModel::findByPath($objRecommendation->imageUrl);
 
                 $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
             }
 		}
-		elseif (\Config::get('recommendationDefaultImage'))
+		elseif (Config::get('recommendationDefaultImage'))
         {
-            $objModel = \FilesModel::findByUuid(\Config::get('recommendationDefaultImage'));
+            $objModel = FilesModel::findByUuid(Config::get('recommendationDefaultImage'));
 
             $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
         }
@@ -164,7 +175,7 @@ abstract class ModuleRecommendation extends \Module
 	/**
 	 * Parse one or more items and return them as array
 	 *
-	 * @param \Model\Collection $objRecommendations
+	 * @param Collection $objRecommendations
 	 *
 	 * @return array
 	 */
@@ -203,14 +214,14 @@ abstract class ModuleRecommendation extends \Module
 	 */
 	protected function getMetaFields($objRecommendation)
 	{
-		$meta = \StringUtil::deserialize($this->recommendation_metaFields);
+		$meta = StringUtil::deserialize($this->recommendation_metaFields);
 
 		if (!\is_array($meta))
 		{
 			return array();
 		}
 
-		/** @var \PageModel $objPage */
+		/** @var PageModel $objPage */
 		global $objPage;
 
 		$return = array();
@@ -220,7 +231,7 @@ abstract class ModuleRecommendation extends \Module
 			switch ($field)
 			{
 				case 'date':
-					$return['date'] = \Date::parse($objPage->datimFormat, $objRecommendation->date);
+					$return['date'] = Date::parse($objPage->datimFormat, $objRecommendation->date);
 					break;
 
                 default:
@@ -245,7 +256,7 @@ abstract class ModuleRecommendation extends \Module
 	{
         return sprintf('<a href="%s" title="%s" itemprop="url">%s%s</a>',
                         $this->generateRecommendationUrl($objRecommendation),
-                        \StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $strTitle), true),
+                        StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $strTitle), true),
                         $strLink,
                         ($blnIsReadMore ? '<span class="invisible"> '.$strTitle.'</span>' : ''));
 	}
@@ -259,9 +270,9 @@ abstract class ModuleRecommendation extends \Module
      */
 	protected function generateRecommendationUrl($objRecommendation)
     {
-        $objPage = \PageModel::findByPk($objRecommendation->getRelated('pid')->jumpTo);
+        $objPage = PageModel::findByPk($objRecommendation->getRelated('pid')->jumpTo);
 
-        return ampersand($objPage->getFrontendUrl((\Config::get('useAutoItem') ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
+        return ampersand($objPage->getFrontendUrl((Config::get('useAutoItem') ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
     }
 
     /**
@@ -284,9 +295,9 @@ abstract class ModuleRecommendation extends \Module
     /**
      * Add an internal image to template
      *
-     * @param \FilesModel $objModel                  The files model
+     * @param FilesModel $objModel                   The files model
      * @param RecommendationModel $objRecommendation The recommendation model
-     * @param \FrontendTemplate $objTemplate         The frontend template
+     * @param FrontendTemplate $objTemplate          The frontend template
      */
     protected function addInternalImage($objModel, $objRecommendation, &$objTemplate)
     {
@@ -300,7 +311,7 @@ abstract class ModuleRecommendation extends \Module
             // Override the default image size
             if ($this->imgSize != '')
             {
-                $size = \StringUtil::deserialize($this->imgSize);
+                $size = StringUtil::deserialize($this->imgSize);
 
 				if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]) || ($size[2][0] ?? null) === '_')
                 {

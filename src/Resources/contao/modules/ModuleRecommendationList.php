@@ -8,7 +8,15 @@
 
 namespace Oveleon\ContaoRecommendationBundle;
 
+use Contao\BackendTemplate;
+use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\Environment;
+use Contao\Input;
+use Contao\Model\Collection;
+use Contao\Pagination;
+use Contao\StringUtil;
+use Contao\System;
 use Patchwork\Utf8;
 
 /**
@@ -16,6 +24,7 @@ use Patchwork\Utf8;
  *
  * @property array  $recommendation_archives
  * @property string $recommendation_featured
+ * @property string $recommendation_order
  *
  * @author Fabian Ekert <fabian@oveleon.de>
  */
@@ -35,11 +44,11 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 */
 	public function generate()
 	{
-		if (TL_MODE == 'BE')
-		{
-			/** @var \BackendTemplate|object $objTemplate */
-			$objTemplate = new \BackendTemplate('be_wildcard');
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
+        if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
+        {
+			$objTemplate = new BackendTemplate('be_wildcard');
 			$objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationlist'][0]) . ' ###';
 			$objTemplate->title = $this->headline;
 			$objTemplate->id = $this->id;
@@ -49,12 +58,18 @@ class ModuleRecommendationList extends ModuleRecommendation
 			return $objTemplate->parse();
 		}
 
-		$this->recommendation_archives = $this->sortOutProtected(\StringUtil::deserialize($this->recommendation_archives));
+		$this->recommendation_archives = $this->sortOutProtected(StringUtil::deserialize($this->recommendation_archives));
 
 		// Return if there are no archives
 		if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
 		{
 			return '';
+		}
+
+		// Show the recommendation reader if an item has been selected
+		if ($this->recommendation_readerModule > 0 && (isset($_GET['items']) || (Config::get('useAutoItem') && isset($_GET['auto_item']))))
+		{
+			return $this->getFrontendModule($this->recommendation_readerModule, $this->strColumn);
 		}
 
 		return parent::generate();
@@ -66,7 +81,10 @@ class ModuleRecommendationList extends ModuleRecommendation
 	protected function compile()
 	{
 		$limit = null;
-		$offset = (int) $this->skipFirst;
+		$offset = 0;
+
+		$minRating = $this->recommendation_minRating;
+		
 
 		// Maximum number of items
 		if ($this->numberOfItems > 0)
@@ -89,10 +107,10 @@ class ModuleRecommendationList extends ModuleRecommendation
 		}
 
 		$this->Template->recommendations = array();
-		$this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyList'];
+		$this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyRecommendationList'];
 
 		// Get the total number of items
-		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured);
+		$intTotal = $this->countItems($this->recommendation_archives, $blnFeatured, $minRating);
 
 		if ($intTotal < 1)
 		{
@@ -112,18 +130,18 @@ class ModuleRecommendationList extends ModuleRecommendation
 
 			// Get the current page
 			$id = 'page_n' . $this->id;
-			$page = (\Input::get($id) !== null) ? \Input::get($id) : 1;
+			$page = Input::get($id) ?? 1;
 
 			// Do not index or cache the page if the page number is outside the range
 			if ($page < 1 || $page > max(ceil($total/$this->perPage), 1))
 			{
-				throw new PageNotFoundException('Page not found: ' . \Environment::get('uri'));
+				throw new PageNotFoundException('Page not found: ' . Environment::get('uri'));
 			}
 
 			// Set limit and offset
 			$limit = $this->perPage;
 			$offset += (max($page, 1) - 1) * $this->perPage;
-			$skip = (int) $this->skipFirst;
+			$skip = 0;
 
 			// Overall limit
 			if ($offset + $limit > $total + $skip)
@@ -132,11 +150,11 @@ class ModuleRecommendationList extends ModuleRecommendation
 			}
 
 			// Add the pagination menu
-			$objPagination = new \Pagination($total, $this->perPage, \Config::get('maxPaginationLinks'), $id);
+			$objPagination = new Pagination($total, $this->perPage, Config::get('maxPaginationLinks'), $id);
 			$this->Template->pagination = $objPagination->generate("\n  ");
 		}
 
-		$objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset);
+		$objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset, $minRating);
 
 		// Add recommendations
 		if ($objRecommendations !== null)
@@ -153,14 +171,14 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 *
 	 * @return integer
 	 */
-	protected function countItems($recommendationArchives, $blnFeatured)
+	protected function countItems($recommendationArchives, $blnFeatured, $minRating)
 	{
 		// HOOK: add custom logic
 		if (isset($GLOBALS['TL_HOOKS']['recommendationListCountItems']) && \is_array($GLOBALS['TL_HOOKS']['recommendationListCountItems']))
 		{
 			foreach ($GLOBALS['TL_HOOKS']['recommendationListCountItems'] as $callback)
 			{
-				if (($intResult = \System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $this)) === false)
+				if (($intResult = System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $this)) === false)
 				{
 					continue;
 				}
@@ -172,7 +190,7 @@ class ModuleRecommendationList extends ModuleRecommendation
 			}
 		}
 
-		return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured);
+		return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured, $minRating);
 	}
 
 	/**
@@ -182,28 +200,55 @@ class ModuleRecommendationList extends ModuleRecommendation
 	 * @param boolean $blnFeatured
 	 * @param integer $limit
 	 * @param integer $offset
+	 * @param integer $minRating
 	 *
-	 * @return \Model\Collection|RecommendationModel|null
+	 * @return Collection|RecommendationModel|null
 	 */
-	protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset)
+	protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset, $minRating)
 	{
 		// HOOK: add custom logic
 		if (isset($GLOBALS['TL_HOOKS']['recommendationListFetchItems']) && \is_array($GLOBALS['TL_HOOKS']['recommendationListFetchItems']))
 		{
 			foreach ($GLOBALS['TL_HOOKS']['recommendationListFetchItems'] as $callback)
 			{
-				if (($objCollection = \System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $limit, $offset, $this)) === false)
+				if (($objCollection = System::importStatic($callback[0])->{$callback[1]}($recommendationArchives, $blnFeatured, $limit, $offset, $this)) === false)
 				{
 					continue;
 				}
 
-				if ($objCollection === null || $objCollection instanceof \Model\Collection)
+				if ($objCollection === null || $objCollection instanceof Collection)
 				{
 					return $objCollection;
 				}
 			}
 		}
 
-		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset);
+		$t = RecommendationModel::getTable();
+		$order = '';
+
+		if ($this->recommendation_featured == 'featured_first')
+		{
+			$order .= "$t.featured DESC, ";
+		}
+
+		switch ($this->recommendation_order)
+		{
+			case 'order_random':
+				$order .= "RAND()";
+				break;
+
+			case 'order_date_asc':
+				$order .= "$t.date";
+				break;
+
+			case 'order_rating_desc':
+				$order .= "$t.rating DESC";
+				break;
+
+			default:
+				$order .= "$t.date DESC";
+		}
+
+		return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, array('order'=>$order));
 	}
 }
