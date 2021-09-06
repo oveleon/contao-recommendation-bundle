@@ -6,6 +6,8 @@
  * (c) https://www.oveleon.de/
  */
 
+use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
+
 $GLOBALS['TL_DCA']['tl_recommendation'] = array
 (
 	// Config
@@ -33,6 +35,10 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
             array('tl_recommendation', 'adjustTime'),
 			array('tl_recommendation', 'scheduleUpdate')
         ),
+		'oninvalidate_cache_tags_callback' => array
+		(
+			array('tl_recommendation', 'addSitemapCacheInvalidationTag'),
+		),
 		'sql' => array
 		(
 			'keys' => array
@@ -685,6 +691,11 @@ class tl_recommendation extends Contao\Backend
 					   ->execute($intId);
 
 		$objVersions->create();
+		
+		if ($dc)
+		{
+			$dc->invalidateCacheTags();
+		}
 	}
 
 	/**
@@ -703,7 +714,7 @@ class tl_recommendation extends Contao\Backend
 	{
 		if (strlen(Input::get('tid')))
 		{
-			$this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
+			$this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (func_num_args() <= 12 ? null : func_get_arg(12)));
 			$this->redirect($this->getReferer());
 		}
 
@@ -713,14 +724,14 @@ class tl_recommendation extends Contao\Backend
 			return '';
 		}
 
-		$href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+		$href .= '&amp;tid=' . $row['id'] . '&amp;state=' . ($row['published'] ? '' : 1);
 
 		if (!$row['published'])
 		{
 			$icon = 'invisible.svg';
 		}
 
-		return '<a href="'.$this->addToUrl($href).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+		return '<a href="' . $this->addToUrl($href) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
 	}
 
 	/**
@@ -827,5 +838,28 @@ class tl_recommendation extends Contao\Backend
 		}
 
 		$objVersions->create();
+		
+		if ($dc)
+		{
+			$dc->invalidateCacheTags();
+		}
+	}
+	
+	/**
+	 * @param Contao\DataContainer $dc
+	 *
+	 * @return array
+	 */
+	public function addSitemapCacheInvalidationTag($dc, array $tags)
+	{
+		$archiveModel = RecommendationArchiveModel::findByPk($dc->activeRecord->pid);
+		$pageModel = Contao\PageModel::findWithDetails($archiveModel->jumpTo);
+		
+		if ($pageModel === null)
+		{
+			return $tags;
+		}
+		
+		return array_merge($tags, array('contao.sitemap.' . $pageModel->rootId));
 	}
 }

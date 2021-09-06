@@ -18,6 +18,7 @@ use Contao\Model\Collection;
 use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
+use Contao\System;
 
 /**
  * Parent class for recommendation modules.
@@ -167,6 +168,13 @@ abstract class ModuleRecommendation extends Module
 				$this->import($callback[0]);
 				$this->{$callback[0]}->{$callback[1]}($objTemplate, $objRecommendation->row(), $this);
 			}
+		}
+		
+		// Tag recommendations
+		if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+		{
+			$responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+			$responseTagger->addTags(array('contao.db.tl_recommendation.' . $objRecommendation->id));
 		}
 
 		return $objTemplate->parse();

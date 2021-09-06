@@ -71,6 +71,13 @@ class ModuleRecommendationList extends ModuleRecommendation
 		{
 			return $this->getFrontendModule($this->recommendation_readerModule, $this->strColumn);
 		}
+		
+		// Tag recommendation archives
+		if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+		{
+			$responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+			$responseTagger->addTags(array_map(static function ($id) { return 'contao.db.tl_recommendation_archive.' . $id; }, $this->recommendation_archives));
+		}
 
 		return parent::generate();
 	}

@@ -27,6 +27,10 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = array
         (
             array('tl_recommendation_archive', 'adjustPermissions')
         ),
+		'oninvalidate_cache_tags_callback' => array
+		(
+			array('tl_recommendation_archive', 'addSitemapCacheInvalidationTag'),
+		),
 		'sql' => array
 		(
 			'keys' => array
@@ -416,5 +420,22 @@ class tl_recommendation_archive extends Contao\Backend
 	public function deleteArchive($row, $href, $label, $title, $icon, $attributes)
 	{
 		return $this->User->hasAccess('delete', 'recommendationp') ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label).'</a> ' : Contao\Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
+	}
+	
+	/**
+	 * @param Contao\DataContainer $dc
+	 *
+	 * @return array
+	 */
+	public function addSitemapCacheInvalidationTag($dc, array $tags)
+	{
+		$pageModel = PageModel::findWithDetails($dc->activeRecord->jumpTo);
+		
+		if ($pageModel === null)
+		{
+			return $tags;
+		}
+		
+		return array_merge($tags, array('contao.sitemap.' . $pageModel->rootId));
 	}
 }
