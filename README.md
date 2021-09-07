@@ -17,10 +17,16 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
 
 + [Features](#features)
 + [Installation](#installation)
+  + [Composer](#via-composer)
+  + [Contao Manager](#via-contao-manager)
 + [Initial setup](#initial-setup)
 + [Front end modules](#front-end-modules)
+  + [Recommendation list](#recommendation-list)
+  + [Recommendation reader](#recommendation-reader)
+  + [Recommendation form](#recommendation-form)
 + [Sitemap](#sitemap)
 + [Verified recommendations / GDPR](#verified-recommendations--gdpr)
++ [Styled Reviews](#example)
 
 ## Features
 
@@ -46,7 +52,7 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
 - Sitemap-Integration
   - Recommendations will be added to the sitemap.xml
 - Automatic purge of non verified recommendations
-- Cache invalidation for new added recommendations
+- Cache invalidation
 
 ## Installation
 
@@ -301,3 +307,8 @@ A cronjob will purge the unverified recommendations after 24 hours.
 The recommendation form does not save the IP of the user. However, it will save the e-mail-address of a user if they verified their recommendation
 with the opt-in token.
 
+## Example
+
+An example how to style your reviews on your website
+
+![Admin View: Recommendation Exammple](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/recommendationExample.png)
