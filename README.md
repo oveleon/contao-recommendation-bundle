@@ -46,6 +46,7 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
 - Sitemap-Integration
   - Recommendations will be added to the sitemap.xml
 - Automatic purge of non verified recommendations
+- Cache invalidation for new added recommendations
 
 ## Installation
 
