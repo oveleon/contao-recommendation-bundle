@@ -148,7 +148,7 @@ The recommendation list can display published (and verified) recommendations fro
   </tr>
   <tr>
     <td>Sort order</td>
-    <td>Here you can choose the sort order of recommendations (e.g. by date, rating, random)/td>
+    <td>Here you can choose the sort order of recommendations (e.g. by date, rating, random)</td>
   </tr>
   <tr>
     <td>Number of items</td>
