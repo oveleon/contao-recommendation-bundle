@@ -1,0 +1,54 @@
+<div class="layout_default arc_<?= $this->archiveId ?> block<?= $this->class ?>">
+
+  <?php if ($this->addImage): ?>
+    <?php if ($this->addInternalImage): ?>
+      <?php $this->insert('image', $this->arrData); ?>
+    <?php elseif ($this->addExternalImage): ?>
+      <figure class="image_container">
+        <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
+      </figure>
+    <?php endif; ?>
+  <?php endif; ?>
+
+  <div class="layout_container">
+    <?php if ($this->headlineLink): ?>
+      <h4 itemprop="name"><?= $this->headlineLink ?></h4>
+    <?php endif; ?>
+
+    <?php if ($this->addAuthor || $this->addDate || $this->addRating || $this->addLocation): ?>
+      <div class="info">
+        <?php if ($this->addAuthor): ?>
+          <span class="author"><?= $this->author ?></span>
+        <?php endif; ?>
+        <?php if ($this->addLocation): ?>
+          <span class="location"><?= $this->location ?></span>
+        <?php endif; ?>
+
+        <?php if ($this->addDate): ?>
+          <span class="date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></span>
+        <?php endif; ?>
+
+        <?php if ($this->addRating): ?>
+          <span class="rating">
+            <?php for ($i=1;$i<=5;$i++): ?>
+              <span class="star<?= ($i<=$this->rating) ? ' active' : '' ?>"<?= ($i<=$this->rating && $this->styles) ? $this->styles  : '' ?>>&#9733;</span>
+            <?php endfor; ?>
+          </span>
+          <?php endif; ?>
+      </div>
+    <?php endif; ?>
+
+    <div class="text" itemprop="description">
+      <?php if ($this->teaser && $this->allowRedirect): ?>
+        <?= $this->teaser ?>
+      <?php else: ?>
+        <?= $this->text ?>
+      <?php endif; ?>
+    </div>
+
+    <?php if ($this->allowRedirect): ?>
+      <p class="more"><?= $this->more ?></p>
+    <?php endif; ?>
+  </div>
+
+</div>

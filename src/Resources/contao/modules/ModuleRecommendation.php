@@ -27,6 +27,7 @@ use Contao\System;
  * @property mixed  $recommendation_metaFields
  *
  * @author Fabian Ekert <fabian@oveleon.de>
+ * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -88,7 +89,7 @@ abstract class ModuleRecommendation extends Module
 	protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
 	{
 		/** @var FrontendTemplate|object $objTemplate */
-		$objTemplate = new FrontendTemplate($this->recommendation_template);
+		$objTemplate = new FrontendTemplate($this->recommendation_template ?: 'recommendation_default');
 		$objTemplate->setData($objRecommendation->row());
 
 		if ($objRecommendation->cssClass != '')
@@ -134,6 +135,9 @@ abstract class ModuleRecommendation extends Module
 
         $objTemplate->addExternalImage = false;
         $objTemplate->addInternalImage = false;
+
+        // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
+        $objTemplate->addImage = array_key_exists('recommendation_image', $arrMeta);
 
 		// Add an image
 		if ($objRecommendation->imageUrl != '')

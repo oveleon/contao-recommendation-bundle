@@ -69,7 +69,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_metaFields'] = array
 	'default'                 => array('date', 'author'),
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
-	'options'                 => array('date', 'author', 'rating', 'location'),
+	'options'                 => array('recommendation_image', 'date', 'author', 'rating', 'location'),
 	'reference'               => &$GLOBALS['TL_LANG']['MSC'],
 	'eval'                    => array('multiple'=>true),
 	'sql'                     => "varchar(255) NOT NULL default ''"
@@ -185,11 +185,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_activateText'] = array
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_template'],
-	'default'                 => 'recommendation_latest',
 	'exclude'                 => true,
 	'inputType'               => 'select',
-	'options_callback'        => array('tl_module_recommendation', 'getRecommendationTemplates'),
-	'eval'                    => array('tl_class'=>'w50'),
+	'options_callback'        => static fn () => Controller::getTemplateGroup('recommendation_'),
+	'eval'                    => array('includeBlankOption' => true, 'chosen' => true, 'tl_class'=>'w50'),
 	'sql'                     => "varchar(64) NOT NULL default ''"
 );
 
@@ -270,15 +269,5 @@ class tl_module_recommendation extends Contao\Backend
 		}
 
 		return $varValue;
-	}
-
-	/**
-	 * Return all recommendation templates as array
-	 *
-	 * @return array
-	 */
-	public function getRecommendationTemplates()
-	{
-		return $this->getTemplateGroup('recommendation_');
 	}
 }
