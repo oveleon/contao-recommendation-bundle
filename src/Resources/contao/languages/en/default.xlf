@@ -10,6 +10,9 @@
       <trans-unit id="MSC.recommendation_image">
         <source>Image</source>
       </trans-unit>
+      <trans-unit id="MSC.recommendation_customField">
+        <source>Custom field</source>
+      </trans-unit>
       <trans-unit id="MSC.emptyRecommendationList">
         <source>Currently there are no recommendations.</source>
       </trans-unit>

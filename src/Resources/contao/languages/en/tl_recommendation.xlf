@@ -46,6 +46,12 @@
       <trans-unit id="tl_recommendation.rating.1">
         <source>Here you can enter a recommendation.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_customField.0">
+        <source>Custom field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_customField.1">
+        <source>Here you can add additional text that should be displayed within the recommendation.</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
       </trans-unit>
@@ -195,6 +201,10 @@
       </trans-unit>
       <trans-unit id="tl_recommendation.recommendation_submit">
         <source>Submit recommendation</source>
+      </trans-unit>
+
+      <trans-unit id="tl_recommendation.recommendation_customFieldLabel">
+        <source>Custom field</source>
       </trans-unit>
     </body>
   </file>

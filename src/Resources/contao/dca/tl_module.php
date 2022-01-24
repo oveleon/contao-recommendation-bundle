@@ -69,7 +69,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_metaFields'] = array
     'default'                 => array('date', 'author'),
     'exclude'                 => true,
     'inputType'               => 'checkbox',
-    'options'                 => array('recommendation_image', 'date', 'author', 'rating', 'location'),
+    'options'                 => array('recommendation_image', 'date', 'author', 'rating', 'location', 'recommendation_customField'),
     'reference'               => &$GLOBALS['TL_LANG']['MSC'],
     'eval'                    => array('multiple'=>true),
     'sql'                     => "varchar(255) NOT NULL default ''"
@@ -100,7 +100,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_optionalFormFields'] =
     'label'                   => &$GLOBALS['TL_LANG']['tl_module']['recommendation_optionalFormFields'],
     'exclude'                 => true,
     'inputType'               => 'checkbox',
-    'options'                 => array('title', 'location', 'email'),
+    'options'                 => array('title', 'location', 'email', 'recommendation_customField'),
     'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
     'eval'                    => array('multiple'=>true, 'tl_class'=>'w50 clr'),
     'sql'                     => "varchar(255) NOT NULL default ''"

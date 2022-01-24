@@ -122,6 +122,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'text',
                 'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
+            'recommendation_customField' => array
+            (
+                'name'      => 'customField',
+                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_customFieldLabel'],
+                'inputType' => 'text',
+                'eval'      => array('optional'=>true, 'maxlength'=>255),
+            ),
             'location' => array
             (
                 'name'      => 'location',
@@ -259,17 +266,18 @@ class ModuleRecommendationForm extends ModuleRecommendation
             // Prepare the record
             $arrData = array
             (
-                'tstamp'    => $time,
-                'pid'       => $this->recommendation_archive,
-                'title'     => $arrWidgets['title']->value ?: '',
-                'alias'		=> $arrWidgets['title']->value ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
-                'author'    => $arrWidgets['author']->value,
-                'email'		=> $arrWidgets['email']->value ?: '',
-                'location'  => $arrWidgets['location']->value ?: '',
-                'date'      => $time,
-                'time'      => $time,
-                'text'      => $this->convertLineFeeds($strText),
-                'rating'    => $arrWidgets['rating']->value,
+                'tstamp' => $time,
+                'pid' => $this->recommendation_archive,
+                'title' => $arrWidgets['title']->value ?: '',
+                'alias' => $arrWidgets['title']->value ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
+                'author' => $arrWidgets['author']->value,
+                'email' => $arrWidgets['email']->value ?: '',
+                'location' => $arrWidgets['location']->value ?: '',
+                'recommendation_customField' => $arrWidgets['customField']->value ?: '',
+                'date' => $time,
+                'time' => $time,
+                'text' => $this->convertLineFeeds($strText),
+                'rating' => $arrWidgets['rating']->value,
                 'published' => $this->recommendation_moderate ? '' : 1
             );
 

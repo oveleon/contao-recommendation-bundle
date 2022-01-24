@@ -61,6 +61,14 @@
         <source>Here you can enter a recommendation.</source>
         <target>Hier können Sie die Bewertung eingeben.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_customField.0">
+        <source>Custom field</source>
+        <target>Benutzerdefiniertes Feld</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_customField.1">
+        <source>Here you can add additional text that should be displayed within the recommendation.</source>
+        <target>Hier können Sie einen zusätzlichen Text hinzufügen, der in der Bewertung angezeigt werden soll.</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
         <target>Teasertext</target>
@@ -260,6 +268,11 @@
       <trans-unit id="tl_recommendation.recommendation_submit">
         <source>Submit recommendation</source>
         <target>Bewertung absenden</target>
+      </trans-unit>
+
+      <trans-unit id="tl_recommendation.recommendation_customFieldLabel">
+        <source>Custom field</source>
+        <target>Benutzerdefiniertes Feld</target>
       </trans-unit>
     </body>
   </file>

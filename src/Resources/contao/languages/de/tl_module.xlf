@@ -53,6 +53,14 @@
         <source>Here you can select one or more recommendation fields. Author, rating and text are mandatory.</source>
         <target>Bitte wählen Sie ein oder mehrere Bewertungsfelder. Autor, Bewertung und Text sind Pflichtfelder.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_customFieldLabel.0">
+        <source>Label: Custom field</source>
+        <target>Label: Benutzerdefiniertes Feld</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_customFieldLabel.1">
+        <source>Here you can add a label for the custom field.</source>
+        <target>Hier können Sie eine Beschriftung für das benutzerdefinierte Feld hinzufügen.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_notify.0">
         <source>E-mail notifications</source>
         <target>E-Mail Benachrichtigungen</target>

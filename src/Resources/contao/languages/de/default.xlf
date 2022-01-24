@@ -13,6 +13,10 @@
         <source>Image</source>
         <target>Bild</target>
       </trans-unit>
+      <trans-unit id="MSC.recommendation_customField">
+        <source>Custom field</source>
+        <target>Benutzerdefiniertes Feld</target>
+      </trans-unit>
       <trans-unit id="MSC.emptyRecommendationList">
         <source>Currently there are no recommendations.</source>
         <target>Zurzeit sind keine Bewertungen vorhanden.</target>

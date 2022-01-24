@@ -20,6 +20,9 @@
         <?php if ($this->addAuthor): ?>
           <span class="author"><?= $this->author ?></span>
         <?php endif; ?>
+        <?php if ($this->addCustomField): ?>
+          <span class="additional"><?= $this->customField ?></span>
+        <?php endif; ?>
         <?php if ($this->addLocation): ?>
           <span class="location"><?= $this->location ?></span>
         <?php endif; ?>

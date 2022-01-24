@@ -126,6 +126,8 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->date = $arrMeta['date'] ?? null;
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
         $objTemplate->author = $arrMeta['author'] ?? null;
+        $objTemplate->addCustomField = array_key_exists('recommendation_customField', $arrMeta);
+        $objTemplate->customField = $arrMeta['recommendation_customField'] ?? null;
         $objTemplate->addLocation = array_key_exists('location', $arrMeta);
         $objTemplate->location = $arrMeta['location'] ?? null;
 
