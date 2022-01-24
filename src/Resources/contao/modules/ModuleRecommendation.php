@@ -139,7 +139,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->addInternalImage = false;
 
         // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
-        $objTemplate->addImage = array_key_exists('recommendation_image', $arrMeta);
+        $objTemplate->addRecommendationImage = array_key_exists('recommendation_image', $arrMeta);
 
         // Add an image
         if ($objRecommendation->imageUrl != '')
