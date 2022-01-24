@@ -270,9 +270,9 @@
         <target>Bewertung absenden</target>
       </trans-unit>
 
-      <trans-unit id="tl_recommendation.recommendation_customFieldLabel">
-        <source>Custom field</source>
-        <target>Benutzerdefiniertes Feld</target>
+      <trans-unit id="tl_recommendation.recommendation_customFormFieldLabel">
+        <source>Field</source>
+        <target>Feld</target>
       </trans-unit>
     </body>
   </file>

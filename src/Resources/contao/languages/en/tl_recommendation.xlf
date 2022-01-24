@@ -203,8 +203,8 @@
         <source>Submit recommendation</source>
       </trans-unit>
 
-      <trans-unit id="tl_recommendation.recommendation_customFieldLabel">
-        <source>Custom field</source>
+      <trans-unit id="tl_recommendation.recommendation_customFormFieldLabel">
+        <source>Field</source>
       </trans-unit>
     </body>
   </file>

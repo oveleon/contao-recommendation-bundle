@@ -44,7 +44,7 @@
         <source>Label: Custom field</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_customFieldLabel.1">
-        <source>Here you can add a label for the custom field.</source>
+        <source>Here you can add a label for the custom field. If the option is empty, the fallback from the tl_recommendation language file is used.</source>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_notify.0">
         <source>E-mail notifications</source>

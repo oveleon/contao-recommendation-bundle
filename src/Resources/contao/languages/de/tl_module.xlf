@@ -58,8 +58,8 @@
         <target>Label: Benutzerdefiniertes Feld</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_customFieldLabel.1">
-        <source>Here you can add a label for the custom field.</source>
-        <target>Hier können Sie eine Beschriftung für das benutzerdefinierte Feld hinzufügen.</target>
+        <source>Here you can add a label for the custom field. If the option is empty, the fallback from the tl_recommendation language file is used.</source>
+        <target>Hier können Sie eine Beschriftung für das benutzerdefinierte Feld hinzufügen. Bei leerer Option wird der Fallback aus der Sprachdatei tl_recommendation genutzt.</target>
       </trans-unit>
       <trans-unit id="tl_module.recommendation_notify.0">
         <source>E-mail notifications</source>

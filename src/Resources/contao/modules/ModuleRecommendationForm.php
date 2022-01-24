@@ -32,6 +32,7 @@ use Psr\Log\LogLevel;
  * @property string		$name
  * @property integer    $recommendation_archive
  * @property array		$recommendation_optionalFormFields
+ * @property string     $recommendation_customFieldLabel
  * @property boolean	$recommendation_notify
  * @property boolean	$recommendation_moderate
  * @property boolean	$recommendation_disableCaptcha
@@ -125,7 +126,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
             'recommendation_customField' => array
             (
                 'name'      => 'customField',
-                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_customFieldLabel'],
+                'label'     => $this->recommendation_customFieldLabel ?: $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_customFormFieldLabel'],
                 'inputType' => 'text',
                 'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
