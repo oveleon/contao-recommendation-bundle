@@ -248,6 +248,10 @@ abstract class ModuleRecommendation extends Module
                     $return['date'] = Date::parse($objPage->datimFormat, $objRecommendation->date);
                     break;
 
+                case 'recommendation_image':
+                    $return['recommendation_image'] = true;
+                    break;
+
                 default:
                     $return[ $field ] = $objRecommendation->{$field};
             }
