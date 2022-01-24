@@ -52,9 +52,9 @@ use Contao\Model\Collection;
 class RecommendationArchiveModel extends Model
 {
 
-	/**
-	 * Table name
-	 * @var string
-	 */
-	protected static $strTable = 'tl_recommendation_archive';
+    /**
+     * Table name
+     * @var string
+     */
+    protected static $strTable = 'tl_recommendation_archive';
 }

@@ -110,11 +110,11 @@ use Contao\Model\Collection;
 class RecommendationModel extends Model
 {
 
-	/**
-	 * Table name
-	 * @var string
-	 */
-	protected static $strTable = 'tl_recommendation';
+    /**
+     * Table name
+     * @var string
+     */
+    protected static $strTable = 'tl_recommendation';
 
     /**
      * Find a published recommendation from one or more recommendation archives by its ID or alias
@@ -145,32 +145,32 @@ class RecommendationModel extends Model
         return static::findOneBy($arrColumns, $varId, $arrOptions);
     }
 
-	/**
-	 * Find published recommendations with the default redirect target by their parent ID
-	 *
-	 * @param integer $intPid     The recommendation archive ID
-	 * @param array   $arrOptions An optional options array
-	 *
-	 * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
-	 */
-	public static function findPublishedByPid($intPid, array $arrOptions=array())
-	{
-		$t = static::$strTable;
-		$arrColumns = array("$t.pid=? AND $t.verified='1'");
+    /**
+     * Find published recommendations with the default redirect target by their parent ID
+     *
+     * @param integer $intPid     The recommendation archive ID
+     * @param array   $arrOptions An optional options array
+     *
+     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
+     */
+    public static function findPublishedByPid($intPid, array $arrOptions=array())
+    {
+        $t = static::$strTable;
+        $arrColumns = array("$t.pid=? AND $t.verified='1'");
 
-		if (!static::isPreviewMode($arrOptions))
-		{
-			$time = Date::floorToMinute();
-			$arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
-		}
+        if (!static::isPreviewMode($arrOptions))
+        {
+            $time = Date::floorToMinute();
+            $arrColumns[] = "($t.start='' OR $t.start<='$time') AND ($t.stop='' OR $t.stop>'" . ($time + 60) . "') AND $t.published='1'";
+        }
 
-		if (!isset($arrOptions['order']))
-		{
-			$arrOptions['order'] = "$t.date DESC";
-		}
+        if (!isset($arrOptions['order']))
+        {
+            $arrOptions['order'] = "$t.date DESC";
+        }
 
-		return static::findBy($arrColumns, $intPid, $arrOptions);
-	}
+        return static::findBy($arrColumns, $intPid, $arrOptions);
+    }
 
     /**
      * Find published recommendations by their parent ID
@@ -202,10 +202,10 @@ class RecommendationModel extends Model
             $arrColumns[] = "$t.featured=''";
         }
 
-		if ($minRating > 1)
-		{
-			$arrColumns[]  = "$t.rating >= $minRating";
-		}
+        if ($minRating > 1)
+        {
+            $arrColumns[]  = "$t.rating >= $minRating";
+        }
 
         if (!static::isPreviewMode($arrOptions))
         {
@@ -252,10 +252,10 @@ class RecommendationModel extends Model
             $arrColumns[] = "$t.featured=''";
         }
 
-		if ($minRating > 1)
-		{
-			$arrColumns[]  = "$t.rating >= $minRating";
-		}
+        if ($minRating > 1)
+        {
+            $arrColumns[]  = "$t.rating >= $minRating";
+        }
 
         if (!static::isPreviewMode($arrOptions))
         {
@@ -266,26 +266,26 @@ class RecommendationModel extends Model
         return static::countBy($arrColumns, null, $arrOptions);
     }
 
-	/**
-	 * Find registrations that have not been activated for more than 24 hours
-	 *
-	 * @param array $arrOptions An optional options array
-	 *
-	 * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
-	 */
-	public static function findExpiredRecommendations(array $arrOptions=array())
-	{
-		$t = static::$strTable;
-		$objDatabase = Database::getInstance();
+    /**
+     * Find registrations that have not been activated for more than 24 hours
+     *
+     * @param array $arrOptions An optional options array
+     *
+     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
+     */
+    public static function findExpiredRecommendations(array $arrOptions=array())
+    {
+        $t = static::$strTable;
+        $objDatabase = Database::getInstance();
 
-		$objResult = $objDatabase->prepare("SELECT * FROM $t WHERE verified='0' AND EXISTS (SELECT * FROM tl_opt_in_related r LEFT JOIN tl_opt_in o ON r.pid=o.id WHERE r.relTable='$t' AND r.relId=$t.id AND o.createdOn<=? AND o.confirmedOn=0)")
-								 ->execute(strtotime('-24 hours'));
+        $objResult = $objDatabase->prepare("SELECT * FROM $t WHERE verified='0' AND EXISTS (SELECT * FROM tl_opt_in_related r LEFT JOIN tl_opt_in o ON r.pid=o.id WHERE r.relTable='$t' AND r.relId=$t.id AND o.createdOn<=? AND o.confirmedOn=0)")
+                                 ->execute(strtotime('-24 hours'));
 
-		if ($objResult->numRows < 1)
-		{
-			return null;
-		}
+        if ($objResult->numRows < 1)
+        {
+            return null;
+        }
 
-		return static::createCollectionFromDbResult($objResult, $t);
-	}
+        return static::createCollectionFromDbResult($objResult, $t);
+    }
 }

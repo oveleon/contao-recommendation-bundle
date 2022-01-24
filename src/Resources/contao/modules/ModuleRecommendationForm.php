@@ -86,16 +86,16 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     protected function compile()
     {
-		System::loadLanguageFile('tl_recommendation');
-		System::loadLanguageFile('tl_recommendation_notification');
+        System::loadLanguageFile('tl_recommendation');
+        System::loadLanguageFile('tl_recommendation_notification');
 
-		// Verify recommendation
-		if (strncmp(Input::get('token'), 'rec-', 4) === 0)
-		{
-			$this->verifyRecommendation();
+        // Verify recommendation
+        if (strncmp(Input::get('token'), 'rec-', 4) === 0)
+        {
+            $this->verifyRecommendation();
 
-			return;
-		}
+            return;
+        }
 
         // Form fields
         $arrFields = array
@@ -122,13 +122,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'text',
                 'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
-			'location' => array
-			(
-				'name'      => 'location',
-				'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['location'],
-				'inputType' => 'text',
-				'eval'      => array('optional'=>true, 'maxlength'=>128),
-			),
+            'location' => array
+            (
+                'name'      => 'location',
+                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['location'],
+                'inputType' => 'text',
+                'eval'      => array('optional'=>true, 'maxlength'=>128),
+            ),
             'text' => array
             (
                 'name'      => 'text',
@@ -136,13 +136,13 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'textarea',
                 'eval'      => array('mandatory'=>true, 'rows'=>4, 'cols'=>40)
             ),
-			'email' => array
-			(
-				'name'      => 'email',
-				'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['email'],
-				'inputType' => 'text',
-				'eval'      => array('optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true),
-			),
+            'email' => array
+            (
+                'name'      => 'email',
+                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['email'],
+                'inputType' => 'text',
+                'eval'      => array('optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true),
+            ),
         );
 
         // Captcha
@@ -158,23 +158,23 @@ class ModuleRecommendationForm extends ModuleRecommendation
         }
 
         // Set e-mail as mandatory and non-optional if comments should be validated via activation mail
-		if ($this->recommendation_activate)
-		{
-			$arrFields['email']['eval']['optional'] = false;
-			$arrFields['email']['eval']['mandatory'] = true;
-		}
+        if ($this->recommendation_activate)
+        {
+            $arrFields['email']['eval']['optional'] = false;
+            $arrFields['email']['eval']['mandatory'] = true;
+        }
 
-		// Set an opt-in checkbox when privacy text is given
-		if ($this->recommendation_privacyText)
-		{
-			$arrFields['privacy'] = array
-			(
-				'name'      => 'privacy',
-				'inputType' => 'checkbox',
-				'options'   => array(1=>$this->recommendation_privacyText),
-				'eval'      => array('mandatory'=>true)
-			);
-		}
+        // Set an opt-in checkbox when privacy text is given
+        if ($this->recommendation_privacyText)
+        {
+            $arrFields['privacy'] = array
+            (
+                'name'      => 'privacy',
+                'inputType' => 'checkbox',
+                'options'   => array(1=>$this->recommendation_privacyText),
+                'eval'      => array('mandatory'=>true)
+            );
+        }
 
         $doNotSubmit = false;
         $arrWidgets = array();
@@ -224,40 +224,40 @@ class ModuleRecommendationForm extends ModuleRecommendation
         }
 
         $this->Template->fields = $arrWidgets;
-		$this->Template->submit = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_submit'];
+        $this->Template->submit = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_submit'];
         $this->Template->formId = $strFormId;
         $this->Template->hasError = $doNotSubmit;
 
-		$session = System::getContainer()->get('session');
+        $session = System::getContainer()->get('session');
 
-		// Do not index or cache the page with the confirmation message
-		if ($session->isStarted())
-		{
-			$flashBag = $session->getFlashBag();
+        // Do not index or cache the page with the confirmation message
+        if ($session->isStarted())
+        {
+            $flashBag = $session->getFlashBag();
 
-			if ($flashBag->has('recommendation_added'))
-			{
-				$this->Template->confirm = $flashBag->get('recommendation_added')[0];
-			}
-		}
+            if ($flashBag->has('recommendation_added'))
+            {
+                $this->Template->confirm = $flashBag->get('recommendation_added')[0];
+            }
+        }
 
         // Store the recommendation
         if (!$doNotSubmit && Input::post('FORM_SUBMIT') == $strFormId)
         {
             $time = time();
 
-			// Do not parse any tags in the recommendation
-			$strText = StringUtil::specialchars(trim($arrWidgets['text']->value));
-			$strText = str_replace(array('&amp;', '&lt;', '&gt;'), array('[&]', '[lt]', '[gt]'), $strText);
+            // Do not parse any tags in the recommendation
+            $strText = StringUtil::specialchars(trim($arrWidgets['text']->value));
+            $strText = str_replace(array('&amp;', '&lt;', '&gt;'), array('[&]', '[lt]', '[gt]'), $strText);
 
-			// Remove multiple line feeds
-			$strText = preg_replace('@\n\n+@', "\n\n", $strText);
+            // Remove multiple line feeds
+            $strText = preg_replace('@\n\n+@', "\n\n", $strText);
 
-			// Prevent cross-site request forgeries
-			$strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strText);
+            // Prevent cross-site request forgeries
+            $strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strText);
 
-			// Prepare the record
-			$arrData = array
+            // Prepare the record
+            $arrData = array
             (
                 'tstamp'    => $time,
                 'pid'       => $this->recommendation_archive,
@@ -277,230 +277,230 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $objRecommendation = new RecommendationModel();
             $objRecommendation->setRow($arrData)->save();
 
-			// Notify system administrator via e-mail
-			if ($this->recommendation_notify && !$this->recommendation_activate)
-			{
-				$this->sendNotificationMail($objRecommendation);
-			}
+            // Notify system administrator via e-mail
+            if ($this->recommendation_notify && !$this->recommendation_activate)
+            {
+                $this->sendNotificationMail($objRecommendation);
+            }
 
-			// Send verification e-mail
-			if ($this->recommendation_activate)
-			{
-				// Unverify recommendation
-				$objRecommendation->verified = 0;
-				$objRecommendation->save();
+            // Send verification e-mail
+            if ($this->recommendation_activate)
+            {
+                // Unverify recommendation
+                $objRecommendation->verified = 0;
+                $objRecommendation->save();
 
-				$this->sendVerificationMail($arrData, $objRecommendation->id);
-			}
+                $this->sendVerificationMail($arrData, $objRecommendation->id);
+            }
 
-			// Check whether there is a jumpTo page
-			if (($objJumpTo = $this->objModel->getRelated('jumpTo')) instanceof PageModel)
-			{
-				$this->jumpToOrReload($objJumpTo->row());
-			}
-			else
-			{
-				$session->getFlashBag()->set('recommendation_added', $this->getFlashBagMessage());
-			}
+            // Check whether there is a jumpTo page
+            if (($objJumpTo = $this->objModel->getRelated('jumpTo')) instanceof PageModel)
+            {
+                $this->jumpToOrReload($objJumpTo->row());
+            }
+            else
+            {
+                $session->getFlashBag()->set('recommendation_added', $this->getFlashBagMessage());
+            }
 
             $this->reload();
         }
     }
 
-	/**
-	 * Convert line feeds to <br /> tags
-	 *
-	 * @param string $strText
-	 *
-	 * @return string
-	 */
-	public function convertLineFeeds($strText)
-	{
+    /**
+     * Convert line feeds to <br /> tags
+     *
+     * @param string $strText
+     *
+     * @return string
+     */
+    public function convertLineFeeds($strText)
+    {
         $strText = preg_replace('/\r?\n/', '<br>', $strText);
 
-		// Use paragraphs to generate new lines
-		if (strncmp('<p>', $strText, 3) !== 0)
-		{
-			$strText = '<p>' . $strText . '</p>';
-		}
+        // Use paragraphs to generate new lines
+        if (strncmp('<p>', $strText, 3) !== 0)
+        {
+            $strText = '<p>' . $strText . '</p>';
+        }
 
-		$arrReplace = array
-		(
-			'@<br>\s?<br>\s?@' => "</p>\n<p>", // Convert two linebreaks into a new paragraph
-			'@\s?<br></p>@'    => '</p>',      // Remove BR tags before closing P tags
-			'@<p><div@'        => '<div',      // Do not nest DIVs inside paragraphs
-			'@</div></p>@'     => '</div>'     // Do not nest DIVs inside paragraphs
-		);
+        $arrReplace = array
+        (
+            '@<br>\s?<br>\s?@' => "</p>\n<p>", // Convert two linebreaks into a new paragraph
+            '@\s?<br></p>@'    => '</p>',      // Remove BR tags before closing P tags
+            '@<p><div@'        => '<div',      // Do not nest DIVs inside paragraphs
+            '@</div></p>@'     => '</div>'     // Do not nest DIVs inside paragraphs
+        );
 
-		return preg_replace(array_keys($arrReplace), array_values($arrReplace), $strText);
-	}
+        return preg_replace(array_keys($arrReplace), array_values($arrReplace), $strText);
+    }
 
-	/**
-	 * Get flashbag message
-	 *
-	 * @return string
-	 */
-	protected function getFlashBagMessage()
-	{
-		// Confirmation e-mail
-		if ($this->recommendation_activate)
-		{
-			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['confirm'];
-		}
-		// Needs approval
-		else if ($this->recommendation_moderate)
-		{
-			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
-		}
-		else
-		{
-			return $GLOBALS['TL_LANG']['tl_recommendation_notification']['added'];
-		}
-	}
+    /**
+     * Get flashbag message
+     *
+     * @return string
+     */
+    protected function getFlashBagMessage()
+    {
+        // Confirmation e-mail
+        if ($this->recommendation_activate)
+        {
+            return $GLOBALS['TL_LANG']['tl_recommendation_notification']['confirm'];
+        }
+        // Needs approval
+        else if ($this->recommendation_moderate)
+        {
+            return $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
+        }
+        else
+        {
+            return $GLOBALS['TL_LANG']['tl_recommendation_notification']['added'];
+        }
+    }
 
-	/**
-	 * Sends a notification to the administrator
-	 *
-	 * @param RecommendationModel $objRecommendation
-	 */
-	protected function sendNotificationMail($objRecommendation)
-	{
-		$strText = $objRecommendation->text;
+    /**
+     * Sends a notification to the administrator
+     *
+     * @param RecommendationModel $objRecommendation
+     */
+    protected function sendNotificationMail($objRecommendation)
+    {
+        $strText = $objRecommendation->text;
 
-		$objEmail = new Email();
-		$objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
-		$objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
-		$objEmail->subject = sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_subject'], Idna::decode(Environment::get('host')));
+        $objEmail = new Email();
+        $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
+        $objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
+        $objEmail->subject = sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_subject'], Idna::decode(Environment::get('host')));
 
-		// Convert the recommendation to plain text
-		$strText = strip_tags($strText);
-		$strText = StringUtil::decodeEntities($strText);
-		$strText = str_replace(array('[&]', '[lt]', '[gt]'), array('&', '<', '>'), $strText);
+        // Convert the recommendation to plain text
+        $strText = strip_tags($strText);
+        $strText = StringUtil::decodeEntities($strText);
+        $strText = str_replace(array('[&]', '[lt]', '[gt]'), array('&', '<', '>'), $strText);
 
-		// Add the recommendation details
-		$objEmail->text = sprintf(
-			$GLOBALS['TL_LANG']['tl_recommendation_notification']['email_message'],
-			$objRecommendation->author,
-			RecommendationArchiveModel::findById($this->recommendation_archive)->title,
-			$objRecommendation->rating,
-			$strText,
-			Idna::decode(Environment::get('base')) . 'contao?do=recommendation&table=tl_recommendation&id=' . $objRecommendation->id . '&act=edit'
-		);
+        // Add the recommendation details
+        $objEmail->text = sprintf(
+            $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_message'],
+            $objRecommendation->author,
+            RecommendationArchiveModel::findById($this->recommendation_archive)->title,
+            $objRecommendation->rating,
+            $strText,
+            Idna::decode(Environment::get('base')) . 'contao?do=recommendation&table=tl_recommendation&id=' . $objRecommendation->id . '&act=edit'
+        );
 
-		// Add a moderation hint to the e-mail
-		if ($this->recommendation_moderate)
-		{
-			$objEmail->text .= "\n" . $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_moderated'] . "\n";
-		}
+        // Add a moderation hint to the e-mail
+        if ($this->recommendation_moderate)
+        {
+            $objEmail->text .= "\n" . $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_moderated'] . "\n";
+        }
 
-		// Send E-mail
-		$objEmail->sendTo($GLOBALS['TL_ADMIN_EMAIL']);
-	}
+        // Send E-mail
+        $objEmail->sendTo($GLOBALS['TL_ADMIN_EMAIL']);
+    }
 
-	/**
-	 * Send the verification mail
-	 *
-	 * @param array		$arrData
-	 * @param integer	$id
-	 */
-	protected function sendVerificationMail($arrData, $id)
-	{
-		/** @var OptIn $optIn */
-		$optIn = System::getContainer()->get('contao.opt-in');
-		$optInToken = $optIn->create('rec', $arrData['email'], array('tl_recommendation'=>array($id)));
+    /**
+     * Send the verification mail
+     *
+     * @param array		$arrData
+     * @param integer	$id
+     */
+    protected function sendVerificationMail($arrData, $id)
+    {
+        /** @var OptIn $optIn */
+        $optIn = System::getContainer()->get('contao.opt-in');
+        $optInToken = $optIn->create('rec', $arrData['email'], array('tl_recommendation'=>array($id)));
 
-		// Prepare the simple token data
-		$arrTokenData = $arrData;
-		$arrTokenData['token'] = $optInToken->getIdentifier();
-		$arrTokenData['domain'] = Idna::decode(Environment::get('host'));
-		$arrTokenData['link'] = Idna::decode(Environment::get('base')) . Environment::get('request') . ((strpos(Environment::get('request'), '?') !== false) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
-		$arrTokenData['channel'] = '';
+        // Prepare the simple token data
+        $arrTokenData = $arrData;
+        $arrTokenData['token'] = $optInToken->getIdentifier();
+        $arrTokenData['domain'] = Idna::decode(Environment::get('host'));
+        $arrTokenData['link'] = Idna::decode(Environment::get('base')) . Environment::get('request') . ((strpos(Environment::get('request'), '?') !== false) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
+        $arrTokenData['channel'] = '';
 
-		// Send the token
-		$optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
-	}
+        // Send the token
+        $optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
+    }
 
-	/**
-	 * Verifies the recommendation
-	 */
-	protected function verifyRecommendation()
-	{
-		$this->Template = new FrontendTemplate('mod_message');
+    /**
+     * Verifies the recommendation
+     */
+    protected function verifyRecommendation()
+    {
+        $this->Template = new FrontendTemplate('mod_message');
 
-		/** @var OptIn $optin */
-		$optIn = System::getContainer()->get('contao.opt-in');
+        /** @var OptIn $optin */
+        $optIn = System::getContainer()->get('contao.opt-in');
 
-		// Find an unconfirmed token
-		if ((!$optInToken = $optIn->find(Input::get('token'))) || !$optInToken->isValid() || \count($arrRelated = $optInToken->getRelatedRecords()) < 1 || key($arrRelated) != 'tl_recommendation' || \count($arrIds = current($arrRelated)) < 1)
-		{
-			$this->Template->type = 'error';
-			$this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
+        // Find an unconfirmed token
+        if ((!$optInToken = $optIn->find(Input::get('token'))) || !$optInToken->isValid() || \count($arrRelated = $optInToken->getRelatedRecords()) < 1 || key($arrRelated) != 'tl_recommendation' || \count($arrIds = current($arrRelated)) < 1)
+        {
+            $this->Template->type = 'error';
+            $this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
 
-			return;
-		}
+            return;
+        }
 
-		if ($optInToken->isConfirmed())
-		{
-			$this->Template->type = 'error';
-			$this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenConfirmed'];
+        if ($optInToken->isConfirmed())
+        {
+            $this->Template->type = 'error';
+            $this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenConfirmed'];
 
-			return;
-		}
+            return;
+        }
 
-		$arrRecommendations = array();
+        $arrRecommendations = array();
 
-		foreach ($arrIds as $intId)
-		{
-			if (!$objRecommendation = RecommendationModel::findByPk($intId))
-			{
-				$this->Template->type = 'error';
-				$this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
+        foreach ($arrIds as $intId)
+        {
+            if (!$objRecommendation = RecommendationModel::findByPk($intId))
+            {
+                $this->Template->type = 'error';
+                $this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
 
-				return;
-			}
+                return;
+            }
 
-			if ($optInToken->getEmail() != $objRecommendation->email)
-			{
-				$this->Template->type = 'error';
-				$this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenEmailMismatch'];
+            if ($optInToken->getEmail() != $objRecommendation->email)
+            {
+                $this->Template->type = 'error';
+                $this->Template->message = $GLOBALS['TL_LANG']['MSC']['tokenEmailMismatch'];
 
-				return;
-			}
+                return;
+            }
 
-			$arrRecommendations[] = $objRecommendation;
-		}
+            $arrRecommendations[] = $objRecommendation;
+        }
 
-		$objRecommendation->verified = 1;
-		$objRecommendation->save();
+        $objRecommendation->verified = 1;
+        $objRecommendation->save();
 
 
-		// Notify system administrator via e-mail
-		if ($this->recommendation_notify)
-		{
-			$this->sendNotificationMail($objRecommendation);
-		}
+        // Notify system administrator via e-mail
+        if ($this->recommendation_notify)
+        {
+            $this->sendNotificationMail($objRecommendation);
+        }
 
-		$optInToken->confirm();
+        $optInToken->confirm();
 
-		// Log activity
-		$logger = System::getContainer()->get('monolog.logger.contao');
-		$logger->log(LogLevel::INFO, 'Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', array('contao' => new ContaoContext(__METHOD__, TL_ACCESS)));
+        // Log activity
+        $logger = System::getContainer()->get('monolog.logger.contao');
+        $logger->log(LogLevel::INFO, 'Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', array('contao' => new ContaoContext(__METHOD__, TL_ACCESS)));
 
-		// Redirect to the jumpTo page
-		if (($objTarget = $this->objModel->getRelated('recommendation_activateJumpTo')) instanceof PageModel)
-		{
-			/** @var PageModel $objTarget */
-			$this->redirect($objTarget->getFrontendUrl());
-		}
-		
-		// Confirm activation
-		$this->Template->type = 'confirm';
+        // Redirect to the jumpTo page
+        if (($objTarget = $this->objModel->getRelated('recommendation_activateJumpTo')) instanceof PageModel)
+        {
+            /** @var PageModel $objTarget */
+            $this->redirect($objTarget->getFrontendUrl());
+        }
 
-		$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['verified'];
+        // Confirm activation
+        $this->Template->type = 'confirm';
 
-		if ($this->recommendation_moderate)
-		{
-			$this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
-		}
-	}
+        $this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['verified'];
+
+        if ($this->recommendation_moderate)
+        {
+            $this->Template->message = $GLOBALS['TL_LANG']['tl_recommendation_notification']['approval'];
+        }
+    }
 }

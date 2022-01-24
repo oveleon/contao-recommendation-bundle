@@ -17,21 +17,21 @@ Contao\CoreBundle\DataContainer\PaletteManipulator::create()
 // Add fields to tl_user_group
 $GLOBALS['TL_DCA']['tl_user']['fields']['recommendations'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_user']['recommendations'],
-	'exclude'                 => true,
-	'inputType'               => 'checkbox',
-	'foreignKey'              => 'tl_recommendation_archive.title',
-	'eval'                    => array('multiple'=>true),
-	'sql'                     => "blob NULL"
+    'label'                   => &$GLOBALS['TL_LANG']['tl_user']['recommendations'],
+    'exclude'                 => true,
+    'inputType'               => 'checkbox',
+    'foreignKey'              => 'tl_recommendation_archive.title',
+    'eval'                    => array('multiple'=>true),
+    'sql'                     => "blob NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_user']['fields']['recommendationp'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_user']['recommendationp'],
-	'exclude'                 => true,
-	'inputType'               => 'checkbox',
-	'options'                 => array('create', 'delete'),
-	'reference'               => &$GLOBALS['TL_LANG']['MSC'],
-	'eval'                    => array('multiple'=>true),
-	'sql'                     => "blob NULL"
+    'label'                   => &$GLOBALS['TL_LANG']['tl_user']['recommendationp'],
+    'exclude'                 => true,
+    'inputType'               => 'checkbox',
+    'options'                 => array('create', 'delete'),
+    'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+    'eval'                    => array('multiple'=>true),
+    'sql'                     => "blob NULL"
 );
