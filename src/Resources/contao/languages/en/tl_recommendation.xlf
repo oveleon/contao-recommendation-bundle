@@ -202,9 +202,41 @@
       <trans-unit id="tl_recommendation.recommendation_submit">
         <source>Submit recommendation</source>
       </trans-unit>
-
       <trans-unit id="tl_recommendation.customFieldLabel">
         <source>Field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.0">
+        <source>%s years ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.1">
+        <source>a year ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.0">
+        <source>%s months ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.1">
+        <source>a month ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.0">
+        <source>%s weeks ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.1">
+        <source>a week ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.0">
+        <source>%s days ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.1">
+        <source>1 day ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.0">
+        <source>%s hours ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.1">
+        <source>1 hour ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.justNow">
+        <source>just now</source>
       </trans-unit>
     </body>
   </file>

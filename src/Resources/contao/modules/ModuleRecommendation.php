@@ -122,8 +122,9 @@ abstract class ModuleRecommendation extends Module
         // Add the meta information
         $objTemplate->addRating = array_key_exists('rating', $arrMeta);
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
-        $objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
+        $objTemplate->datetime = $strDateTime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
         $objTemplate->date = $arrMeta['date'] ?? null;
+        $objTemplate->elapsedTime = self::getElapsedTime($strDateTime);
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
         $objTemplate->author = $arrMeta['author'] ?? null;
         $objTemplate->addCustomField = array_key_exists('customField', $arrMeta);
@@ -340,5 +341,55 @@ abstract class ModuleRecommendation extends Module
             $arrRecommendation['singleSRC'] = $objModel->path;
             $this->addImageToTemplate($objTemplate, $arrRecommendation, null, null, $objModel);
         }
+    }
+
+    /**
+     * Parses a timestamp into a human readable string
+     *
+     * @param string $strDateTime
+     *
+     * @return string
+     */
+    protected function getElapsedTime($strDateTime)
+    {
+        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime());
+
+        if(($years = $objElapsedTime->y) > 0)
+        {
+            return self::translateElapsedTime($years, 'year');
+        }
+        elseif (($months = $objElapsedTime->m) > 0)
+        {
+            return self::translateElapsedTime($months, 'month');
+        }
+        elseif (($weeks = $objElapsedTime->d) > 6)
+        {
+            return self::translateElapsedTime(round($weeks/7), 'week');
+        }
+        elseif (($days = $objElapsedTime->d) > 0)
+        {
+            return self::translateElapsedTime($days, 'day');
+        }
+        elseif (($hours = $objElapsedTime->h) > 0)
+        {
+            return self::translateElapsedTime($hours, 'hour');
+        }
+        else
+        {
+            return $GLOBALS['TL_LANG']['tl_recommendation']['justNow'];
+        }
+    }
+
+    /**
+     * Translates elapsed time
+     *
+     * @param integer $value
+     * @param string $strUnit
+     *
+     * @return string
+     */
+    protected function translateElapsedTime($value, $strUnit = 'justNow')
+    {
+        return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
     }
 }

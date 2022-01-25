@@ -269,10 +269,53 @@
         <source>Submit recommendation</source>
         <target>Bewertung absenden</target>
       </trans-unit>
-
       <trans-unit id="tl_recommendation.customFieldLabel">
         <source>Field</source>
         <target>Feld</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.0">
+        <source>%s years ago</source>
+        <target>vor %s Jahren</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.1">
+        <source>a year ago</source>
+        <target>vor einem Jahr</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.0">
+        <source>%s months ago</source>
+        <target>vor %s Monaten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.1">
+        <source>a month ago</source>
+        <target>vor einem Monat</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.0">
+        <source>%s weeks ago</source>
+        <target>vor %s Wochen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.1">
+        <source>a week ago</source>
+        <target>vor einer Woche</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.0">
+        <source>%s days ago</source>
+        <target>vor %s Tagen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.1">
+        <source>1 day ago</source>
+        <target>vor einem Tag</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.0">
+        <source>%s hours ago</source>
+        <target>vor %s Stunden</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.1">
+        <source>1 hour ago</source>
+        <target>vor einer Stunde</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.justNow">
+        <source>just now</source>
+        <target>gerade eben</target>
       </trans-unit>
     </body>
   </file>

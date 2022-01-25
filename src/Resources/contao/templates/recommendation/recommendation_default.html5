@@ -28,7 +28,7 @@
         <?php endif; ?>
 
         <?php if ($this->addDate): ?>
-          <span class="date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->date ?></time></span>
+          <span class="date"><time datetime="<?= $this->datetime ?>" itemprop="datePublished"><?= $this->elapsedTime ?></time></span>
         <?php endif; ?>
 
         <?php if ($this->addRating): ?>

@@ -87,6 +87,8 @@ class ModuleRecommendationList extends ModuleRecommendation
      */
     protected function compile()
     {
+        System::loadLanguageFile('tl_recommendation');
+
         $limit = null;
         $offset = 0;
 
