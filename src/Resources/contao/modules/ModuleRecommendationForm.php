@@ -123,10 +123,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'text',
                 'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
-            'recommendation_customField' => array
+            'customField' => array
             (
                 'name'      => 'customField',
-                'label'     => $this->recommendation_customFieldLabel ?: $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_customFormFieldLabel'],
+                'label'     => $this->recommendation_customFieldLabel ?: $GLOBALS['TL_LANG']['tl_recommendation']['customFieldLabel'],
                 'inputType' => 'text',
                 'eval'      => array('optional'=>true, 'maxlength'=>255),
             ),
@@ -274,7 +274,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'author' => $arrWidgets['author']->value,
                 'email' => $arrWidgets['email']->value ?: '',
                 'location' => $arrWidgets['location']->value ?: '',
-                'recommendation_customField' => $arrWidgets['customField']->value ?: '',
+                'customField' => $arrWidgets['customField']->value ?: '',
                 'date' => $time,
                 'time' => $time,
                 'text' => $this->convertLineFeeds($strText),

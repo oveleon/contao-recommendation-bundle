@@ -125,7 +125,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
     // Palettes
     'palettes' => array
     (
-        'default'                     => '{title_legend},author,title,alias,email,location;{date_legend},date,time;{recommendation_legend},text,imageUrl,rating,recommendation_customField;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
+        'default'                     => '{title_legend},author,title,alias,email,location;{date_legend},date,time;{recommendation_legend},text,imageUrl,rating,customField;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
     ),
 
     // Fields
@@ -269,9 +269,9 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
             'eval'                    => array('mandatory'=>true, 'tl_class'=>'w50'),
             'sql'                     => "char(1) NOT NULL default ''"
         ),
-        'recommendation_customField' => array
+        'customField' => array
         (
-            'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['recommendation_customField'],
+            'label'                   => &$GLOBALS['TL_LANG']['tl_recommendation']['customField'],
             'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('doNotCopy'=>true, 'maxlength'=>255, 'tl_class'=>'w100 clr'),

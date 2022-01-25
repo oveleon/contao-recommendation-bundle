@@ -61,11 +61,11 @@
         <source>Here you can enter a recommendation.</source>
         <target>Hier können Sie die Bewertung eingeben.</target>
       </trans-unit>
-      <trans-unit id="tl_recommendation.recommendation_customField.0">
+      <trans-unit id="tl_recommendation.customField.0">
         <source>Custom field</source>
         <target>Benutzerdefiniertes Feld</target>
       </trans-unit>
-      <trans-unit id="tl_recommendation.recommendation_customField.1">
+      <trans-unit id="tl_recommendation.customField.1">
         <source>Here you can add additional text that should be displayed within the recommendation.</source>
         <target>Hier können Sie einen zusätzlichen Text hinzufügen, der in der Bewertung angezeigt werden soll.</target>
       </trans-unit>
@@ -270,7 +270,7 @@
         <target>Bewertung absenden</target>
       </trans-unit>
 
-      <trans-unit id="tl_recommendation.recommendation_customFormFieldLabel">
+      <trans-unit id="tl_recommendation.customFieldLabel">
         <source>Field</source>
         <target>Feld</target>
       </trans-unit>

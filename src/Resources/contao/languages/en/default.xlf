@@ -1,18 +1,6 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en">
     <body>
-      <trans-unit id="MSC.rating">
-        <source>Rating</source>
-      </trans-unit>
-      <trans-unit id="MSC.location">
-        <source>Location</source>
-      </trans-unit>
-      <trans-unit id="MSC.recommendation_image">
-        <source>Image</source>
-      </trans-unit>
-      <trans-unit id="MSC.recommendation_customField">
-        <source>Custom field</source>
-      </trans-unit>
       <trans-unit id="MSC.emptyRecommendationList">
         <source>Currently there are no recommendations.</source>
       </trans-unit>

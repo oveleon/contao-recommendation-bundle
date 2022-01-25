@@ -126,8 +126,8 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->date = $arrMeta['date'] ?? null;
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
         $objTemplate->author = $arrMeta['author'] ?? null;
-        $objTemplate->addCustomField = array_key_exists('recommendation_customField', $arrMeta);
-        $objTemplate->customField = $arrMeta['recommendation_customField'] ?? null;
+        $objTemplate->addCustomField = array_key_exists('customField', $arrMeta);
+        $objTemplate->customField = $arrMeta['customField'] ?? null;
         $objTemplate->addLocation = array_key_exists('location', $arrMeta);
         $objTemplate->location = $arrMeta['location'] ?? null;
 
@@ -139,7 +139,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->addInternalImage = false;
 
         // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
-        $objTemplate->addRecommendationImage = array_key_exists('recommendation_image', $arrMeta);
+        $objTemplate->addRecommendationImage = array_key_exists('image', $arrMeta);
 
         // Add an image
         if ($objRecommendation->imageUrl != '')
@@ -248,8 +248,8 @@ abstract class ModuleRecommendation extends Module
                     $return['date'] = Date::parse($objPage->datimFormat, $objRecommendation->date);
                     break;
 
-                case 'recommendation_image':
-                    $return['recommendation_image'] = true;
+                case 'image':
+                    $return['image'] = true;
                     break;
 
                 default:

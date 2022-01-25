@@ -1,9 +1,9 @@
 <div class="layout_default arc_<?= $this->archiveId ?> block<?= $this->class ?>">
 
   <?php if ($this->addRecommendationImage): ?>
-    <?php if ($this->addImage && $this->addInternalImage): ?>
+    <?php if ($this->addInternalImage): ?>
       <?php $this->insert('image', $this->arrData); ?>
-    <?php elseif ($this->addImage && $this->addExternalImage): ?>
+    <?php elseif ($this->addExternalImage): ?>
       <figure class="image_container">
         <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
       </figure>
