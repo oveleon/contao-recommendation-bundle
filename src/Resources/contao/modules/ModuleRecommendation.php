@@ -124,7 +124,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
         $objTemplate->datetime = $strDateTime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
         $objTemplate->date = $arrMeta['date'] ?? null;
-        $objTemplate->elapsedTime = self::getElapsedTime($strDateTime);
+        $objTemplate->elapsedTime = $this->getElapsedTime($strDateTime);
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
         $objTemplate->author = $arrMeta['author'] ?? null;
         $objTemplate->addCustomField = array_key_exists('customField', $arrMeta);
@@ -356,23 +356,23 @@ abstract class ModuleRecommendation extends Module
 
         if(($years = $objElapsedTime->y) > 0)
         {
-            return self::translateElapsedTime($years, 'year');
+            return $this->translateElapsedTime($years, 'year');
         }
         elseif (($months = $objElapsedTime->m) > 0)
         {
-            return self::translateElapsedTime($months, 'month');
+            return $this->translateElapsedTime($months, 'month');
         }
         elseif (($weeks = $objElapsedTime->d) > 6)
         {
-            return self::translateElapsedTime(round($weeks/7), 'week');
+            return $this->translateElapsedTime(round($weeks/7), 'week');
         }
         elseif (($days = $objElapsedTime->d) > 0)
         {
-            return self::translateElapsedTime($days, 'day');
+            return $this->translateElapsedTime($days, 'day');
         }
         elseif (($hours = $objElapsedTime->h) > 0)
         {
-            return self::translateElapsedTime($hours, 'hour');
+            return $this->translateElapsedTime($hours, 'hour');
         }
         else
         {
