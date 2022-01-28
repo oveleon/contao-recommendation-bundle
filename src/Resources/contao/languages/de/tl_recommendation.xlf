@@ -61,6 +61,14 @@
         <source>Here you can enter a recommendation.</source>
         <target>Hier können Sie die Bewertung eingeben.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.customField.0">
+        <source>Custom field</source>
+        <target>Benutzerdefiniertes Feld</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customField.1">
+        <source>Here you can add additional text that should be displayed within the recommendation.</source>
+        <target>Hier können Sie einen zusätzlichen Text hinzufügen, der in der Bewertung angezeigt werden soll.</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
         <target>Teasertext</target>
@@ -260,6 +268,54 @@
       <trans-unit id="tl_recommendation.recommendation_submit">
         <source>Submit recommendation</source>
         <target>Bewertung absenden</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customFieldLabel">
+        <source>Field</source>
+        <target>Feld</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.0">
+        <source>%s years ago</source>
+        <target>vor %s Jahren</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.1">
+        <source>a year ago</source>
+        <target>vor einem Jahr</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.0">
+        <source>%s months ago</source>
+        <target>vor %s Monaten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.1">
+        <source>a month ago</source>
+        <target>vor einem Monat</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.0">
+        <source>%s weeks ago</source>
+        <target>vor %s Wochen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.1">
+        <source>a week ago</source>
+        <target>vor einer Woche</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.0">
+        <source>%s days ago</source>
+        <target>vor %s Tagen</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.1">
+        <source>1 day ago</source>
+        <target>vor einem Tag</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.0">
+        <source>%s hours ago</source>
+        <target>vor %s Stunden</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.1">
+        <source>1 hour ago</source>
+        <target>vor einer Stunde</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.justNow">
+        <source>just now</source>
+        <target>gerade eben</target>
       </trans-unit>
     </body>
   </file>

@@ -5,18 +5,23 @@
     <h1 itemprop="name"><?= $this->headline ?></h1>
   <?php endif; ?>
 
-  <?php if ($this->addInternalImage): ?>
-    <?php $this->insert('image', $this->arrData); ?>
-  <?php elseif ($this->addExternalImage): ?>
-    <figure class="image_container">
-      <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
-    </figure>
+  <?php if ($this->addRecommendationImage): ?>
+    <?php if ($this->addInternalImage): ?>
+      <?php $this->insert('image', $this->arrData); ?>
+    <?php elseif ($this->addExternalImage): ?>
+      <figure class="image_container">
+        <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
+      </figure>
+    <?php endif; ?>
   <?php endif; ?>
 
   <?php if ($this->addAuthor || $this->addDate || $this->addRating || $this->addLocation): ?>
     <div class="info">
       <?php if ($this->addAuthor): ?>
         <span class="author"><?= $this->author ?></span>
+      <?php endif; ?>
+      <?php if ($this->addCustomField): ?>
+        <span class="additional"><?= $this->customField ?></span>
       <?php endif; ?>
       <?php if ($this->addLocation): ?>
         <span class="location"><?= $this->location ?></span>

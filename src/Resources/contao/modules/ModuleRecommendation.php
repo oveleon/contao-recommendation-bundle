@@ -27,6 +27,7 @@ use Contao\System;
  * @property mixed  $recommendation_metaFields
  *
  * @author Fabian Ekert <fabian@oveleon.de>
+ * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -75,42 +76,42 @@ abstract class ModuleRecommendation extends Module
         return $arrArchives;
     }
 
-	/**
-	 * Parse an item and return it as string
-	 *
-	 * @param RecommendationModel        $objRecommendation
-	 * @param RecommendationArchiveModel $objRecommendationArchive
-	 * @param string                     $strClass
-	 * @param integer                    $intCount
-	 *
-	 * @return string
-	 */
-	protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
-	{
-		/** @var FrontendTemplate|object $objTemplate */
-		$objTemplate = new FrontendTemplate($this->recommendation_template);
-		$objTemplate->setData($objRecommendation->row());
+    /**
+     * Parse an item and return it as string
+     *
+     * @param RecommendationModel        $objRecommendation
+     * @param RecommendationArchiveModel $objRecommendationArchive
+     * @param string                     $strClass
+     * @param integer                    $intCount
+     *
+     * @return string
+     */
+    protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
+    {
+        /** @var FrontendTemplate|object $objTemplate */
+        $objTemplate = new FrontendTemplate($this->recommendation_template ?: 'recommendation_default');
+        $objTemplate->setData($objRecommendation->row());
 
-		if ($objRecommendation->cssClass != '')
-		{
-			$strClass = ' ' . $objRecommendation->cssClass . $strClass;
-		}
+        if ($objRecommendation->cssClass != '')
+        {
+            $strClass = ' ' . $objRecommendation->cssClass . $strClass;
+        }
 
-		if ($objRecommendation->featured)
-		{
-			$strClass = ' featured' . $strClass;
-		}
+        if ($objRecommendation->featured)
+        {
+            $strClass = ' featured' . $strClass;
+        }
 
-		$objTemplate->class = $strClass;
+        $objTemplate->class = $strClass;
         $objTemplate->archiveId = $objRecommendationArchive->id;
 
-		if ($objRecommendationArchive->jumpTo)
+        if ($objRecommendationArchive->jumpTo)
         {
             $objTemplate->allowRedirect = true;
             $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $objRecommendation->title, true);
         }
 
-		if ($objRecommendation->title)
+        if ($objRecommendation->title)
         {
             $objTemplate->headlineLink = $objRecommendationArchive->jumpTo ? $this->generateLink($objRecommendation->title, $objRecommendation, $objRecommendation->title) : $objRecommendation->title;
             $objTemplate->headline = $objRecommendation->title;
@@ -118,26 +119,32 @@ abstract class ModuleRecommendation extends Module
 
         $arrMeta = $this->getMetaFields($objRecommendation);
 
-		// Add the meta information
+        // Add the meta information
         $objTemplate->addRating = array_key_exists('rating', $arrMeta);
         $objTemplate->addDate = array_key_exists('date', $arrMeta);
-        $objTemplate->datetime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
+        $objTemplate->datetime = $strDateTime = date('Y-m-d\TH:i:sP', $objRecommendation->date);
         $objTemplate->date = $arrMeta['date'] ?? null;
+        $objTemplate->elapsedTime = $this->getElapsedTime($strDateTime);
         $objTemplate->addAuthor = array_key_exists('author', $arrMeta);
         $objTemplate->author = $arrMeta['author'] ?? null;
+        $objTemplate->addCustomField = array_key_exists('customField', $arrMeta);
+        $objTemplate->customField = $arrMeta['customField'] ?? null;
         $objTemplate->addLocation = array_key_exists('location', $arrMeta);
         $objTemplate->location = $arrMeta['location'] ?? null;
 
-		// Add styles
+        // Add styles
         $color = unserialize(Config::get('recommendationActiveColor'))[0];
         $objTemplate->styles = $color ? ' style="color:#'.$color.'"' : '';
 
         $objTemplate->addExternalImage = false;
         $objTemplate->addInternalImage = false;
 
-		// Add an image
-		if ($objRecommendation->imageUrl != '')
-		{
+        // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
+        $objTemplate->addRecommendationImage = array_key_exists('image', $arrMeta);
+
+        // Add an image
+        if ($objRecommendation->imageUrl != '')
+        {
             $objRecommendation->imageUrl = Controller::replaceInsertTags($objRecommendation->imageUrl);
 
             if ($this->isExternal($objRecommendation->imageUrl))
@@ -152,122 +159,126 @@ abstract class ModuleRecommendation extends Module
 
                 $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
             }
-		}
-		elseif (Config::get('recommendationDefaultImage'))
+        }
+        elseif (Config::get('recommendationDefaultImage'))
         {
             $objModel = FilesModel::findByUuid(Config::get('recommendationDefaultImage'));
 
             $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
         }
 
-		// HOOK: add custom logic
-		if (isset($GLOBALS['TL_HOOKS']['parseRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['parseRecommendation']))
-		{
-			foreach ($GLOBALS['TL_HOOKS']['parseRecommendation'] as $callback)
-			{
-				$this->import($callback[0]);
-				$this->{$callback[0]}->{$callback[1]}($objTemplate, $objRecommendation->row(), $this);
-			}
-		}
-		
-		// Tag recommendations
-		if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
-		{
-			$responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
-			$responseTagger->addTags(array('contao.db.tl_recommendation.' . $objRecommendation->id));
-		}
+        // HOOK: add custom logic
+        if (isset($GLOBALS['TL_HOOKS']['parseRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['parseRecommendation']))
+        {
+            foreach ($GLOBALS['TL_HOOKS']['parseRecommendation'] as $callback)
+            {
+                $this->import($callback[0]);
+                $this->{$callback[0]}->{$callback[1]}($objTemplate, $objRecommendation->row(), $this);
+            }
+        }
 
-		return $objTemplate->parse();
-	}
+        // Tag recommendations
+        if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+        {
+            $responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+            $responseTagger->addTags(array('contao.db.tl_recommendation.' . $objRecommendation->id));
+        }
 
-	/**
-	 * Parse one or more items and return them as array
-	 *
-	 * @param Collection $objRecommendations
-	 *
-	 * @return array
-	 */
-	protected function parseRecommendations($objRecommendations)
-	{
-		$limit = $objRecommendations->count();
+        return $objTemplate->parse();
+    }
 
-		if ($limit < 1)
-		{
-			return array();
-		}
+    /**
+     * Parse one or more items and return them as array
+     *
+     * @param Collection $objRecommendations
+     *
+     * @return array
+     */
+    protected function parseRecommendations($objRecommendations)
+    {
+        $limit = $objRecommendations->count();
 
-		$count = 0;
-		$arrRecommendations = array();
+        if ($limit < 1)
+        {
+            return array();
+        }
 
-		while ($objRecommendations->next())
-		{
-			/** @var RecommendationModel $objRecommendation */
-			$objRecommendation = $objRecommendations->current();
+        $count = 0;
+        $arrRecommendations = array();
+
+        while ($objRecommendations->next())
+        {
+            /** @var RecommendationModel $objRecommendation */
+            $objRecommendation = $objRecommendations->current();
 
             /** @var RecommendationArchiveModel $objRecommendationArchive */
-			$objRecommendationArchive = $objRecommendation->getRelated('pid');
+            $objRecommendationArchive = $objRecommendation->getRelated('pid');
 
-			$arrRecommendations[] = $this->parseRecommendation($objRecommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
-		}
+            $arrRecommendations[] = $this->parseRecommendation($objRecommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
+        }
 
-		return $arrRecommendations;
-	}
+        return $arrRecommendations;
+    }
 
-	/**
-	 * Return the meta fields of a recommendation as array
-	 *
-	 * @param RecommendationModel $objRecommendation
-	 *
-	 * @return array
-	 */
-	protected function getMetaFields($objRecommendation)
-	{
-		$meta = StringUtil::deserialize($this->recommendation_metaFields);
+    /**
+     * Return the meta fields of a recommendation as array
+     *
+     * @param RecommendationModel $objRecommendation
+     *
+     * @return array
+     */
+    protected function getMetaFields($objRecommendation)
+    {
+        $meta = StringUtil::deserialize($this->recommendation_metaFields);
 
-		if (!\is_array($meta))
-		{
-			return array();
-		}
+        if (!\is_array($meta))
+        {
+            return array();
+        }
 
-		/** @var PageModel $objPage */
-		global $objPage;
+        /** @var PageModel $objPage */
+        global $objPage;
 
-		$return = array();
+        $return = array();
 
-		foreach ($meta as $field)
-		{
-			switch ($field)
-			{
-				case 'date':
-					$return['date'] = Date::parse($objPage->datimFormat, $objRecommendation->date);
-					break;
+        foreach ($meta as $field)
+        {
+            switch ($field)
+            {
+                case 'date':
+                    $return['date'] = Date::parse($objPage->datimFormat, $objRecommendation->date);
+                    break;
+
+                case 'image':
+                    $return['image'] = true;
+                    break;
 
                 default:
                     $return[ $field ] = $objRecommendation->{$field};
-			}
-		}
+            }
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * Generate a link and return it as string
-	 *
-	 * @param string              $strLink
-	 * @param RecommendationModel $objRecommendation
-	 * @param string              $strTitle
-	 * @param boolean             $blnIsReadMore
-	 *
-	 * @return string
-	 */
-	protected function generateLink($strLink, $objRecommendation, $strTitle, $blnIsReadMore=false)
-	{
+    /**
+     * Generate a link and return it as string
+     *
+     * @param string              $strLink
+     * @param RecommendationModel $objRecommendation
+     * @param string              $strTitle
+     * @param boolean             $blnIsReadMore
+     *
+     * @return string
+     */
+    protected function generateLink($strLink, $objRecommendation, $strTitle, $blnIsReadMore=false)
+    {
         return sprintf('<a href="%s" title="%s" itemprop="url">%s%s</a>',
                         $this->generateRecommendationUrl($objRecommendation),
                         StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $strTitle), true),
                         $strLink,
                         ($blnIsReadMore ? '<span class="invisible"> '.$strTitle.'</span>' : ''));
-	}
+    }
 
     /**
      * Generate a URL and return it as string
@@ -276,7 +287,7 @@ abstract class ModuleRecommendation extends Module
      *
      * @return string
      */
-	protected function generateRecommendationUrl($objRecommendation)
+    protected function generateRecommendationUrl($objRecommendation)
     {
         $objPage = PageModel::findByPk($objRecommendation->getRelated('pid')->jumpTo);
 
@@ -290,7 +301,7 @@ abstract class ModuleRecommendation extends Module
      *
      * @return boolean
      */
-	protected function isExternal($strPath)
+    protected function isExternal($strPath)
     {
         if (substr($strPath, 0, 7) == 'http://' || substr($strPath, 0, 8) == 'https://')
         {
@@ -321,7 +332,7 @@ abstract class ModuleRecommendation extends Module
             {
                 $size = StringUtil::deserialize($this->imgSize);
 
-				if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]) || ($size[2][0] ?? null) === '_')
+                if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]) || ($size[2][0] ?? null) === '_')
                 {
                     $arrRecommendation['size'] = $this->imgSize;
                 }
@@ -330,5 +341,55 @@ abstract class ModuleRecommendation extends Module
             $arrRecommendation['singleSRC'] = $objModel->path;
             $this->addImageToTemplate($objTemplate, $arrRecommendation, null, null, $objModel);
         }
+    }
+
+    /**
+     * Parses a timestamp into a human readable string
+     *
+     * @param string $strDateTime
+     *
+     * @return string
+     */
+    protected function getElapsedTime($strDateTime)
+    {
+        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime());
+
+        if(($years = $objElapsedTime->y) > 0)
+        {
+            return $this->translateElapsedTime($years, 'year');
+        }
+        elseif (($months = $objElapsedTime->m) > 0)
+        {
+            return $this->translateElapsedTime($months, 'month');
+        }
+        elseif (($weeks = $objElapsedTime->d) > 6)
+        {
+            return $this->translateElapsedTime(round($weeks/7), 'week');
+        }
+        elseif (($days = $objElapsedTime->d) > 0)
+        {
+            return $this->translateElapsedTime($days, 'day');
+        }
+        elseif (($hours = $objElapsedTime->h) > 0)
+        {
+            return $this->translateElapsedTime($hours, 'hour');
+        }
+        else
+        {
+            return $GLOBALS['TL_LANG']['tl_recommendation']['justNow'];
+        }
+    }
+
+    /**
+     * Translates elapsed time
+     *
+     * @param integer $value
+     * @param string $strUnit
+     *
+     * @return string
+     */
+    protected function translateElapsedTime($value, $strUnit = 'justNow')
+    {
+        return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
     }
 }

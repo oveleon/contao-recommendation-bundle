@@ -46,6 +46,12 @@
       <trans-unit id="tl_recommendation.rating.1">
         <source>Here you can enter a recommendation.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.customField.0">
+        <source>Custom field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customField.1">
+        <source>Here you can add additional text that should be displayed within the recommendation.</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
       </trans-unit>
@@ -195,6 +201,42 @@
       </trans-unit>
       <trans-unit id="tl_recommendation.recommendation_submit">
         <source>Submit recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customFieldLabel">
+        <source>Field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.0">
+        <source>%s years ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.1">
+        <source>a year ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.0">
+        <source>%s months ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.1">
+        <source>a month ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.0">
+        <source>%s weeks ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.1">
+        <source>a week ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.0">
+        <source>%s days ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.1">
+        <source>1 day ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.0">
+        <source>%s hours ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.1">
+        <source>1 hour ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.justNow">
+        <source>just now</source>
       </trans-unit>
     </body>
   </file>
