@@ -133,7 +133,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->location = $arrMeta['location'] ?? null;
 
         // Add styles
-        $color = unserialize(Config::get('recommendationActiveColor'))[0];
+        $color = unserialize(Config::get('recommendationActiveColor'))[0] ?? null;
         $objTemplate->styles = $color ? ' style="color:#'.$color.'"' : '';
 
         $objTemplate->addExternalImage = false;

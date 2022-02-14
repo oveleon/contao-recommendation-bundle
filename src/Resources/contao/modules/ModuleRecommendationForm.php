@@ -21,7 +21,6 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
-use Patchwork\Utf8;
 use Psr\Log\LogLevel;
 
 /**
@@ -63,7 +62,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationform'][0]) . ' ###';
+            $objTemplate->wildcard = '### ' . mb_strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationform'][0], 'UTF-8') . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;

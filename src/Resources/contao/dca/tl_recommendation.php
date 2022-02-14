@@ -167,7 +167,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = array
             (
                 array('tl_recommendation', 'generateAlias')
             ),
-            'sql'                     => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+            'sql'                     => "varchar(255) BINARY NOT NULL default ''"
         ),
         'author' => array
         (
