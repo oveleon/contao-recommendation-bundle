@@ -16,7 +16,6 @@ use Contao\Environment;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
-use Patchwork\Utf8;
 
 /**
  * Front end module "recommendation reader".
@@ -46,7 +45,7 @@ class ModuleRecommendationReader extends ModuleRecommendation
         if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationreader'][0]) . ' ###';
+            $objTemplate->wildcard = '### ' . mb_strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationreader'][0], 'UTF-8') . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
