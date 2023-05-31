@@ -226,6 +226,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
         ],
         'featured' => [
             'exclude'                 => true,
+            'toggle'                  => true,
             'filter'                  => true,
             'inputType'               => 'checkbox',
             'eval'                    => ['tl_class'=>'w50 m12'],
@@ -238,6 +239,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
         ],
         'published' => [
             'exclude'                 => true,
+            'toggle'                  => true,
             'filter'                  => true,
             'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'inputType'               => 'checkbox',
