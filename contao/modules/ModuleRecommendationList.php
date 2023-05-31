@@ -24,8 +24,6 @@ use Contao\System;
  * @property array  $recommendation_archives
  * @property string $recommendation_featured
  * @property string $recommendation_order
- *
- * @author Fabian Ekert <fabian@oveleon.de>
  */
 class ModuleRecommendationList extends ModuleRecommendation
 {
@@ -260,3 +258,5 @@ class ModuleRecommendationList extends ModuleRecommendation
         return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, ['order'=>$order]);
     }
 }
+
+class_alias(ModuleRecommendationList::class, 'ModuleRecommendationList');

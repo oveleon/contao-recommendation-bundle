@@ -104,8 +104,6 @@ use Contao\Model\Collection;
  * @method static integer countByPublished($val, array $opt=array())
  * @method static integer countByStart($val, array $opt=array())
  * @method static integer countByStop($val, array $opt=array())
- *
- * @author Fabian Ekert <fabian@oveleon.de>
  */
 class RecommendationModel extends Model
 {
@@ -289,3 +287,5 @@ class RecommendationModel extends Model
         return static::createCollectionFromDbResult($objResult, $t);
     }
 }
+
+class_alias(RecommendationModel::class, 'RecommendationModel');

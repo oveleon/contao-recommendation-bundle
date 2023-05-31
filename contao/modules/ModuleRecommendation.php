@@ -25,9 +25,6 @@ use Contao\System;
  *
  * @property string $recommendation_template
  * @property mixed  $recommendation_metaFields
- *
- * @author Fabian Ekert <fabian@oveleon.de>
- * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -56,6 +53,7 @@ abstract class ModuleRecommendation extends Module
             {
                 if ($objArchive->protected)
                 {
+                    // ToDo: rewrite for contao ^5.x
                     if (!FE_USER_LOGGED_IN)
                     {
                         continue;
@@ -320,6 +318,7 @@ abstract class ModuleRecommendation extends Module
      */
     protected function addInternalImage($objModel, $objRecommendation, &$objTemplate)
     {
+        // ToDo: rewrite for contao ^5.x
         if ($objModel !== null && is_file(TL_ROOT . '/' . $objModel->path))
         {
             $objTemplate->addInternalImage = true;

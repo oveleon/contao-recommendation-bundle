@@ -46,8 +46,6 @@ use Contao\Model\Collection;
  * @method static integer countByJumpTo($val, array $opt=array())
  * @method static integer countByProtected($val, array $opt=array())
  * @method static integer countByGroups($val, array $opt=array())
- *
- * @author Fabian Ekert <fabian@oveleon.de>
  */
 class RecommendationArchiveModel extends Model
 {
@@ -58,3 +56,5 @@ class RecommendationArchiveModel extends Model
      */
     protected static $strTable = 'tl_recommendation_archive';
 }
+
+class_alias(RecommendationArchiveModel::class, 'RecommendationArchiveModel');

@@ -481,6 +481,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $optInToken->confirm();
 
         // Log activity
+        // ToDo: rewrite for contao ^5.x
         $logger = System::getContainer()->get('monolog.logger.contao');
         $logger->log(LogLevel::INFO, 'Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', ['contao' => new ContaoContext(__METHOD__, TL_ACCESS)]);
 
@@ -502,3 +503,5 @@ class ModuleRecommendationForm extends ModuleRecommendation
         }
     }
 }
+
+class_alias(ModuleRecommendationForm::class, 'ModuleRecommendationForm');

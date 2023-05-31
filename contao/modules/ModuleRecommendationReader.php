@@ -21,8 +21,6 @@ use Contao\System;
  * Front end module "recommendation reader".
  *
  * @property array    $recommendation_archives
- *
- * @author Fabian Ekert <fabian@oveleon.de>
  */
 class ModuleRecommendationReader extends ModuleRecommendation
 {
@@ -100,3 +98,5 @@ class ModuleRecommendationReader extends ModuleRecommendation
         $this->Template->recommendation = $arrRecommendation;
     }
 }
+
+class_alias(ModuleRecommendationReader::class, 'ModuleRecommendationReader');
