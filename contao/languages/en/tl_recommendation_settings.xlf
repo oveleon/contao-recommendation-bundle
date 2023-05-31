@@ -1,0 +1,21 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_recommendation_settings.php" source-language="en">
+    <body>
+      <trans-unit id="tl_recommendation_settings.recommendationDefaultImage.0">
+        <source>Default image</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationDefaultImage.1">
+        <source>The default image is displayed for recommendations that have not set their own image.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationActiveColor.0">
+        <source>Color of active stars</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationActiveColor.1">
+        <source>Color value will be set as inline css style in the html code.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendation_legend">
+        <source>Settings</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

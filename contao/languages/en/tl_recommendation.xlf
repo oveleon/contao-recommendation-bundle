@@ -1,0 +1,243 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_recommendation.php" source-language="en">
+    <body>
+      <trans-unit id="tl_recommendation.notVerified">
+        <source>Not verified</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.title.0">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.title.1">
+        <source>Please enter the recommendation title.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.alias.0">
+        <source>Recommendation alias</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.alias.1">
+        <source>The recommendation alias is a unique reference to the recommendation which can be called instead of its numeric ID.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.author.0">
+        <source>Author</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.author.1">
+        <source>Here you can change the author of the recommendation.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.location.0">
+        <source>Location</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.location.1">
+        <source>Here you can enter the name of the location.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date.0">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date.1">
+        <source>Please enter the date according to the global date format.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.time.0">
+        <source>Time</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.time.1">
+        <source>Please enter the time according to the global time format.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.rating.0">
+        <source>Rating</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.rating.1">
+        <source>Here you can enter a recommendation.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customField.0">
+        <source>Custom field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customField.1">
+        <source>Here you can add additional text that should be displayed within the recommendation.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser.0">
+        <source>Recommendation teaser</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser.1">
+        <source>The recommendation teaser can be shown in a recommendation list instead of the full text. A &quot;read more …&quot; link will be added automatically.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.text.0">
+        <source>Recommendation text</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.text.1">
+        <source>Here you can enter the recommendation text.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.email.0">
+        <source>E-mail address</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.email.1">
+        <source>The e-mail address will not be published.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.image.0">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.imageUrl.0">
+        <source>Image</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.imageUrl.1">
+        <source>Here you can enter a recommendation image.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cssClass.0">
+        <source>CSS class</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cssClass.1">
+        <source>Here you can enter one or more classes.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured.0">
+        <source>Feature recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.featured.1">
+        <source>Show the recommendation in a featured recommendation list.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.published.0">
+        <source>Publish recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.published.1">
+        <source>Make the recommendation publicly visible on the website.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.verified.0">
+        <source>Verified</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.verified.1">
+        <source>Indicates if the rating is verified.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.start.0">
+        <source>Show from</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.start.1">
+        <source>Do not show the recommendation on the website before this day.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.stop.0">
+        <source>Show until</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.stop.1">
+        <source>Do not show the recommendation on the website on and after this day.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.tstamp.0">
+        <source>Revision date</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.tstamp.1">
+        <source>Date and time of the latest revision</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.title_legend">
+        <source>Title and author</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.date_legend">
+        <source>Date and time</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_legend">
+        <source>Recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.teaser_legend">
+        <source>Teaser</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.expert_legend">
+        <source>Expert settings</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.publish_legend">
+        <source>Publish settings</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.new.0">
+        <source>New recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.new.1">
+        <source>Create a new recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.show.0">
+        <source>Recommendation details</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.show.1">
+        <source>Show the details of recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.edit.0">
+        <source>Edit recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.edit.1">
+        <source>Edit recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.copy.0">
+        <source>Duplicate recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.copy.1">
+        <source>Duplicate recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cut.0">
+        <source>Move recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.cut.1">
+        <source>Move recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.delete.0">
+        <source>Delete recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.delete.1">
+        <source>Delete recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.toggle.0">
+        <source>Publish/unpublish recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.toggle.1">
+        <source>Publish/unpublish recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.feature.0">
+        <source>Feature/unfeature recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.feature.1">
+        <source>Feature/unfeature recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.editmeta.0">
+        <source>Edit recommendation settings</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.editmeta.1">
+        <source>Edit the recommendation settings</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.pasteafter.0">
+        <source>Paste into this recommendation archive</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.pasteafter.1">
+        <source>Paste after recommendation ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.recommendation_submit">
+        <source>Submit recommendation</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.customFieldLabel">
+        <source>Field</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.0">
+        <source>%s years ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.year.1">
+        <source>a year ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.0">
+        <source>%s months ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.month.1">
+        <source>a month ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.0">
+        <source>%s weeks ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.week.1">
+        <source>a week ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.0">
+        <source>%s days ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.day.1">
+        <source>1 day ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.0">
+        <source>%s hours ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.hour.1">
+        <source>1 hour ago</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.justNow">
+        <source>just now</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

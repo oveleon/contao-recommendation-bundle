@@ -26,12 +26,12 @@ class Plugin implements BundlePluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(ContaoRecommendationBundle::class)
+                ->setReplace(['recommendation'])
                 ->setLoadAfter([ContaoCoreBundle::class])
-                ->setReplace(['recommendation']),
         ];
     }
 }
