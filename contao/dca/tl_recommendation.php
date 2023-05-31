@@ -8,8 +8,7 @@
 
 use Contao\DataContainer;
 use Contao\DC_Table;
-use Oveleon\ContaoRecommendationBundle\EventListener\DataContainer\DataContainerListener;
-use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\EventListener\DataContainer\RecommendationListener;
 
 $GLOBALS['TL_DCA']['tl_recommendation'] = [
     // Config
@@ -19,21 +18,21 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
         'switchToEdit'                => true,
         'enableVersioning'            => true,
         'onload_callback' => [
-            [DataContainerListener::class, 'checkRecommendationPermission'],
-            ['tl_recommendation', 'generateSitemap']
+            [RecommendationListener::class, 'checkRecommendationPermission'],
+            [RecommendationListener::class, 'generateSitemap']
         ],
         'oncut_callback' => [
-            ['tl_recommendation', 'scheduleUpdate']
+            [RecommendationListener::class, 'scheduleUpdate']
         ],
         'ondelete_callback' => [
-            ['tl_recommendation', 'scheduleUpdate']
+            [RecommendationListener::class, 'scheduleUpdate']
         ],
         'onsubmit_callback' => [
-            [DataContainerListener::class, 'adjustTime'],
-            ['tl_recommendation', 'scheduleUpdate']
+            [RecommendationListener::class, 'adjustTime'],
+            [RecommendationListener::class, 'scheduleUpdate']
         ],
         'oninvalidate_cache_tags_callback' => [
-            ['tl_recommendation', 'addSitemapCacheInvalidationTag'],
+            [RecommendationListener::class, 'addSitemapCacheInvalidationTag'],
         ],
         'sql' => [
             'keys' => [
@@ -51,7 +50,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'fields'                  => ['date DESC'],
             'headerFields'            => ['title', 'jumpTo', 'tstamp', 'protected'],
             'panelLayout'             => 'filter;sort,search,limit',
-            'child_record_callback'   => ['tl_recommendation', 'listRecommendations'],
+            'child_record_callback'   => [RecommendationListener::class, 'listRecommendations'],
             'child_record_class'      => 'no_padding'
         ],
         'global_operations' => [
@@ -128,7 +127,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'alias', 'doNotCopy'=>true, 'unique'=>true, 'maxlength'=>128, 'tl_class'=>'w50'],
             'save_callback' => [
-                [DataContainerListener::class, 'generateRecommendationAlias']
+                [RecommendationListener::class, 'generateRecommendationAlias']
             ],
             'sql'                     => "varchar(255) BINARY NOT NULL default ''"
         ],
@@ -166,7 +165,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'date', 'mandatory'=>true, 'doNotCopy'=>true, 'datepicker'=>true, 'tl_class'=>'w50 wizard'],
             'load_callback' => [
-                [DataContainerListener::class, 'loadDate']
+                [RecommendationListener::class, 'loadDate']
             ],
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ],
@@ -176,7 +175,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'time', 'mandatory'=>true, 'doNotCopy'=>true, 'tl_class'=>'w50'],
             'load_callback' => [
-                [DataContainerListener::class, 'loadTime']
+                [RecommendationListener::class, 'loadTime']
             ],
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ],
@@ -260,103 +259,3 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
         ]
     ]
 ];
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @author Fabian Ekert <fabian@oveleon.de>
- */
-class tl_recommendation extends Contao\Backend
-{
-    /**
-     * Import the back end user object
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->import('Contao\BackendUser', 'User');
-    }
-
-    /**
-     * List a recommendation record
-     *
-     * @param array $arrRow
-     *
-     * @return string
-     */
-    public function listRecommendations($arrRow)
-    {
-        if(!$arrRow['verified'])
-        {
-            return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#fe3922;padding-left:3px">[' . $GLOBALS['TL_LANG']['tl_recommendation']['notVerified'] . ']</span></div>';
-        }
-
-        return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#999;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['date']) . ']</span></div>';
-    }
-
-    /**
-     * Check for modified recommendation and update the XML files if necessary
-     */
-    public function generateSitemap()
-    {
-        /** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
-        $objSession = Contao\System::getContainer()->get('session');
-
-        $session = $objSession->get('recommendation_updater');
-
-        if (empty($session) || !is_array($session))
-        {
-            return;
-        }
-
-        $this->import('Contao\Automator', 'Automator');
-        $this->Automator->generateSitemap();
-
-        $objSession->set('recommendation_updater', null);
-    }
-
-    /**
-     * Schedule a recommendation update
-     *
-     * This method is triggered when a single recommendation or multiple recommendations
-     * are modified (edit/editAll), moved (cut/cutAll) or deleted (delete/deleteAll).
-     * Since duplicated items are unpublished by default, it is not necessary to
-     * schedule updates on copyAll as well.
-     *
-     * @param Contao\DataContainer $dc
-     */
-    public function scheduleUpdate(Contao\DataContainer $dc)
-    {
-        // Return if there is no ID
-        if (!$dc->activeRecord || !$dc->activeRecord->pid || Contao\Input::get('act') == 'copy')
-        {
-            return;
-        }
-
-        /** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
-        $objSession = Contao\System::getContainer()->get('session');
-
-        // Store the ID in the session
-        $session = $objSession->get('recommendation_updater');
-        $session[] = $dc->activeRecord->pid;
-        $objSession->set('recommendation_updater', array_unique($session));
-    }
-
-    /**
-     * @param Contao\DataContainer $dc
-     *
-     * @return array
-     */
-    public function addSitemapCacheInvalidationTag($dc, array $tags)
-    {
-        $archiveModel = RecommendationArchiveModel::findByPk($dc->activeRecord->pid);
-        $pageModel = Contao\PageModel::findWithDetails($archiveModel->jumpTo);
-
-        if ($pageModel === null)
-        {
-            return $tags;
-        }
-
-        return array_merge($tags, ['contao.sitemap.' . $pageModel->rootId]);
-    }
-}

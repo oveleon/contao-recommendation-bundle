@@ -7,6 +7,7 @@
  */
 
 use Contao\System;
+use Contao\Controller;
 
 System::loadLanguageFile('tl_recommendation');
 System::loadLanguageFile('tl_recommendation_notification');
@@ -174,15 +175,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = [
     'sql'                     => "varchar(64) NOT NULL default ''"
 ];
 
-
-/**
- * Provide miscellaneous methods that are used by the data configuration array.
- *
- * @author Fabian Ekert <fabian@oveleon.de>
- */
 class tl_module_recommendation extends Contao\Backend
 {
-
     /**
      * Import the back end user object
      */
@@ -194,10 +188,8 @@ class tl_module_recommendation extends Contao\Backend
 
     /**
      * Get all recommendation archives and return them as array
-     *
-     * @return array
      */
-    public function getRecommendationArchives()
+    public function getRecommendationArchives(): array
     {
         if (!$this->User->isAdmin && !is_array($this->User->recommendations))
         {
@@ -220,10 +212,8 @@ class tl_module_recommendation extends Contao\Backend
 
     /**
      * Get all recommendation reader modules and return them as array
-     *
-     * @return array
      */
-    public function getReaderModules()
+    public function getReaderModules(): array
     {
         $arrModules = [];
         $objModules = $this->Database->execute("SELECT m.id, m.name, t.name AS theme FROM tl_module m LEFT JOIN tl_theme t ON m.pid=t.id WHERE m.type='recommendationreader' ORDER BY t.name, m.name");
@@ -238,12 +228,8 @@ class tl_module_recommendation extends Contao\Backend
 
     /**
      * Load the default recommendation activation text
-     *
-     * @param mixed $varValue
-     *
-     * @return mixed
      */
-    public function getRecommendationActivationDefault($varValue)
+    public function getRecommendationActivationDefault(mixed $varValue): mixed
     {
         if (trim($varValue) === '')
         {
