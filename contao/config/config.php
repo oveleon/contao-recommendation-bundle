@@ -3,22 +3,22 @@
 declare(strict_types=1);
 
 use Contao\ArrayUtil;
+use Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm;
+use Oveleon\ContaoRecommendationBundle\ModuleRecommendationList;
+use Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader;
+use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\RecommendationModel;
 
 // Back end modules
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 5, [
     'recommendation' => [
-        'tables' => [
-            'tl_recommendation_archive',
-            'tl_recommendation'
-        ]
+        'tables' => ['tl_recommendation_archive', 'tl_recommendation']
     ]
 ]);
 
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 3, [
     'recommendation_settings' => [
-        'tables' => [
-            'tl_recommendation_settings'
-        ],
+        'tables' => ['tl_recommendation_settings'],
         'hideInNavigation' => true
     ]
 ]);
@@ -26,22 +26,16 @@ ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 3, [
 // Front end modules
 ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
     'recommendation' => [
-        'recommendationlist'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationList',
-        'recommendationreader'  => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader',
-        'recommendationform'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm',
+        'recommendationform'    => ModuleRecommendationForm::class,
+        'recommendationlist'    => ModuleRecommendationList::class,
+        'recommendationreader'  => ModuleRecommendationReader::class
     ]
 ]);
-
-// Models
-$GLOBALS['TL_MODELS']['tl_recommendation']         = 'Oveleon\ContaoRecommendationBundle\RecommendationModel';
-$GLOBALS['TL_MODELS']['tl_recommendation_archive'] = 'Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel';
 
 // Add permissions
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendations';
 $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';
 
-// Cron jobs
-$GLOBALS['TL_CRON']['daily']['purgeRecommendations'] = ['Oveleon\ContaoRecommendationBundle\Recommendation', 'purgeRecommendations'];
-
-// Register hooks
-$GLOBALS['TL_HOOKS']['getSearchablePages'][] = ['Oveleon\ContaoRecommendationBundle\Recommendation', 'getSearchablePages'];
+// Models
+$GLOBALS['TL_MODELS']['tl_recommendation']         = RecommendationModel::class;
+$GLOBALS['TL_MODELS']['tl_recommendation_archive'] = RecommendationArchiveModel::class;
