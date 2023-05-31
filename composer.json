@@ -4,7 +4,9 @@
   "description": "Recommendation integration for Contao 4 Open Source CMS",
   "keywords": [
     "contao",
-    "recommendation-bundle"
+    "recommendation-bundle",
+    "recommendation",
+    "reviews"
   ],
   "homepage": "https://www.oveleon.de/",
   "license": "MIT",
@@ -13,11 +15,21 @@
       "name": "Oveleon",
       "homepage": "https://oveleon.de/",
       "role": "Developer"
+    },
+    {
+      "name": "Sebastian Zoglowek",
+      "homepage": "https://github.com/zoglo",
+      "role": "Developer"
+    },
+    {
+      "name": "Fabian Ekert",
+      "homepage": "https://github.com/eki89",
+      "role": "Developer"
     }
   ],
   "require": {
     "php": "^8.1",
-    "contao/core-bundle": "^4.13"
+    "contao/core-bundle": "^4.13 || ^5.1"
   },
   "require-dev": {
     "contao/manager-plugin": "^2.0"
