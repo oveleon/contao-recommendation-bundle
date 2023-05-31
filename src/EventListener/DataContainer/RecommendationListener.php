@@ -2,19 +2,24 @@
 
 namespace Oveleon\ContaoRecommendationBundle\EventListener\DataContainer;
 
+use Contao\Automator;
+use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\Date;
 use Contao\Input;
+use Contao\PageModel;
 use Contao\System;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 
-class DataContainerListener
+class RecommendationListener
 {
     public function __construct(
         protected ContaoFramework $framework,
@@ -40,9 +45,8 @@ class DataContainerListener
 
     /**
      * Adjust start and end time of the event based on date, span, startTime and endTime
-     * @throws Exception
      */
-    public function adjustTime(DataContainer $dc)
+    public function adjustTime(DataContainer $dc): void
     {
         // Return if there is no active record (override all)
         if (!$dc->activeRecord)
@@ -84,7 +88,6 @@ class DataContainerListener
         }
 
         return $varValue;
-
     }
 
     public function checkRecommendationPermission(DataContainer $dc)
@@ -114,7 +117,7 @@ class DataContainerListener
         {
             case 'paste':
             case 'select':
-                // Check currentPid here (see #247)
+                // Check currentPid
                 if (!in_array($dc->currentPid, $root))
                 {
                     throw new AccessDeniedException('Not enough permissions to access recommendation archive ID ' . $id . '.');
@@ -205,5 +208,77 @@ class DataContainerListener
                 }
                 break;
         }
+    }
+
+    /**
+     * List a recommendation record
+     */
+    public function listRecommendations(array $arrRow): string
+    {
+        if(!$arrRow['verified'])
+        {
+            return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#fe3922;padding-left:3px">[' . ($GLOBALS['TL_LANG']['tl_recommendation']['notVerified'] ?? null) . ']</span></div>';
+        }
+
+        return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#999;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['date']) . ']</span></div>';
+    }
+
+    /**
+     * Check for modified recommendation and update the XML files if necessary
+     */
+    public function generateSitemap(): void
+    {
+        /** @var SessionInterface $objSession */
+        $objSession = System::getContainer()->get('session');
+
+        $session = $objSession->get('recommendation_updater');
+
+        if (empty($session) || !is_array($session))
+        {
+            return;
+        }
+
+        $automator = new Automator();
+        $automator->generateSitemap();
+
+        $objSession->set('recommendation_updater', null);
+    }
+
+    /**
+     * Schedule a recommendation update
+     *
+     * This method is triggered when a single recommendation or multiple recommendations
+     * are modified (edit/editAll), moved (cut/cutAll) or deleted (delete/deleteAll).
+     * Since duplicated items are unpublished by default, it is not necessary to
+     * schedule updates on copyAll as well.
+     */
+    public function scheduleUpdate(DataContainer $dc): void
+    {
+        // Return if there is no ID
+        if (!$dc->activeRecord || !$dc->activeRecord->pid || Input::get('act') == 'copy')
+        {
+            return;
+        }
+
+        /** @var SessionInterface $objSession */
+        $objSession = System::getContainer()->get('session');
+
+        // Store the ID in the session
+        $session = $objSession->get('recommendation_updater');
+        $session[] = $dc->activeRecord->pid;
+        $objSession->set('recommendation_updater', array_unique($session));
+    }
+
+    public function addSitemapCacheInvalidationTag(DataContainer $dc, array $tags): array
+    {
+        $archiveModel = RecommendationArchiveModel::findByPk($dc->activeRecord->pid);
+        $pageModel = PageModel::findWithDetails($archiveModel->jumpTo);
+
+        if ($pageModel === null)
+        {
+            return $tags;
+        }
+
+        return array_merge($tags, ['contao.sitemap.' . $pageModel->rootId]);
     }
 }
