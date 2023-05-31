@@ -2,33 +2,37 @@
 
 declare(strict_types=1);
 
+use Contao\ArrayUtil;
+
+
+
 // Back end modules
-array_insert($GLOBALS['BE_MOD']['content'], 5, array
-(
-    'recommendation' => array
-    (
-        'tables'      => array('tl_recommendation_archive', 'tl_recommendation')
-    )
-));
-array_insert($GLOBALS['BE_MOD']['system'], 3, array
-(
-    'recommendation_settings' => array
-    (
-        'tables'            => array('tl_recommendation_settings'),
-        'hideInNavigation'  => true
-    )
-));
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 5, [
+    'recommendation' => [
+        'tables' => [
+            'tl_recommendation_archive',
+            'tl_recommendation'
+        ]
+    ]
+]);
+
+ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['system'], 3, [
+    'recommendation_settings' => [
+        'tables' => [
+            'tl_recommendation_settings'
+        ],
+        'hideInNavigation' => true
+    ]
+]);
 
 // Front end modules
-array_insert($GLOBALS['FE_MOD'], 2, array
-(
-    'recommendation' => array
-    (
+ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
+    'recommendation' => [
         'recommendationlist'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationList',
         'recommendationreader'  => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader',
         'recommendationform'    => 'Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm',
-    )
-));
+    ]
+]);
 
 // Models
 $GLOBALS['TL_MODELS']['tl_recommendation']         = 'Oveleon\ContaoRecommendationBundle\RecommendationModel';
@@ -43,9 +47,3 @@ $GLOBALS['TL_CRON']['daily']['purgeRecommendations'] = array('Oveleon\ContaoReco
 
 // Register hooks
 $GLOBALS['TL_HOOKS']['getSearchablePages'][] = array('Oveleon\ContaoRecommendationBundle\Recommendation', 'getSearchablePages');
-
-// Style sheet
-if (TL_MODE == 'BE')
-{
-    $GLOBALS['TL_CSS'][] = 'bundles/contaorecommendation/style.css|static';
-}
