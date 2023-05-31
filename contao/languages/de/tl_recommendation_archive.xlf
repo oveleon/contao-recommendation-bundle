@@ -6,7 +6,7 @@
         <target>Titel</target>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.title.1">
-        <source>Please enter a news archive title.</source>
+        <source>Please enter a recommendation archive title.</source>
         <target>Bitte geben Sie den Archiv-Titel ein.</target>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.jumpTo.0">

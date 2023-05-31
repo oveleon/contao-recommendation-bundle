@@ -85,7 +85,7 @@ class ModuleRecommendationReader extends ModuleRecommendation
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
-        // Get the news item
+        // Get the recommendation item
         $objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(Input::get('items'), $this->recommendation_archives);
 
         if (null === $objRecommendation)

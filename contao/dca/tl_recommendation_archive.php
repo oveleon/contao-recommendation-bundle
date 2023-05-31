@@ -6,10 +6,14 @@
  * (c) https://www.oveleon.de/
  */
 
+use Contao\DataContainer;
+use Contao\DC_Table;
+use Contao\PageModel;
+
 $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
     // Config
     'config' => [
-        'dataContainer'               => 'Table',
+        'dataContainer'               => DC_Table::class,
         'ctable'                      => ['tl_recommendation'],
         'switchToEdit'                => true,
         'enableVersioning'            => true,
@@ -35,9 +39,9 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode'                    => 1,
+            'mode'                    => DataContainer::MODE_SORTED,
             'fields'                  => ['title'],
-            'flag'                    => 1,
+            'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout'             => 'filter;search,limit'
         ],
         'label' => [
@@ -58,25 +62,25 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
             ]
         ],
         'operations' => [
+            'editheader' => [
+                'href'                => 'act=edit',
+                'icon'                => 'header.svg',
+                //'button_callback'     => ['tl_recommendation_archive', 'editHeader']
+            ],
             'edit' => [
                 'href'                => 'table=tl_recommendation',
                 'icon'                => 'edit.svg'
             ],
-            'editheader' => [
-                'href'                => 'act=edit',
-                'icon'                => 'header.svg',
-                'button_callback'     => ['tl_recommendation_archive', 'editHeader']
-            ],
             'copy' => [
                 'href'                => 'act=copy',
                 'icon'                => 'copy.svg',
-                'button_callback'     => ['tl_recommendation_archive', 'copyArchive']
+                //'button_callback'     => ['tl_recommendation_archive', 'copyArchive']
             ],
             'delete' => [
                 'href'                => 'act=delete',
                 'icon'                => 'delete.svg',
                 'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"',
-                'button_callback'     => ['tl_recommendation_archive', 'deleteArchive']
+                //'button_callback'     => ['tl_recommendation_archive', 'deleteArchive']
             ],
             'show' => [
                 'href'                => 'act=show',
@@ -144,7 +148,6 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
  */
 class tl_recommendation_archive extends Contao\Backend
 {
-
     /**
      * Import the back end user object
      */

@@ -6,17 +6,20 @@
  * (c) https://www.oveleon.de/
  */
 
+use Contao\DataContainer;
+use Contao\DC_Table;
+use Oveleon\ContaoRecommendationBundle\EventListener\DataContainer\DataContainerListener;
 use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
 
 $GLOBALS['TL_DCA']['tl_recommendation'] = [
     // Config
     'config' => [
-        'dataContainer'               => 'Table',
+        'dataContainer'               => DC_Table::class,
         'ptable'                      => 'tl_recommendation_archive',
         'switchToEdit'                => true,
         'enableVersioning'            => true,
         'onload_callback' => [
-            ['tl_recommendation', 'checkPermission'],
+            [DataContainerListener::class, 'checkRecommendationPermission'],
             ['tl_recommendation', 'generateSitemap']
         ],
         'oncut_callback' => [
@@ -26,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             ['tl_recommendation', 'scheduleUpdate']
         ],
         'onsubmit_callback' => [
-            ['tl_recommendation', 'adjustTime'],
+            [DataContainerListener::class, 'adjustTime'],
             ['tl_recommendation', 'scheduleUpdate']
         ],
         'oninvalidate_cache_tags_callback' => [
@@ -44,7 +47,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode'                    => 4,
+            'mode'                    => DataContainer::MODE_PARENT,
             'fields'                  => ['date DESC'],
             'headerFields'            => ['title', 'jumpTo', 'tstamp', 'protected'],
             'panelLayout'             => 'filter;sort,search,limit',
@@ -77,14 +80,13 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
                 'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
             ],
             'toggle' => [
+                'href'                => 'act=toggle&amp;field=published',
                 'icon'                => 'visible.svg',
-                'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback'     => ['tl_recommendation', 'toggleIcon']
+                'showInHeader'        => true
             ],
             'feature' => [
+                'href'                => 'act=toggle&amp;field=featured',
                 'icon'                => 'featured.svg',
-                'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleFeatured(this,%s)"',
-                'button_callback'     => ['tl_recommendation', 'iconFeatured']
             ],
             'show' => [
                 'href'                => 'act=show',
@@ -115,7 +117,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'exclude'                 => true,
             'search'                  => true,
             'sorting'                 => true,
-            'flag'                    => 1,
+            'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'inputType'               => 'text',
             'eval'                    => ['maxlength'=>255, 'tl_class'=>'w50 clr'],
             'sql'                     => "varchar(255) NOT NULL default ''"
@@ -126,7 +128,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'alias', 'doNotCopy'=>true, 'unique'=>true, 'maxlength'=>128, 'tl_class'=>'w50'],
             'save_callback' => [
-                ['tl_recommendation', 'generateAlias']
+                [DataContainerListener::class, 'generateRecommendationAlias']
             ],
             'sql'                     => "varchar(255) BINARY NOT NULL default ''"
         ],
@@ -134,7 +136,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'exclude'                 => true,
             'search'                  => true,
             'sorting'                 => true,
-            'flag'                    => 1,
+            'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'inputType'               => 'text',
             'eval'                    => ['doNotCopy'=>true, 'mandatory'=>true, 'maxlength'=>128, 'tl_class'=>'w50'],
             'sql'                     => "varchar(128) NOT NULL default ''"
@@ -150,7 +152,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'exclude'                 => true,
             'search'                  => true,
             'sorting'                 => true,
-            'flag'                    => 1,
+            'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'inputType'               => 'text',
             'eval'                    => ['doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50'],
             'sql'                     => "varchar(128) NOT NULL default ''"
@@ -160,11 +162,11 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'exclude'                 => true,
             'filter'                  => true,
             'sorting'                 => true,
-            'flag'                    => 8,
+            'flag'                    => DataContainer::SORT_MONTH_DESC,
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'date', 'mandatory'=>true, 'doNotCopy'=>true, 'datepicker'=>true, 'tl_class'=>'w50 wizard'],
             'load_callback' => [
-                ['tl_recommendation', 'loadDate']
+                [DataContainerListener::class, 'loadDate']
             ],
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ],
@@ -174,7 +176,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'inputType'               => 'text',
             'eval'                    => ['rgxp'=>'time', 'mandatory'=>true, 'doNotCopy'=>true, 'tl_class'=>'w50'],
             'load_callback' => [
-                ['tl_recommendation', 'loadTime']
+                [DataContainerListener::class, 'loadTime']
             ],
             'sql'                     => "int(10) unsigned NOT NULL default 0"
         ],
@@ -237,7 +239,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
         'published' => [
             'exclude'                 => true,
             'filter'                  => true,
-            'flag'                    => 1,
+            'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC,
             'inputType'               => 'checkbox',
             'eval'                    => ['doNotCopy'=>true],
             'sql'                     => "char(1) NOT NULL default ''"
@@ -274,191 +276,6 @@ class tl_recommendation extends Contao\Backend
     }
 
     /**
-     * Check permissions to edit table tl_recommendation
-     *
-     * @throws Contao\CoreBundle\Exception\AccessDeniedException
-     */
-    public function checkPermission()
-    {
-        if ($this->User->isAdmin)
-        {
-            return;
-        }
-
-        // Set the root IDs
-        if (empty($this->User->recommendations) || !is_array($this->User->recommendations))
-        {
-            $root = [0];
-        }
-        else
-        {
-            $root = $this->User->recommendations;
-        }
-
-        $id = strlen(Contao\Input::get('id')) ? Contao\Input::get('id') : CURRENT_ID;
-
-        // Check current action
-        switch (Contao\Input::get('act'))
-        {
-            case 'paste':
-            case 'select':
-                if (!in_array(CURRENT_ID, $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to access recommendation archive ID ' . $id . '.');
-                }
-                break;
-
-            case 'create':
-                if (!Contao\Input::get('pid') || !in_array(Contao\Input::get('pid'), $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to create recommendation item in recommendation archive ID ' . Input::get('pid') . '.');
-                }
-                break;
-
-            case 'cut':
-            case 'copy':
-                if (Contao\Input::get('act') == 'cut' && Contao\Input::get('mode') == 1)
-                {
-                    $objArchive = $this->Database->prepare("SELECT pid FROM tl_recommendation WHERE id=?")
-                        ->limit(1)
-                        ->execute(Contao\Input::get('pid'));
-
-                    if ($objArchive->numRows < 1)
-                    {
-                        throw new Contao\CoreBundle\Exception\AccessDeniedException('Invalid recommendation item ID ' . Contao\Input::get('pid') . '.');
-                    }
-
-                    $pid = $objArchive->pid;
-                }
-                else
-                {
-                    $pid = Input::get('pid');
-                }
-
-                if (!in_array($pid, $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to ' . Contao\Input::get('act') . ' recommendation item ID ' . $id . ' to recommendation archive ID ' . $pid . '.');
-                }
-            // no break
-
-            case 'edit':
-            case 'show':
-            case 'delete':
-            case 'toggle':
-            case 'feature':
-                $objArchive = $this->Database->prepare("SELECT pid FROM tl_recommendation WHERE id=?")
-                    ->limit(1)
-                    ->execute($id);
-
-                if ($objArchive->numRows < 1)
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Invalid recommendation item ID ' . $id . '.');
-                }
-
-                if (!in_array($objArchive->pid, $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to ' . Contao\Input::get('act') . ' recommendation item ID ' . $id . ' of recommendation archive ID ' . $objArchive->pid . '.');
-                }
-                break;
-
-            case 'editAll':
-            case 'deleteAll':
-            case 'overrideAll':
-            case 'cutAll':
-            case 'copyAll':
-                if (!in_array($id, $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to access recommendation archive ID ' . $id . '.');
-                }
-
-                $objArchive = $this->Database->prepare("SELECT id FROM tl_recommendation WHERE pid=?")
-                    ->execute($id);
-
-                /** @var Symfony\Component\HttpFoundation\Session\SessionInterface $objSession */
-                $objSession = Contao\System::getContainer()->get('session');
-
-                $session = $objSession->all();
-                $session['CURRENT']['IDS'] = array_intersect((array) $session['CURRENT']['IDS'], $objArchive->fetchEach('id'));
-                $objSession->replace($session);
-                break;
-
-            default:
-                if (Contao\Input::get('act'))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Invalid command "' . Contao\Input::get('act') . '".');
-                }
-
-                if (!in_array($id, $root))
-                {
-                    throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to access recommendation archive ID ' . $id . '.');
-                }
-                break;
-        }
-    }
-
-    /**
-     * Auto-generate the recommendation alias if it has not been set yet
-     *
-     * @param mixed                $varValue
-     * @param Contao\DataContainer $dc
-     *
-     * @return string
-     *
-     * @throws Exception
-     */
-    public function generateAlias($varValue, Contao\DataContainer $dc)
-    {
-        $autoAlias = false;
-
-        // Generate alias if title is set
-        if ($varValue == '' && !empty($dc->activeRecord->title))
-        {
-            $autoAlias = true;
-            $varValue = Contao\StringUtil::generateAlias($dc->activeRecord->title);
-        }
-
-        $objAlias = $this->Database->prepare("SELECT id FROM tl_recommendation WHERE alias=? AND alias!='' AND id!=?")
-                                   ->execute($varValue, $dc->id);
-
-        // Check whether the recommendation alias exists
-        if ($objAlias->numRows)
-        {
-            if (!$autoAlias)
-            {
-                throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
-            }
-
-            $varValue .= '-' . $dc->id;
-        }
-
-        return $varValue;
-    }
-
-    /**
-     * Set the timestamp to 00:00:00
-     *
-     * @param integer $value
-     *
-     * @return integer
-     */
-    public function loadDate($value)
-    {
-        return strtotime(date('Y-m-d', $value) . ' 00:00:00');
-    }
-
-    /**
-     * Set the timestamp to 1970-01-01
-     *
-     * @param integer $value
-     *
-     * @return integer
-     */
-    public function loadTime($value)
-    {
-        return strtotime('1970-01-01 ' . date('H:i:s', $value));
-    }
-
-    /**
      * List a recommendation record
      *
      * @param array $arrRow
@@ -473,25 +290,6 @@ class tl_recommendation extends Contao\Backend
         }
 
         return '<div class="tl_content_left">' . $arrRow['author'] . ' <span style="color:#999;padding-left:3px">[' . Date::parse(Config::get('datimFormat'), $arrRow['date']) . ']</span></div>';
-    }
-
-    /**
-     * Adjust start end end time of the event based on date, span, startTime and endTime
-     *
-     * @param Contao\DataContainer $dc
-     */
-    public function adjustTime(Contao\DataContainer $dc)
-    {
-        // Return if there is no active record (override all)
-        if (!$dc->activeRecord)
-        {
-            return;
-        }
-
-        $arrSet['date'] = strtotime(date('Y-m-d', $dc->activeRecord->date) . ' tl_recommendation.php' . date('H:i:s', $dc->activeRecord->time));
-        $arrSet['time'] = $arrSet['date'];
-
-        $this->Database->prepare("UPDATE tl_recommendation %s WHERE id=?")->set($arrSet)->execute($dc->id);
     }
 
     /**
@@ -540,243 +338,6 @@ class tl_recommendation extends Contao\Backend
         $session = $objSession->get('recommendation_updater');
         $session[] = $dc->activeRecord->pid;
         $objSession->set('recommendation_updater', array_unique($session));
-    }
-
-    /**
-     * Return the "feature/unfeature element" button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function iconFeatured($row, $href, $label, $title, $icon, $attributes)
-    {
-        if (strlen(Contao\Input::get('fid')))
-        {
-            $this->toggleFeatured(Contao\Input::get('fid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
-            $this->redirect($this->getReferer());
-        }
-
-        // Check permissions AFTER checking the fid, so hacking attempts are logged
-        if (!$this->User->hasAccess('tl_recommendation::featured', 'alexf'))
-        {
-            return '';
-        }
-
-        $href .= '&amp;fid='.$row['id'].'&amp;state='.($row['featured'] ? '' : 1);
-
-        if (!$row['featured'])
-        {
-            $icon = 'featured_.svg';
-        }
-
-        return '<a href="'.$this->addToUrl($href).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label, 'data-state="' . ($row['featured'] ? 1 : 0) . '"').'</a> ';
-    }
-
-    /**
-     * Feature/unfeature a recommendation
-     *
-     * @param integer              $intId
-     * @param boolean              $blnVisible
-     * @param Contao\DataContainer $dc
-     *
-     * @throws Contao\CoreBundle\Exception\AccessDeniedException
-     */
-    public function toggleFeatured($intId, $blnVisible, Contao\DataContainer $dc=null)
-    {
-        // Check permissions to edit
-        Contao\Input::setGet('id', $intId);
-        Contao\Input::setGet('act', 'feature');
-        $this->checkPermission();
-
-        // Check permissions to feature
-        if (!$this->User->hasAccess('tl_recommendation::featured', 'alexf'))
-        {
-            throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to feature/unfeature recommendation ID ' . $intId . '.');
-        }
-
-        $objVersions = new Contao\Versions('tl_recommendation', $intId);
-        $objVersions->initialize();
-
-        // Trigger the save_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_recommendation']['fields']['featured']['save_callback'] ?? null))
-        {
-            foreach ($GLOBALS['TL_DCA']['tl_recommendation']['fields']['featured']['save_callback'] as $callback)
-            {
-                if (is_array($callback))
-                {
-                    $this->import($callback[0]);
-                    $blnVisible = $this->{$callback[0]}->{$callback[1]}($blnVisible, $dc);
-                }
-                elseif (is_callable($callback))
-                {
-                    $blnVisible = $callback($blnVisible, $this);
-                }
-            }
-        }
-
-        // Update the database
-        $this->Database->prepare("UPDATE tl_recommendation SET tstamp=". time() .", featured='" . ($blnVisible ? 1 : '') . "' WHERE id=?")
-                       ->execute($intId);
-
-        $objVersions->create();
-
-        if ($dc)
-        {
-            $dc->invalidateCacheTags();
-        }
-    }
-
-    /**
-     * Return the "toggle visibility" button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-    {
-        if (strlen(Input::get('tid')))
-        {
-            $this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (func_num_args() <= 12 ? null : func_get_arg(12)));
-            $this->redirect($this->getReferer());
-        }
-
-        // Check permissions AFTER checking the tid, so hacking attempts are logged
-        if (!$this->User->hasAccess('tl_recommendation::published', 'alexf'))
-        {
-            return '';
-        }
-
-        $href .= '&amp;tid=' . $row['id'] . '&amp;state=' . ($row['published'] ? '' : 1);
-
-        if (!$row['published'])
-        {
-            $icon = 'invisible.svg';
-        }
-
-        return '<a href="' . $this->addToUrl($href) . '" title="' . Contao\StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
-    }
-
-    /**
-     * Disable/enable a recommendation
-     *
-     * @param integer              $intId
-     * @param boolean              $blnVisible
-     * @param Contao\DataContainer $dc
-     */
-    public function toggleVisibility($intId, $blnVisible, Contao\DataContainer $dc=null)
-    {
-        // Set the ID and action
-        Contao\Input::setGet('id', $intId);
-        Contao\Input::setGet('act', 'toggle');
-
-        if ($dc)
-        {
-            $dc->id = $intId;
-        }
-
-        // Trigger the onload_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_recommendation']['config']['onload_callback'] ?? null))
-        {
-            foreach ($GLOBALS['TL_DCA']['tl_recommendation']['config']['onload_callback'] as $callback)
-            {
-                if (is_array($callback))
-                {
-                    $this->import($callback[0]);
-                    $this->{$callback[0]}->{$callback[1]}($dc);
-                }
-                elseif (is_callable($callback))
-                {
-                    $callback($dc);
-                }
-            }
-        }
-
-        // Check the field access
-        if (!$this->User->hasAccess('tl_recommendation::published', 'alexf'))
-        {
-            throw new Contao\CoreBundle\Exception\AccessDeniedException('Not enough permissions to publish/unpublish recommendation ID ' . $intId . '.');
-        }
-
-        // Set the current record
-        if ($dc)
-        {
-            $objRow = $this->Database->prepare("SELECT * FROM tl_recommendation WHERE id=?")
-                                     ->limit(1)
-                                     ->execute($intId);
-
-            if ($objRow->numRows)
-            {
-                $dc->activeRecord = $objRow;
-            }
-        }
-
-        $objVersions = new Contao\Versions('tl_recommendation', $intId);
-        $objVersions->initialize();
-
-        // Trigger the save_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_recommendation']['fields']['published']['save_callback'] ?? null))
-        {
-            foreach ($GLOBALS['TL_DCA']['tl_recommendation']['fields']['published']['save_callback'] as $callback)
-            {
-                if (is_array($callback))
-                {
-                    $this->import($callback[0]);
-                    $blnVisible = $this->{$callback[0]}->{$callback[1]}($blnVisible, $dc);
-                }
-                elseif (is_callable($callback))
-                {
-                    $blnVisible = $callback($blnVisible, $dc);
-                }
-            }
-        }
-
-        $time = time();
-
-        // Update the database
-        $this->Database->prepare("UPDATE tl_recommendation SET tstamp=$time, published='" . ($blnVisible ? '1' : '') . "' WHERE id=?")
-                       ->execute($intId);
-
-        if ($dc)
-        {
-            $dc->activeRecord->tstamp = $time;
-            $dc->activeRecord->published = ($blnVisible ? '1' : '');
-        }
-
-        // Trigger the onsubmit_callback
-        if (is_array($GLOBALS['TL_DCA']['tl_recommendation']['config']['onsubmit_callback'] ?? null))
-        {
-            foreach ($GLOBALS['TL_DCA']['tl_recommendation']['config']['onsubmit_callback'] as $callback)
-            {
-                if (is_array($callback))
-                {
-                    $this->import($callback[0]);
-                    $this->{$callback[0]}->{$callback[1]}($dc);
-                }
-                elseif (is_callable($callback))
-                {
-                    $callback($dc);
-                }
-            }
-        }
-
-        $objVersions->create();
-
-        if ($dc)
-        {
-            $dc->invalidateCacheTags();
-        }
     }
 
     /**

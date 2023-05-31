@@ -5,7 +5,7 @@
         <source>Title</source>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.title.1">
-        <source>Please enter a news archive title.</source>
+        <source>Please enter a recommendation archive title.</source>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.jumpTo.0">
         <source>Redirect page</source>
