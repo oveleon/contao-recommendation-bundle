@@ -10,15 +10,18 @@ namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Date;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
-use Contao\FrontendUser;
 use Contao\Model\Collection;
 use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
+use Exception;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 
 /**
  * Parent class for recommendation modules.
@@ -28,43 +31,28 @@ use Contao\System;
  */
 abstract class ModuleRecommendation extends Module
 {
-
     /**
      * Sort out protected archives
-     *
-     * @param array $arrArchives
-     *
-     * @return array
      */
-    protected function sortOutProtected($arrArchives)
+    protected function sortOutProtected(array $arrArchives): array
     {
         if (empty($arrArchives) || !\is_array($arrArchives))
         {
             return $arrArchives;
         }
 
-        $this->import(FrontendUser::class, 'User');
         $objArchive = RecommendationArchiveModel::findMultipleByIds($arrArchives);
         $arrArchives = [];
 
         if ($objArchive !== null)
         {
+            $security = System::getContainer()->get('security.helper');
+
             while ($objArchive->next())
             {
-                if ($objArchive->protected)
+                if ($objArchive->protected && !$security->isGranted(ContaoCorePermissions::MEMBER_IN_GROUPS, StringUtil::deserialize($objArchive->groups, true)))
                 {
-                    // ToDo: rewrite for contao ^5.x
-                    if (!FE_USER_LOGGED_IN)
-                    {
-                        continue;
-                    }
-
-                    $groups = StringUtil::deserialize($objArchive->groups);
-
-                    if (empty($groups) || !\is_array($groups) || !\count(array_intersect($groups, $this->User->groups)))
-                    {
-                        continue;
-                    }
+                    continue;
                 }
 
                 $arrArchives[] = $objArchive->id;
@@ -76,21 +64,13 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Parse an item and return it as string
-     *
-     * @param RecommendationModel        $objRecommendation
-     * @param RecommendationArchiveModel $objRecommendationArchive
-     * @param string                     $strClass
-     * @param integer                    $intCount
-     *
-     * @return string
      */
-    protected function parseRecommendation($objRecommendation, $objRecommendationArchive, $strClass='', $intCount=0)
+    protected function parseRecommendation(RecommendationModel $objRecommendation, RecommendationArchiveModel $objRecommendationArchive, string $strClass='', int $intCount=0): string
     {
-        /** @var FrontendTemplate|object $objTemplate */
         $objTemplate = new FrontendTemplate($this->recommendation_template ?: 'recommendation_default');
         $objTemplate->setData($objRecommendation->row());
 
-        if ($objRecommendation->cssClass != '')
+        if ($objRecommendation->cssClass)
         {
             $strClass = ' ' . $objRecommendation->cssClass . $strClass;
         }
@@ -187,12 +167,8 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Parse one or more items and return them as array
-     *
-     * @param Collection $objRecommendations
-     *
-     * @return array
      */
-    protected function parseRecommendations($objRecommendations)
+    protected function parseRecommendations(Collection $objRecommendations): array
     {
         $limit = $objRecommendations->count();
 
@@ -220,12 +196,8 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Return the meta fields of a recommendation as array
-     *
-     * @param RecommendationModel $objRecommendation
-     *
-     * @return array
      */
-    protected function getMetaFields($objRecommendation)
+    protected function getMetaFields(RecommendationModel $objRecommendation): array
     {
         $meta = StringUtil::deserialize($this->recommendation_metaFields);
 
@@ -261,15 +233,8 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Generate a link and return it as string
-     *
-     * @param string              $strLink
-     * @param RecommendationModel $objRecommendation
-     * @param string              $strTitle
-     * @param boolean             $blnIsReadMore
-     *
-     * @return string
      */
-    protected function generateLink($strLink, $objRecommendation, $strTitle, $blnIsReadMore=false)
+    protected function generateLink(string $strLink, RecommendationModel $objRecommendation, string $strTitle, bool $blnIsReadMore=false): string
     {
         return sprintf('<a href="%s" title="%s" itemprop="url">%s%s</a>',
                         $this->generateRecommendationUrl($objRecommendation),
@@ -280,28 +245,20 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Generate a URL and return it as string
-     *
-     * @param RecommendationModel $objRecommendation
-     *
-     * @return string
      */
-    protected function generateRecommendationUrl($objRecommendation)
+    protected function generateRecommendationUrl(RecommendationModel $objRecommendation): string
     {
         $objPage = PageModel::findByPk($objRecommendation->getRelated('pid')->jumpTo);
 
-        return ampersand($objPage->getFrontendUrl((Config::get('useAutoItem') ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
+        return StringUtil::ampersand($objPage->getFrontendUrl((Config::get('useAutoItem') ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
     }
 
     /**
      * Check whether path is external
-     *
-     * @param string $strPath The file path
-     *
-     * @return boolean
      */
-    protected function isExternal($strPath)
+    protected function isExternal(string $strPath): bool
     {
-        if (substr($strPath, 0, 7) == 'http://' || substr($strPath, 0, 8) == 'https://')
+        if (str_starts_with($strPath, 'http://') || str_starts_with($strPath, 'https://'))
         {
             return true;
         }
@@ -316,10 +273,10 @@ abstract class ModuleRecommendation extends Module
      * @param RecommendationModel $objRecommendation The recommendation model
      * @param FrontendTemplate $objTemplate          The frontend template
      */
-    protected function addInternalImage($objModel, $objRecommendation, &$objTemplate)
+    protected function addInternalImage($objModel, $objRecommendation, &$objTemplate): void
     {
-        // ToDo: rewrite for contao ^5.x
-        if ($objModel !== null && is_file(TL_ROOT . '/' . $objModel->path))
+        // ToDo: Contao 5.x compatibility
+        if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
         {
             $objTemplate->addInternalImage = true;
 
@@ -343,17 +300,14 @@ abstract class ModuleRecommendation extends Module
     }
 
     /**
-     * Parses a timestamp into a human readable string
-     *
-     * @param string $strDateTime
-     *
-     * @return string
+     * Parses a timestamp into a human-readable string
+     * @throws Exception
      */
-    protected function getElapsedTime($strDateTime)
+    protected function getElapsedTime(string $strDateTime): string
     {
         $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime());
 
-        if(($years = $objElapsedTime->y) > 0)
+        if (($years = $objElapsedTime->y) > 0)
         {
             return $this->translateElapsedTime($years, 'year');
         }
@@ -381,13 +335,8 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Translates elapsed time
-     *
-     * @param integer $value
-     * @param string $strUnit
-     *
-     * @return string
      */
-    protected function translateElapsedTime($value, $strUnit = 'justNow')
+    protected function translateElapsedTime(int $value, string $strUnit = 'justNow'): string
     {
         return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
     }

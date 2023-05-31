@@ -17,6 +17,7 @@ use Contao\Model\Collection;
 use Contao\Pagination;
 use Contao\StringUtil;
 use Contao\System;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 
 /**
  * Front end module "recommendation list".
@@ -27,7 +28,6 @@ use Contao\System;
  */
 class ModuleRecommendationList extends ModuleRecommendation
 {
-
     /**
      * Template
      * @var string
@@ -39,7 +39,7 @@ class ModuleRecommendationList extends ModuleRecommendation
      *
      * @return string
      */
-    public function generate()
+    public function generate(): string
     {
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
@@ -201,14 +201,6 @@ class ModuleRecommendationList extends ModuleRecommendation
 
     /**
      * Fetch the matching items
-     *
-     * @param array   $recommendationArchives
-     * @param boolean $blnFeatured
-     * @param integer $limit
-     * @param integer $offset
-     * @param integer $minRating
-     *
-     * @return Collection|RecommendationModel|null
      */
     protected function fetchItems($recommendationArchives, $blnFeatured, $limit, $offset, $minRating)
     {

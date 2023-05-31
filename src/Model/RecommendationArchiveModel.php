@@ -6,7 +6,7 @@
  * (c) https://www.oveleon.de/
  */
 
-namespace Oveleon\ContaoRecommendationBundle;
+namespace Oveleon\ContaoRecommendationBundle\Model;
 
 use Contao\Model;
 use Contao\Model\Collection;

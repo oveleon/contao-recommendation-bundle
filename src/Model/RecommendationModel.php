@@ -6,7 +6,7 @@
  * (c) https://www.oveleon.de/
  */
 
-namespace Oveleon\ContaoRecommendationBundle;
+namespace Oveleon\ContaoRecommendationBundle\Model;
 
 use Contao\Database;
 use Contao\Date;
@@ -107,7 +107,6 @@ use Contao\Model\Collection;
  */
 class RecommendationModel extends Model
 {
-
     /**
      * Table name
      * @var string
@@ -116,14 +115,8 @@ class RecommendationModel extends Model
 
     /**
      * Find a published recommendation from one or more recommendation archives by its ID or alias
-     *
-     * @param mixed $varId      The numeric ID or alias name
-     * @param array $arrPids    An array of parent IDs
-     * @param array $arrOptions An optional options array
-     *
-     * @return RecommendationModel|null The model or null if there are no recommendations
      */
-    public static function findPublishedByParentAndIdOrAlias($varId, $arrPids, array $arrOptions=array())
+    public static function findPublishedByParentAndIdOrAlias(mixed $varId, $arrPids, array $arrOptions=array()): ?RecommendationModel
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -145,13 +138,8 @@ class RecommendationModel extends Model
 
     /**
      * Find published recommendations with the default redirect target by their parent ID
-     *
-     * @param integer $intPid     The recommendation archive ID
-     * @param array   $arrOptions An optional options array
-     *
-     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
      */
-    public static function findPublishedByPid($intPid, array $arrOptions=array())
+    public static function findPublishedByPid(int $intPid, array $arrOptions=array()): Collection|RecommendationModel|array|null
     {
         $t = static::$strTable;
         $arrColumns = ["$t.pid=? AND $t.verified='1'"];
@@ -172,16 +160,8 @@ class RecommendationModel extends Model
 
     /**
      * Find published recommendations by their parent ID
-     *
-     * @param array   $arrPids     An array of recommendation archive IDs
-     * @param boolean $blnFeatured If true, return only featured recommendations, if false, return only unfeatured recommendations
-     * @param integer $intLimit    An optional limit
-     * @param integer $intOffset   An optional offset
-     * @param array   $arrOptions  An optional options array
-     *
-     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no recommendations
      */
-    public static function findPublishedByPids($arrPids, $blnFeatured=null, $intLimit=0, $intOffset=0, $minRating=null, array $arrOptions=array())
+    public static function findPublishedByPids($arrPids, bool $blnFeatured=null, int $intLimit=0, int $intOffset=0, $minRating=null, array $arrOptions=array()): Collection|RecommendationModel|array|null
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -224,14 +204,8 @@ class RecommendationModel extends Model
 
     /**
      * Count published recommendations by their parent ID
-     *
-     * @param array   $arrPids     An array of recommendation archive IDs
-     * @param boolean $blnFeatured If true, return only featured recommendations, if false, return only unfeatured recommendations
-     * @param array   $arrOptions  An optional options array
-     *
-     * @return integer The number of recommendations
      */
-    public static function countPublishedByPids($arrPids, $blnFeatured=null, $minRating=null, array $arrOptions=array())
+    public static function countPublishedByPids($arrPids, bool $blnFeatured=null, $minRating=null, array $arrOptions=array()): int
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -266,12 +240,8 @@ class RecommendationModel extends Model
 
     /**
      * Find registrations that have not been activated for more than 24 hours
-     *
-     * @param array $arrOptions An optional options array
-     *
-     * @return Collection|RecommendationModel[]|RecommendationModel|null A collection of models or null if there are no expired recommendations
      */
-    public static function findExpiredRecommendations(array $arrOptions=array())
+    public static function findExpiredRecommendations(array $arrOptions=array()): Collection|RecommendationModel|array|null
     {
         $t = static::$strTable;
         $objDatabase = Database::getInstance();

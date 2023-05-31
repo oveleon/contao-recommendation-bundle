@@ -6,7 +6,7 @@ namespace Oveleon\ContaoRecommendationBundle\Cron;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Oveleon\ContaoRecommendationBundle\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 use Psr\Log\LoggerInterface;
 
 #[AsCronJob('daily')]

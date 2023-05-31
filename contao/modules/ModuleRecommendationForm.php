@@ -10,7 +10,6 @@ namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\BackendTemplate;
 use Contao\CoreBundle\Exception\InternalServerErrorException;
-use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\CoreBundle\OptIn\OptIn;
 use Contao\Email;
 use Contao\Environment;
@@ -21,7 +20,6 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
-use Psr\Log\LogLevel;
 
 /**
  * Front end module "recommendation form".
@@ -55,7 +53,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
      *
      * @return string
      */
-    public function generate()
+    public function generate(): string
     {
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
@@ -84,7 +82,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
     /**
      * Generate the module
      */
-    protected function compile()
+    protected function compile(): void
     {
         System::loadLanguageFile('tl_recommendation');
         System::loadLanguageFile('tl_recommendation_notification');
@@ -225,12 +223,12 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $this->Template->formId = $strFormId;
         $this->Template->hasError = $doNotSubmit;
 
-        $session = System::getContainer()->get('session');
+        $objSession = System::getContainer()->get('request_stack')->getSession();
 
         // Do not index or cache the page with the confirmation message
-        if ($session->isStarted())
+        if ($objSession->isStarted())
         {
-            $flashBag = $session->getFlashBag();
+            $flashBag = $objSession->getFlashBag();
 
             if ($flashBag->has('recommendation_added'))
             {
@@ -298,7 +296,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
             }
             else
             {
-                $session->getFlashBag()->set('recommendation_added', $this->getFlashBagMessage());
+                $objSession->getFlashBag()->set('recommendation_added', $this->getFlashBagMessage());
             }
 
             $this->reload();
@@ -307,12 +305,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
     /**
      * Convert line feeds to <br /> tags
-     *
-     * @param string $strText
-     *
-     * @return string
      */
-    public function convertLineFeeds($strText)
+    public function convertLineFeeds(string $strText): string
     {
         $strText = preg_replace('/\r?\n/', '<br>', $strText);
 
@@ -335,10 +329,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
     /**
      * Get flashbag message
-     *
-     * @return string
      */
-    protected function getFlashBagMessage()
+    protected function getFlashBagMessage(): string
     {
         // Confirmation e-mail
         if ($this->recommendation_activate)
@@ -358,10 +350,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
     /**
      * Sends a notification to the administrator
-     *
-     * @param RecommendationModel $objRecommendation
      */
-    protected function sendNotificationMail($objRecommendation)
+    protected function sendNotificationMail(RecommendationModel $objRecommendation): void
     {
         $strText = $objRecommendation->text;
 
@@ -397,11 +387,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
     /**
      * Send the verification mail
-     *
-     * @param array		$arrData
-     * @param integer	$id
      */
-    protected function sendVerificationMail($arrData, $id)
+    protected function sendVerificationMail(array $arrData, int $id): void
     {
         /** @var OptIn $optIn */
         $optIn = System::getContainer()->get('contao.opt-in');
@@ -409,19 +396,20 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
         // Prepare the simple token data
         $arrTokenData = $arrData;
-        $arrTokenData['token'] = $optInToken->getIdentifier();
-        $arrTokenData['domain'] = Idna::decode(Environment::get('host'));
-        $arrTokenData['link'] = Idna::decode(Environment::get('base')) . Environment::get('request') . ((strpos(Environment::get('request'), '?') !== false) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
+        $arrTokenData['token']   = $optInToken->getIdentifier();
+        $arrTokenData['domain']  = Idna::decode(Environment::get('host'));
+        $arrTokenData['link']    = Idna::decode(Environment::get('base')) . Environment::get('request') . ((str_contains(Environment::get('request'), '?')) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
         $arrTokenData['channel'] = '';
 
         // Send the token
+        // ToDo: Contao 5.x compatibility (parseSimpleTokens)
         $optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
     }
 
     /**
      * Verifies the recommendation
      */
-    protected function verifyRecommendation()
+    protected function verifyRecommendation(): void
     {
         $this->Template = new FrontendTemplate('mod_message');
 
@@ -481,9 +469,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $optInToken->confirm();
 
         // Log activity
-        // ToDo: rewrite for contao ^5.x
         $logger = System::getContainer()->get('monolog.logger.contao');
-        $logger->log(LogLevel::INFO, 'Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified', ['contao' => new ContaoContext(__METHOD__, TL_ACCESS)]);
+        $logger?->info('Recommendation ID ' . $objRecommendation->id . ' (' . Idna::decodeEmail($objRecommendation->email) . ') has been verified');
 
         // Redirect to the jumpTo page
         if (($objTarget = $this->objModel->getRelated('recommendation_activateJumpTo')) instanceof PageModel)

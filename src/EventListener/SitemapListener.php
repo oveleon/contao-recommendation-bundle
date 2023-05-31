@@ -9,8 +9,8 @@ use Contao\CoreBundle\Event\SitemapEvent;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\PageModel;
-use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
-use Oveleon\ContaoRecommendationBundle\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
 
 /**

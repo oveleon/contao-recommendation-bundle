@@ -6,11 +6,14 @@
  * (c) https://www.oveleon.de/
  */
 
+use Contao\Config;
+use Contao\DC_File;
+
 $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
 
     // Config
     'config' => [
-        'dataContainer'               => 'File',
+        'dataContainer'               => DC_File::class,
         'closed'                      => true
     ],
 
@@ -23,7 +26,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
     'fields' => [
         'recommendationDefaultImage' => [
             'inputType'               => 'fileTree',
-            'eval'                    => ['fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=>Contao\Config::get('validImageTypes'), 'tl_class'=>'clr']
+            'eval'                    => ['fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=> Config::get('validImageTypes'), 'tl_class'=>'clr']
         ],
         'recommendationActiveColor' => [
             'inputType'               => 'text',

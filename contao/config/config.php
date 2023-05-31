@@ -6,8 +6,8 @@ use Contao\ArrayUtil;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationList;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader;
-use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
-use Oveleon\ContaoRecommendationBundle\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 
 // Back end modules
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 5, [

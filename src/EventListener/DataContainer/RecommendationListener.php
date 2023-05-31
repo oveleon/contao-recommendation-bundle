@@ -15,7 +15,7 @@ use Contao\PageModel;
 use Contao\System;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
-use Oveleon\ContaoRecommendationBundle\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -229,7 +229,7 @@ class RecommendationListener
     public function generateSitemap(): void
     {
         /** @var SessionInterface $objSession */
-        $objSession = System::getContainer()->get('session');
+        $objSession = System::getContainer()->get('request_stack')->getSession();
 
         $session = $objSession->get('recommendation_updater');
 
@@ -261,7 +261,7 @@ class RecommendationListener
         }
 
         /** @var SessionInterface $objSession */
-        $objSession = System::getContainer()->get('session');
+        $objSession = System::getContainer()->get('request_stack')->getSession();
 
         // Store the ID in the session
         $session = $objSession->get('recommendation_updater');

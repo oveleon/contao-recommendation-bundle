@@ -16,6 +16,8 @@ use Contao\Environment;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 
 /**
  * Front end module "recommendation reader".
