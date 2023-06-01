@@ -10,11 +10,10 @@ namespace Oveleon\ContaoRecommendationBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * Configures the Contao recommendation bundle.
- *
- * @author Fabian Ekert <fabian@oveleon.de>
- */
 class ContaoRecommendationBundle extends Bundle
 {
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
 }

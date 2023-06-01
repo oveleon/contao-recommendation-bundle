@@ -9,7 +9,7 @@
 
 ---
 
-> Working with **Contao 4.9** and up to **Contao 4.13** (PHP ^7.4 and PHP 8)
+> Working with **Contao 4.13** and **Contao 5.1** (PHP ^8.1)
 
 ---
 
