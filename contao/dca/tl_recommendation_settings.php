@@ -8,6 +8,7 @@
 
 use Contao\Config;
 use Contao\DC_File;
+use Contao\StringUtil;
 
 $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
 
@@ -31,6 +32,18 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
         'recommendationActiveColor' => [
             'inputType'               => 'text',
             'eval'                    => ['maxlength'=>6, 'multiple'=>true, 'size'=>1, 'colorpicker'=>true, 'isHexColor'=>true, 'decodeEntities'=>true, 'tl_class'=>'w50 wizard'],
+            'save_callback'           => [
+                // See contao/issues (#6105)
+                static function ($value)
+                {
+                    if (!\is_array($value))
+                    {
+                        return StringUtil::restoreBasicEntities($value);
+                    }
+
+                    return serialize(array_map('\Contao\StringUtil::restoreBasicEntities', $value));
+                }
+            ]
         ]
     ]
 ];
