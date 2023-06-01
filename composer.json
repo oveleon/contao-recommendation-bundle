@@ -1,7 +1,7 @@
 {
   "name": "oveleon/contao-recommendation-bundle",
   "type": "contao-bundle",
-  "description": "Recommendation integration for Contao 4 Open Source CMS",
+  "description": "Recommendation integration for Contao Open Source CMS",
   "keywords": [
     "contao",
     "recommendation-bundle",
@@ -37,6 +37,9 @@
   "conflict": {
     "contao/core": "*",
     "contao/manager-plugin": "<2.0 || >=3.0"
+  },
+  "suggest": {
+    "oveleon/contao-google-recommendation-bundle": "This bundle imports Google reviews into the contao-recommendation-bundle"
   },
   "autoload": {
     "psr-4": {

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file is part of Oveleon Recommendation Bundle.
+ *
+ * (c) https://www.oveleon.de/
+ */
+
 namespace Oveleon\ContaoRecommendationBundle\EventListener\DataContainer;
 
 use Contao\Automator;
