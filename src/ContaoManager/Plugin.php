@@ -16,22 +16,17 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Oveleon\ContaoRecommendationBundle\ContaoRecommendationBundle;
 
-/**
- * Plugin for the Contao Manager.
- *
- * @author Fabian Ekert <fabian@oveleon.de>
- */
 class Plugin implements BundlePluginInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(ContaoRecommendationBundle::class)
+                ->setReplace(['recommendation'])
                 ->setLoadAfter([ContaoCoreBundle::class])
-                ->setReplace(['recommendation']),
         ];
     }
 }
