@@ -20,6 +20,8 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 
 /**
  * Front end module "recommendation form".
@@ -37,8 +39,6 @@ use Contao\Widget;
  * @property integer	$jumpTo
  * @property boolean	$recommendation_activate
  * @property string		$recommendation_activateText
- *
- * @author Sebastian Zoglowek <sebastian@oveleon.de>
  */
 class ModuleRecommendationForm extends ModuleRecommendation
 {
@@ -60,11 +60,11 @@ class ModuleRecommendationForm extends ModuleRecommendation
         if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### ' . mb_strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationform'][0], 'UTF-8') . ' ###';
+            $objTemplate->wildcard = '### ' . $GLOBALS['TL_LANG']['FMD']['recommendationform'][0] . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
 
             return $objTemplate->parse();
         }
@@ -143,7 +143,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         ];
 
         // Captcha
-        if (!$this->recommendation_disableCaptcha == true)
+        if (!$this->recommendation_disableCaptcha)
         {
             $arrFields['captcha'] = [
                 'name'      => 'captcha',
@@ -172,8 +172,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
         }
 
         $doNotSubmit = false;
-        $arrWidgets = [];
-        $strFormId = 'recommendation_' . $this->id;
+        $arrWidgets  = [];
+        $strFormId   = 'recommendation_' . $this->id;
 
         // Optional recommendation form fields
         $arrOptionalFormFields = StringUtil::deserialize($this->recommendation_optionalFormFields, true);
@@ -182,7 +182,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         foreach ($arrFields as $fieldName => $arrField)
         {
             // Check for optional form fields
-            if(($arrField['eval']['optional'] ?? null) && !\in_array($fieldName, $arrOptionalFormFields))
+            if (($arrField['eval']['optional'] ?? null) && !\in_array($fieldName, $arrOptionalFormFields))
             {
                 continue;
             }
@@ -218,10 +218,11 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $arrWidgets[$arrField['name']] = $objWidget;
         }
 
-        $this->Template->fields = $arrWidgets;
-        $this->Template->submit = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_submit'];
-        $this->Template->formId = $strFormId;
-        $this->Template->hasError = $doNotSubmit;
+        $this->Template->fields       = $arrWidgets;
+        $this->Template->submit       = $GLOBALS['TL_LANG']['tl_recommendation']['recommendation_submit'];
+        $this->Template->formId       = $strFormId;
+        $this->Template->hasError     = $doNotSubmit;
+        $this->Template->requestToken = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
 
         $objSession = System::getContainer()->get('request_stack')->getSession();
 
@@ -252,8 +253,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strText);
 
             // Prepare the record
-            $arrData = array
-            (
+            $arrData = [
                 'tstamp' => $time,
                 'pid' => $this->recommendation_archive,
                 'title' => $arrWidgets['title']->value ?: '',
@@ -267,7 +267,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'text' => $this->convertLineFeeds($strText),
                 'rating' => $arrWidgets['rating']->value,
                 'published' => $this->recommendation_moderate ? '' : 1
-            );
+            ];
 
             // Store the recommendation
             $objRecommendation = new RecommendationModel();
@@ -316,13 +316,12 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $strText = '<p>' . $strText . '</p>';
         }
 
-        $arrReplace = array
-        (
+        $arrReplace = [
             '@<br>\s?<br>\s?@' => "</p>\n<p>", // Convert two linebreaks into a new paragraph
             '@\s?<br></p>@'    => '</p>',      // Remove BR tags before closing P tags
             '@<p><div@'        => '<div',      // Do not nest DIVs inside paragraphs
             '@</div></p>@'     => '</div>'     // Do not nest DIVs inside paragraphs
-        );
+        ];
 
         return preg_replace(array_keys($arrReplace), array_values($arrReplace), $strText);
     }
@@ -356,8 +355,8 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $strText = $objRecommendation->text;
 
         $objEmail = new Email();
-        $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'];
-        $objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'];
+        $objEmail->from = $GLOBALS['TL_ADMIN_EMAIL'] ?? null;
+        $objEmail->fromName = $GLOBALS['TL_ADMIN_NAME'] ?? null;
         $objEmail->subject = sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_subject'], Idna::decode(Environment::get('host')));
 
         // Convert the recommendation to plain text
@@ -390,8 +389,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
      */
     protected function sendVerificationMail(array $arrData, int $id): void
     {
+        $container = System::getContainer();
+
         /** @var OptIn $optIn */
-        $optIn = System::getContainer()->get('contao.opt-in');
+        $optIn = $container->get('contao.opt_in');
         $optInToken = $optIn->create('rec', $arrData['email'], ['tl_recommendation'=> [$id]]);
 
         // Prepare the simple token data
@@ -402,8 +403,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $arrTokenData['channel'] = '';
 
         // Send the token
-        // ToDo: Contao 5.x compatibility (parseSimpleTokens)
-        $optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), StringUtil::parseSimpleTokens($this->recommendation_activateText, $arrTokenData));
+        $optInToken->send(sprintf($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][0], Idna::decode(Environment::get('host'))), $container->get('contao.string.simple_token_parser')->parse($this->recommendation_activateText, $arrTokenData));
     }
 
     /**
@@ -414,10 +414,16 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $this->Template = new FrontendTemplate('mod_message');
 
         /** @var OptIn $optin */
-        $optIn = System::getContainer()->get('contao.opt-in');
+        $optIn = System::getContainer()->get('contao.opt_in');
 
         // Find an unconfirmed token
-        if ((!$optInToken = $optIn->find(Input::get('token'))) || !$optInToken->isValid() || \count($arrRelated = $optInToken->getRelatedRecords()) < 1 || key($arrRelated) != 'tl_recommendation' || \count($arrIds = current($arrRelated)) < 1)
+        if (
+            (!$optInToken = $optIn->find(Input::get('token'))) ||
+            !$optInToken->isValid() ||
+            \count($arrRelated = $optInToken->getRelatedRecords()) < 1 ||
+            key($arrRelated) != 'tl_recommendation' ||
+            \count($arrIds = current($arrRelated)) < 1
+        )
         {
             $this->Template->type = 'error';
             $this->Template->message = $GLOBALS['TL_LANG']['MSC']['invalidToken'];
@@ -458,7 +464,6 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
         $objRecommendation->verified = 1;
         $objRecommendation->save();
-
 
         // Notify system administrator via e-mail
         if ($this->recommendation_notify)
