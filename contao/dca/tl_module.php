@@ -6,8 +6,11 @@
  * (c) https://www.oveleon.de/
  */
 
+use Contao\Backend;
+use Contao\BackendUser;
 use Contao\System;
 use Contao\Controller;
+use Oveleon\ContaoRecommendationBundle\Security\ContaoRecommendationPermissions;
 
 System::loadLanguageFile('tl_recommendation');
 System::loadLanguageFile('tl_recommendation_notification');
@@ -175,7 +178,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = [
     'sql'                     => "varchar(64) NOT NULL default ''"
 ];
 
-class tl_module_recommendation extends Contao\Backend
+class tl_module_recommendation extends Backend
 {
     /**
      * Import the back end user object
@@ -183,7 +186,7 @@ class tl_module_recommendation extends Contao\Backend
     public function __construct()
     {
         parent::__construct();
-        $this->import('Contao\BackendUser', 'User');
+        $this->import(BackendUser::class, 'User');
     }
 
     /**
@@ -198,10 +201,11 @@ class tl_module_recommendation extends Contao\Backend
 
         $arrArchives = [];
         $objArchives = $this->Database->execute("SELECT id, title FROM tl_recommendation_archive ORDER BY title");
+        $security = System::getContainer()->get('security.helper');
 
         while ($objArchives->next())
         {
-            if ($this->User->hasAccess($objArchives->id, 'recommendations'))
+            if ($security->isGranted(ContaoRecommendationPermissions::USER_CAN_EDIT_ARCHIVE, $objArchives->id))
             {
                 $arrArchives[$objArchives->id] = $objArchives->title;
             }
