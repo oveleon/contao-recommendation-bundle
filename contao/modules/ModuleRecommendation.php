@@ -9,7 +9,6 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\Config;
-use Contao\Controller;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Date;
 use Contao\FilesModel;
@@ -22,6 +21,7 @@ use Contao\System;
 use Exception;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Parent class for recommendation modules.
@@ -120,29 +120,34 @@ abstract class ModuleRecommendation extends Module
         // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
         $objTemplate->addRecommendationImage = array_key_exists('image', $arrMeta);
 
+        $container = System::getContainer();
+
         // Add an image
         if ($objRecommendation->imageUrl != '')
         {
-            $objRecommendation->imageUrl = Controller::replaceInsertTags($objRecommendation->imageUrl);
+            $objRecommendation->imageUrl = $container->get('contao.insert_tag.parser')->replace($objRecommendation->imageUrl);
+
+            // Insert tag parser on contao ^5 returns a leading slash whilst contao 4.13 does not
+            if (Path::isAbsolute($objRecommendation->imageUrl))
+            {
+                $objRecommendation->imageUrl = substr($objRecommendation->imageUrl,1);
+            }
 
             if ($this->isExternal($objRecommendation->imageUrl))
             {
                 $objTemplate->addExternalImage = true;
-
                 $objTemplate->imageUrl = $objRecommendation->imageUrl;
             }
             else
             {
                 $objModel = FilesModel::findByPath($objRecommendation->imageUrl);
-
-                $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
+                $this->addInternalImage($objModel, $objTemplate);
             }
         }
         elseif (Config::get('recommendationDefaultImage'))
         {
             $objModel = FilesModel::findByUuid(Config::get('recommendationDefaultImage'));
-
-            $this->addInternalImage($objModel, $objRecommendation, $objTemplate);
+            $this->addInternalImage($objModel, $objTemplate);
         }
 
         // HOOK: add custom logic
@@ -156,9 +161,9 @@ abstract class ModuleRecommendation extends Module
         }
 
         // Tag recommendations
-        if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
+        if ($container->has('fos_http_cache.http.symfony_response_tagger'))
         {
-            $responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
+            $responseTagger = $container->get('fos_http_cache.http.symfony_response_tagger');
             $responseTagger->addTags(['contao.db.tl_recommendation.' . $objRecommendation->id]);
         }
 
@@ -268,34 +273,35 @@ abstract class ModuleRecommendation extends Module
 
     /**
      * Add an internal image to template
-     *
-     * @param FilesModel $objModel                   The files model
-     * @param RecommendationModel $objRecommendation The recommendation model
-     * @param FrontendTemplate $objTemplate          The frontend template
      */
-    protected function addInternalImage($objModel, $objRecommendation, &$objTemplate): void
+    protected function addInternalImage($objModel, &$objTemplate): void
     {
-        // ToDo: Contao 5.x compatibility
-        if ($objModel !== null && is_file(System::getContainer()->getParameter('kernel.project_dir') . '/' . $objModel->path))
+        if (null !== $objModel)
         {
+            $imgSize = $this->imgSize ?: null;
             $objTemplate->addInternalImage = true;
 
-            // Do not override the field now that we have a model registry (see #6303)
-            $arrRecommendation = $objRecommendation->row();
-
             // Override the default image size
-            if ($this->imgSize != '')
+            if ($this->imgSize)
             {
                 $size = StringUtil::deserialize($this->imgSize);
 
                 if ($size[0] > 0 || $size[1] > 0 || is_numeric($size[2]) || ($size[2][0] ?? null) === '_')
                 {
-                    $arrRecommendation['size'] = $this->imgSize;
+                    $imgSize = $this->imgSize;
                 }
             }
 
-            $arrRecommendation['singleSRC'] = $objModel->path;
-            $this->addImageToTemplate($objTemplate, $arrRecommendation, null, null, $objModel);
+            $figureBuilder = System::getContainer()
+                ->get('contao.image.studio')
+                ->createFigureBuilder()
+                ->from($objModel->path)
+                ->setSize($imgSize);
+
+            if (null !== ($figure = $figureBuilder->buildIfResourceExists()))
+            {
+                $figure->applyLegacyTemplateData($objTemplate);
+            }
         }
     }
 

@@ -46,11 +46,11 @@ class ModuleRecommendationList extends ModuleRecommendation
         if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request))
         {
             $objTemplate = new BackendTemplate('be_wildcard');
-            $objTemplate->wildcard = '### ' . mb_strtoupper($GLOBALS['TL_LANG']['FMD']['recommendationlist'][0], 'UTF-8') . ' ###';
+            $objTemplate->wildcard = '### ' . $GLOBALS['TL_LANG']['FMD']['recommendationlist'][0] . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
 
             return $objTemplate->parse();
         }
@@ -135,7 +135,7 @@ class ModuleRecommendationList extends ModuleRecommendation
             }
 
             // Get the current page
-            $id = 'page_n' . $this->id;
+            $id = 'page_r' . $this->id;
             $page = Input::get($id) ?? 1;
 
             // Do not index or cache the page if the page number is outside the range
