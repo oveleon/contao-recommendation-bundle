@@ -30,7 +30,7 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
 
 ## Features
 
-- Compatible with Contao 4.9 and higher versions (PHP 8 Support)
+- Compatible with Contao 4.13 and higher versions (PHP 8 Support)
 - Possibility to create multiple recommendation archives
 - Possibility to create recommendation items
 - Frontend- and Backend permissions for archives and items
