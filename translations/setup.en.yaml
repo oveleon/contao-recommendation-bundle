@@ -1,0 +1,10 @@
+setup:
+    tables:
+        tl_recommendation_archive:      'Recommendation archives'
+        tl_recommendation:              'Recommendations'
+    prompt:
+        recommendation_archive:
+            jumpTo:
+                label:                  'Recommendation-Archive → Redirect page'
+                description:            'One or more recommendation archives refer to a forwarding page that cannot be resolved. Your selection is applied to all other rating archives that reference the same redirection page.'
+                explanation:            'When importing one or more recommendation archives, the corresponding redirect page could not be found. Please select a page from your Contao instance to create a link between these archives and a page.<br/><br/><b>The following page was not imported and needs an alternative:</b>'

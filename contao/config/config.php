@@ -8,6 +8,7 @@ use Oveleon\ContaoRecommendationBundle\ModuleRecommendationList;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\EventListener\ProductInstaller\AddRecommendationValidatorListener;
 
 // Back end modules
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 5, [
@@ -39,3 +40,6 @@ $GLOBALS['TL_PERMISSIONS'][] = 'recommendationp';
 // Models
 $GLOBALS['TL_MODELS']['tl_recommendation']         = RecommendationModel::class;
 $GLOBALS['TL_MODELS']['tl_recommendation_archive'] = RecommendationArchiveModel::class;
+
+// Add product installer validators
+$GLOBALS['PI_HOOKS']['addValidator'][] = [AddRecommendationValidatorListener::class, 'addValidators'];

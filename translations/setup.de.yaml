@@ -1,0 +1,10 @@
+setup:
+    tables:
+        tl_recommendation_archive:      'Bewertungen-Archive'
+        tl_recommendation:              'Bewertungen'
+    prompt:
+        recommendation_archive:
+            jumpTo:
+                label:                  'Bewertungen-Archiv → Weiterleitungsseite'
+                description:            'Ein oder mehrere Bewertungen-Archive verweisen auf eine Weiterleitungsseite, welche nicht aufgelöst werden kann. Ihre Auswahl wird für alle weiteren Bewertungen-Archive, welche auf die selbe Weiterleitungsseite referenzieren, übernommen.'
+                explanation:            'Beim Importieren eines oder mehrerer Bewertungen-Archive konnte die zugehörige Weiterleitungsseite nicht gefunden werden. Wählen Sie bitte eine Seite aus Ihrer Contao-Instanz, um eine Verknüpfung zwischen diesen Archiven und einer Seite herzustellen.<br/><br/><b>Folgende Seite wurde nicht importiert und benötigt eine Alternative:</b>'
