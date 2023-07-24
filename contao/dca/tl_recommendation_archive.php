@@ -89,7 +89,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
     // Palettes
     'palettes' => [
         '__selector__'                => ['protected'],
-        'default'                     => '{title_legend},title,jumpTo;{protected_legend:hide},protected'
+        'default'                     => '{title_legend},title,jumpTo;{protected_legend:hide},protected;{expert_legend:hide},useAutoItem'
     ],
 
     // Subpalettes
@@ -125,6 +125,12 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
             'filter'                  => true,
             'inputType'               => 'checkbox',
             'eval'                    => ['submitOnChange'=>true],
+            'sql'                     => "char(1) NOT NULL default ''"
+        ],
+        'useAutoItem' => [
+            'exclude'                 => true,
+            'filter'                  => true,
+            'inputType'               => 'checkbox',
             'sql'                     => "char(1) NOT NULL default ''"
         ],
         'groups' => [

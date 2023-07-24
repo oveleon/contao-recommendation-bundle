@@ -19,6 +19,12 @@
       <trans-unit id="tl_recommendation_archive.protected.1">
         <source>Show recommendations to certain member groups only.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation_archive.useAutoItem.0">
+        <source>Use auto-item</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_archive.useAutoItem.1">
+        <source>Activate auto-item parameter for this archive.</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation_archive.groups.0">
         <source>Allowed member groups</source>
       </trans-unit>
@@ -33,6 +39,9 @@
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.title_legend">
         <source>Title and redirect page</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_archive.expert_legend">
+        <source>Expert settings</source>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.protected_legend">
         <source>Access protection</source>
