@@ -95,6 +95,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
             return;
         }
 
+        // Get archive record
+        $archive = RecommendationArchiveModel::findMultipleByIds($this->recommendation_archives);
+        $archive = $archive[0] ?? null;
+
         // Form fields
         $arrFields = [
             'author' => [
@@ -141,6 +145,16 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'eval'      => ['optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true],
             ],
         ];
+
+        // Add scope for auto alias archives
+        if($archive && $archive->useAutoItem)
+        {
+            $arrFields['scope'] = [
+                'name'      => 'scope',
+                'inputType' => 'hidden',
+                'value'     => Input::get('auto_item')
+            ];
+        }
 
         // Captcha
         if (!$this->recommendation_disableCaptcha)
@@ -266,6 +280,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'time' => $time,
                 'text' => $this->convertLineFeeds($strText),
                 'rating' => $arrWidgets['rating']->value,
+                'scope' => $arrWidgets['scope']->value ?? '',
                 'published' => $this->recommendation_moderate ? '' : 1
             ];
 
