@@ -308,7 +308,7 @@ abstract class ModuleRecommendation extends Module
      */
     protected function getElapsedTime(string $strDateTime): string
     {
-        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime());
+        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime(date("Y-m-d\TH:i:sP",time())));
 
         if (($years = $objElapsedTime->y) > 0)
         {
