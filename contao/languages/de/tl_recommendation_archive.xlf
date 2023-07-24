@@ -49,6 +49,10 @@
         <source>Access protection</source>
         <target>Zugriffsschutz</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation_archive.expert_legend">
+        <source>Expert settings</source>
+        <target>Experteneinstellungen</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation_archive.settings.0">
         <source>Settings</source>
         <target>Einstellungen</target>

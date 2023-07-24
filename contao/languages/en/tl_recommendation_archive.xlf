@@ -34,6 +34,9 @@
       <trans-unit id="tl_recommendation_archive.title_legend">
         <source>Title and redirect page</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation_archive.expert_legend">
+        <source>Expert settings</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation_archive.protected_legend">
         <source>Access protection</source>
       </trans-unit>

@@ -89,7 +89,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
     // Palettes
     'palettes' => [
         '__selector__'                => ['protected'],
-        'default'                     => '{title_legend},title,jumpTo,useAutoItem;{protected_legend:hide},protected'
+        'default'                     => '{title_legend},title,jumpTo;{expert_legend:hide},useAutoItem;{protected_legend:hide},protected'
     ],
 
     // Subpalettes
