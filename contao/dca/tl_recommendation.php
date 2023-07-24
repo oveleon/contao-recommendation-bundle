@@ -217,6 +217,11 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'eval'                    => ['doNotCopy'=>true, 'maxlength'=>255, 'tl_class'=>'w100 clr'],
             'sql'                     => "varchar(255) NOT NULL default ''"
         ],
+        'scope' => [
+            'inputType'               => 'text',
+            'filter'                  => true,
+            'sql'                     => "varchar(255) NOT NULL default ''"
+        ],
         'cssClass' => [
             'exclude'                 => true,
             'inputType'               => 'text',
