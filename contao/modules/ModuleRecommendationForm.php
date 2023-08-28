@@ -152,7 +152,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $arrFields['scope'] = [
                 'name'      => 'scope',
                 'inputType' => 'hidden',
-                'value'     => Input::get('auto_item')
+                'value'     => Input::get('auto_item', false, true)
             ];
         }
 

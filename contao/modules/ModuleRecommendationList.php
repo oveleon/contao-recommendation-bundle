@@ -282,7 +282,7 @@ class ModuleRecommendationList extends ModuleRecommendation
         $items = [];
 
         // Get auto item
-        $autoItem = Input::get('auto_item');
+        $autoItem = Input::get('auto_item', false, true);
 
         foreach (RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, ['order'=>$order]) ?? [] as $item)
         {
