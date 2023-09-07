@@ -3,14 +3,13 @@
 namespace Oveleon\ContaoRecommendationBundle\Import\Validator;
 
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
-use Oveleon\ProductInstaller\Import\Validator\ValidatorInterface;
 
 /**
  * Validator class for validating the recommendation records during and after import.
  *
  * @author Daniele Sciannimanica <https://github.com/doishub>
  */
-class RecommendationArchiveValidator implements ValidatorInterface
+class RecommendationArchiveValidator
 {
     static public function getTrigger(): string
     {

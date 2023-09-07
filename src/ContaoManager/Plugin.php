@@ -15,6 +15,7 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Oveleon\ContaoRecommendationBundle\ContaoRecommendationBundle;
+use Oveleon\ProductInstaller\ProductInstaller;
 
 class Plugin implements BundlePluginInterface
 {
@@ -26,7 +27,10 @@ class Plugin implements BundlePluginInterface
         return [
             BundleConfig::create(ContaoRecommendationBundle::class)
                 ->setReplace(['recommendation'])
-                ->setLoadAfter([ContaoCoreBundle::class])
+                ->setLoadAfter([
+                    ContaoCoreBundle::class,
+                    ProductInstaller::class
+                ])
         ];
     }
 }

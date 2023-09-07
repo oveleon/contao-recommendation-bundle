@@ -11,7 +11,7 @@ declare(strict_types=1);
  * @copyright   Oveleon                <https://www.oveleon.de/>
  */
 
-namespace Oveleon\ContaoRecommendationBundle\EventListener\ProductInstaller;
+namespace Oveleon\ContaoRecommendationBundle\EventListener\Import;
 
 use Oveleon\ContaoRecommendationBundle\Import\Validator\RecommendationArchiveValidator;
 use Oveleon\ProductInstaller\Import\Validator;

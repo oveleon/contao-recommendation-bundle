@@ -8,7 +8,7 @@ use Oveleon\ContaoRecommendationBundle\ModuleRecommendationList;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
-use Oveleon\ContaoRecommendationBundle\EventListener\ProductInstaller\AddRecommendationValidatorListener;
+use Oveleon\ContaoRecommendationBundle\EventListener\Import\AddRecommendationValidatorListener;
 
 // Back end modules
 ArrayUtil::arrayInsert($GLOBALS['BE_MOD']['content'], 5, [
