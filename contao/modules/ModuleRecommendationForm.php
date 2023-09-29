@@ -268,20 +268,20 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
             // Prepare the record
             $arrData = [
-                'tstamp' => $time,
-                'pid' => $this->recommendation_archive,
-                'title' => $arrWidgets['title']->value ?: '',
-                'alias' => $arrWidgets['title']->value ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
-                'author' => $arrWidgets['author']->value,
-                'email' => $arrWidgets['email']->value ?: '',
-                'location' => $arrWidgets['location']->value ?: '',
-                'customField' => $arrWidgets['customField']->value ?: '',
-                'date' => $time,
-                'time' => $time,
-                'text' => $this->convertLineFeeds($strText),
-                'rating' => $arrWidgets['rating']->value,
-                'scope' => $arrWidgets['scope']->value ?? '',
-                'published' => $this->recommendation_moderate ? '' : 1
+                'tstamp'      => $time,
+                'pid'         => $this->recommendation_archive,
+                'title'       => $arrWidgets['title']->value ?? '',
+                'alias'       => isset($arrWidgets['title']) ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
+                'author'      => $arrWidgets['author']->value,
+                'email'       => $arrWidgets['email']->value ?? '',
+                'location'    => $arrWidgets['location']->value ?? '',
+                'customField' => $arrWidgets['customField']->value ?? '',
+                'date'        => $time,
+                'time'        => $time,
+                'text'        => $this->convertLineFeeds($strText),
+                'rating'      => $arrWidgets['rating']->value,
+                'scope'       => $arrWidgets['scope']->value ?? '',
+                'published'   => $this->recommendation_moderate ? '' : 1
             ];
 
             // Store the recommendation
