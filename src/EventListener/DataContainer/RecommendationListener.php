@@ -82,7 +82,13 @@ class RecommendationListener
         // Generate alias if there is none
         if (!$varValue)
         {
-            $varValue = System::getContainer()->get('contao.slug')->generate($dc->activeRecord->title, RecommendationArchiveModel::findByPk($dc->activeRecord->pid)->jumpTo, $aliasExists);
+            // Use alias prefix if no title has been set
+            if (!$title = $dc->activeRecord->title)
+            {
+                $title = Config::get('recommendationAliasPrefix') ?? 'recommendation';
+            }
+
+            $varValue = System::getContainer()->get('contao.slug')->generate($title, RecommendationArchiveModel::findByPk($dc->activeRecord->pid)->jumpTo, $aliasExists);
         }
         elseif (preg_match('/^[1-9]\d*$/', $varValue))
         {

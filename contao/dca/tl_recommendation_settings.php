@@ -20,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
 
     // Palettes
     'palettes' => [
-        'default'                     => '{recommendation_legend},recommendationDefaultImage,recommendationActiveColor;'
+        'default'                     => '{recommendation_legend},recommendationDefaultImage,recommendationActiveColor,recommendationAliasPrefix;'
     ],
 
     // Fields
@@ -42,6 +42,21 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
                     }
 
                     return serialize(array_map('\Contao\StringUtil::restoreBasicEntities', $value));
+                }
+            ]
+        ],
+        'recommendationAliasPrefix' => [
+            'inputType'               => 'text',
+            'eval'                    => ['rgxp'=>'alias', 'maxlength'=>255, 'tl_class'=>'w50 clr'],
+            'save_callback'           => [
+                static function ($value)
+                {
+                    if (!$value)
+                    {
+                        $value = &$GLOBALS['TL_LANG']['tl_recommendation_settings']['defaultPrefix'];
+                    }
+
+                    return $value;
                 }
             ]
         ]

@@ -317,6 +317,10 @@
         <source>just now</source>
         <target>gerade eben</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.aliasPrefix">
+        <source>recommendation</source>
+        <target>bewertung</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

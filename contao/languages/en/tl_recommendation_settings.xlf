@@ -1,6 +1,9 @@
 <?xml version="1.0" ?><xliff version="1.1">
   <file datatype="php" original="contao/languages/en/tl_recommendation_settings.php" source-language="en">
     <body>
+      <trans-unit id="tl_recommendation_settings.recommendation_legend">
+        <source>Settings</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation_settings.recommendationDefaultImage.0">
         <source>Default image</source>
       </trans-unit>
@@ -13,8 +16,14 @@
       <trans-unit id="tl_recommendation_settings.recommendationActiveColor.1">
         <source>Color value will be set as inline css style in the html code.</source>
       </trans-unit>
-      <trans-unit id="tl_recommendation_settings.recommendation_legend">
-        <source>Settings</source>
+      <trans-unit id="tl_recommendation_settings.recommendationAliasPrefix.0">
+        <source>Alias prefix</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationAliasPrefix.1">
+        <source>Here you can enter an alias prefix that will precede a recommendation alias if no title has been entered.</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.defaultPrefix">
+        <source>recommendation</source>
       </trans-unit>
     </body>
   </file>
