@@ -103,8 +103,12 @@ If you are familiar using the news- or events bundle, you should be able to set 
 
    ![Admin View: Recommendation Archive Settings](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/recommendationArchiveSettings.jpg)
 
+5. Setting up the recommendation alias
+    - Within the recommendation settings, you can update the default-prefix for aliases when no title has been given
 
-5. Setting up a recommendation-reader for a redirect page
+   ![Admin View: Recommendation Reader](https://www.oveleon.de/share/github-assets/contao-recommendation-bundle/defaultAlias.jpg)
+
+6. Setting up a recommendation-reader for a redirect page
    1. Create the front end module *recommendation-reader*
    2. Choose your recommendation archive/s
    3. Choose the meta fields you want to show in your front end
