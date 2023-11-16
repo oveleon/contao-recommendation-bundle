@@ -120,6 +120,21 @@ abstract class ModuleRecommendation extends Module
         // Parsing image meta field to template for backwards compatibility // Works for recommendation_default.html5
         $objTemplate->addRecommendationImage = array_key_exists('image', $arrMeta);
 
+        // Add extra information that can be parsed with class and value
+        $additionalData = [];
+
+        // HOOK: add custom logic
+        if (isset($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData']) && \is_array($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData']))
+        {
+            foreach ($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData'] as $callback)
+            {
+                $this->import($callback[0]);
+                $this->{$callback[0]}->{$callback[1]}($objTemplate, $objRecommendation->row(), $additionalData, $this);
+            }
+        }
+
+        $objTemplate->recommendationAdditional = $additionalData;
+
         $container = System::getContainer();
 
         // Add an image
