@@ -190,7 +190,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'exclude'                 => true,
             'search'                  => true,
             'inputType'               => 'textarea',
-            'eval'                    => ['mandatory'=>true, 'rte'=>'tinyMCE', 'tl_class'=>'clr'],
+            'eval'                    => ['rte'=>'tinyMCE', 'tl_class'=>'clr'],
             'sql'                     => "mediumtext NULL"
         ],
         'imageUrl' => [
