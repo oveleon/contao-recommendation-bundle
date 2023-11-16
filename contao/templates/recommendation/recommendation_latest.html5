@@ -1,4 +1,3 @@
-
 <div class="layout_latest arc_<?= $this->archiveId ?> block<?= $this->class ?>">
 
   <?php if ($this->addInternalImage): ?>
@@ -44,6 +43,14 @@
         <?= $this->text ?>
       <?php endif; ?>
     </div>
+
+    <?php if ($recommendationProps = $this->recommendationAdditional): ?>
+      <div class="additional">
+        <?php foreach ($recommendationProps as $prop): ?>
+          <div class="<?=$prop['class']?>"><?=$prop['value']?></div>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
 
     <?php if ($this->allowRedirect): ?>
       <p class="more"><?= $this->more ?></p>

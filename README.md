@@ -26,6 +26,7 @@ This plugin adds a new sub-menu *Recommendations* with recommendation archives a
   + [Recommendation form](#recommendation-form)
 + [Sitemap](#sitemap)
 + [Verified recommendations / GDPR](#verified-recommendations--gdpr)
++ [Bugs and feature requests](#bugs-and-feature-requests)
 + [Styled Reviews](#example)
 
 ## Features
@@ -164,7 +165,7 @@ The recommendation list can display published (and verified) recommendations fro
   </tr>
   <tr>
     <td>Meta fields</td>
-    <td>Here you can select meta fields to display</td>
+    <td>Here you can select meta fields to display <br><br><i>(Additional data utilizes the *addAdditionalRecommendationData* Hook and includes data from other plugins.)</i></td>
   </tr>
   <tr>
     <td>Recommendation template</td>
@@ -310,6 +311,22 @@ A cronjob will purge the unverified recommendations after 24 hours.
 
 The recommendation form does not save the IP of the user. However, it will save the e-mail-address of a user if they verified their recommendation
 with the opt-in token.
+
+
+## Bugs and feature requests
+
+We appreciate your contributions when opening issues or requesting features. To help keep our issue list tidy, we may need to close issues if questions go unanswered.
+
+### Bugs
+If you think you have found a bug please follow these guidelines
+1. Search for existing issues and check if your problem has already been reported
+2. Check if you are using the latest version and if the issue has been fixed already
+3. Provide a step-by-step tutorial on how to reproduce the issue in an isolated environment using only this bundle and the contao managed edition
+
+### Feature requests
+Feature requests are welcome. But take a moment to find out whether your idea fits with the scope and aims of the project.
+It's up to you to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
+
 
 ## Example
 
