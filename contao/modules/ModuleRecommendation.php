@@ -124,7 +124,11 @@ abstract class ModuleRecommendation extends Module
         $additionalData = [];
 
         // HOOK: add custom logic
-        if (isset($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData']) && \is_array($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData']))
+        if (
+            isset($arrMeta['additionalData']) &&
+            isset($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData']) &&
+            \is_array($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData'])
+        )
         {
             foreach ($GLOBALS['TL_HOOKS']['addAdditionalRecommendationData'] as $callback)
             {
@@ -238,6 +242,10 @@ abstract class ModuleRecommendation extends Module
 
                 case 'image':
                     $return['image'] = true;
+                    break;
+
+                case 'additionalData':
+                    $return['additionalData'] = true;
                     break;
 
                 default:

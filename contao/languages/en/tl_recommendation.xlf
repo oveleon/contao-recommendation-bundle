@@ -52,6 +52,12 @@
       <trans-unit id="tl_recommendation.customField.1">
         <source>Here you can add additional text that should be displayed within the recommendation.</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation.additionalData.0">
+        <source>Additional data</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.additionalData.1">
+        <source>This option can be used to display data from other plugins.</source>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
       </trans-unit>

@@ -69,6 +69,14 @@
         <source>Here you can add additional text that should be displayed within the recommendation.</source>
         <target>Hier können Sie einen zusätzlichen Text hinzufügen, der in der Bewertung angezeigt werden soll.</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation.additionalData.0">
+        <source>Additional data</source>
+        <target>Weitere Daten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation.additionalData.1">
+        <source>This option can be used to display data from other plugins.</source>
+        <target>Diese Option kann verwendet werden, um Daten aus anderen Plugins anzuzeigen.</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation.teaser.0">
         <source>Recommendation teaser</source>
         <target>Teasertext</target>
