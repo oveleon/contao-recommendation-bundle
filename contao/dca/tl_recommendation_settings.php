@@ -20,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
 
     // Palettes
     'palettes' => [
-        'default'                     => '{recommendation_legend},recommendationDefaultImage,recommendationActiveColor,recommendationAliasPrefix;'
+        'default'                     => '{recommendation_legend},recommendationDefaultImage,recommendationActiveColor,recommendationAliasPrefix,recommendationImageUploadFolder;'
     ],
 
     // Fields
@@ -59,6 +59,11 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
                     return $value;
                 }
             ]
+        ],
+        'recommendationImageUploadFolder' => [
+            'exclude'                 => true,
+            'inputType'               => 'fileTree',
+            'eval'                    => ['mandatory' => true, 'fieldType' => 'radio', 'tl_class' => 'clr']
         ]
     ]
 ];
