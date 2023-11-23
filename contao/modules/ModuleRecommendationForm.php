@@ -150,7 +150,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'name'      => 'image',
                 'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['image'],
                 'inputType' => 'upload',
-                'eval'      => ['optional'=>true, 'extensions' => '%contao.image.valid_extensions%', 'storeFile' => true, 'doNotOverwrite' => true, 'uploadFolder' => Config::get('recommendationImageUploadFolder')]
+                'eval'      => ['optional'=>true, 'extensions' => implode(',', System::getContainer()->getParameter('contao.image.valid_extensions')), 'storeFile' => true, 'doNotOverwrite' => true, 'uploadFolder' => Config::get('recommendationImageUploadFolder')]
             ]
         ];
 
