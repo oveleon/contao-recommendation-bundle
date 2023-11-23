@@ -40,18 +40,6 @@
       <trans-unit id="tl_module.recommendation_optionalFormFields.1">
         <source>Here you can select one or more recommendation fields. Author, rating and text are mandatory.</source>
       </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_upload.0">
-        <source>Activate image upload</source>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_upload.1">
-        <source>Please activate, if you want to offer an image upload field.</source>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_extensions.0">
-        <source>Allowed image file types</source>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_extensions.1">
-        <source>A comma separated list of valid image file extensions.</source>
-      </trans-unit>
       <trans-unit id="tl_module.recommendation_customFieldLabel.0">
         <source>Label: Custom field</source>
       </trans-unit>

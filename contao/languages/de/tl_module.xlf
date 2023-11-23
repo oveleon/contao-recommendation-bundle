@@ -53,22 +53,6 @@
         <source>Here you can select one or more recommendation fields. Author, rating and text are mandatory.</source>
         <target>Bitte wählen Sie ein oder mehrere Bewertungsfelder. Autor, Bewertung und Text sind Pflichtfelder.</target>
       </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_upload.0">
-        <source>Activate image upload</source>
-        <target>Bildupload aktivieren</target>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_upload.1">
-        <source>Please activate, if you want to offer an image upload field.</source>
-        <target>Hier können Sie ein Bild-Upload-Feld aktivieren.</target>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_extensions.0">
-        <source>Allowed image file types</source>
-        <target>Erlaubte Bild-Dateitypen</target>
-      </trans-unit>
-      <trans-unit id="tl_module.recommendation_image_extensions.1">
-        <source>A comma separated list of valid image file extensions.</source>
-        <target>Eine kommagetrennte Liste gültiger Bild-Dateiendungen..</target>
-      </trans-unit>
       <trans-unit id="tl_module.recommendation_customFieldLabel.0">
         <source>Label: Custom field</source>
         <target>Label: Benutzerdefiniertes Feld</target>

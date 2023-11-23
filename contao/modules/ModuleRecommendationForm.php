@@ -146,6 +146,12 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'text',
                 'eval'      => ['optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true],
             ],
+            'image' => [
+                'name'      => 'image',
+                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['image'],
+                'inputType' => 'upload',
+                'eval'      => ['optional'=>true, 'extensions' => '%contao.image.valid_extensions%', 'storeFile' => true, 'doNotOverwrite' => true, 'uploadFolder' => Config::get('recommendationImageUploadFolder')]
+            ]
         ];
 
         // Add scope for auto alias archives
@@ -155,17 +161,6 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'name'      => 'scope',
                 'inputType' => 'hidden',
                 'value'     => Input::get('auto_item', false, true)
-            ];
-        }
-
-        // Image
-        if ($this->recommendation_image_upload)
-        {
-            $arrFields['image'] = [
-                'name'      => 'image',
-                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['image'],
-                'inputType' => 'upload',
-                'eval'      => ['mandatory' => true, 'extensions' => $this->recommendation_image_extensions, 'storeFile' => true, 'doNotOverwrite' => true, 'uploadFolder' => Config::get('recommendationImageUploadFolder')]
             ];
         }
 

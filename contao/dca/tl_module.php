@@ -18,15 +18,13 @@ System::loadLanguageFile('tl_recommendation_list');
 
 // Add a palette selector
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_activate';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_image_upload';
 
 // Add palettes to tl_module
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']   = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_readerModule,recommendation_minRating,recommendation_featured,recommendation_order,numberOfItems,perPage;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader'] = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']   = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_image_upload,recommendation_customFieldLabel,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{privacy_legend},recommendation_privacyText;{redirect_legend:hide},jumpTo;{email_legend:hide},recommendation_activate;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']   = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_customFieldLabel,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{privacy_legend},recommendation_privacyText;{redirect_legend:hide},jumpTo;{email_legend:hide},recommendation_activate;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['recommendation_activate']     = 'recommendation_activateJumpTo,recommendation_activateText';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['recommendation_image_upload'] = 'recommendation_image_extensions';
 
 // Add fields to tl_module
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_archives'] = [
@@ -95,24 +93,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_minRating'] = [
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_optionalFormFields'] = [
     'exclude'                 => true,
     'inputType'               => 'checkbox',
-    'options'                 => ['title', 'location', 'email', 'customField'],
+    'options'                 => ['title', 'location', 'email', 'customField', 'image'],
     'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
     'eval'                    => ['multiple'=>true, 'tl_class'=>'w50 clr'],
     'sql'                     => "varchar(255) NOT NULL default ''"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_image_upload'] = [
-    'exclude'                 => true,
-    'inputType'               => 'checkbox',
-    'eval'                    => ['submitOnChange' => true, 'tl_class' => 'clr'],
-    'sql'                     => "char(1) NOT NULL default ''"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_image_extensions'] = [
-    'exclude'                 => true,
-    'inputType'               => 'text',
-    'eval'                    => ['mandatory' => true, 'rgxp' => 'extnd', 'maxlength' => 255, 'tl_class' => 'w50'],
-    'sql'                     => "varchar(255) NOT NULL default 'jpg,jpeg,gif,png'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_customFieldLabel'] = [
