@@ -11,6 +11,7 @@
       <div class="formbody">
         <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formId ?>">
         <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>">
+        <input type="hidden" name="MAX_FILE_SIZE" value="<?= Config::get('maxFileSize') ?>">
         <?php foreach ($this->fields as $field): ?>
           <?= $field->parse() ?>
         <?php endforeach; ?>
