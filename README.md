@@ -165,7 +165,7 @@ The recommendation list can display published (and verified) recommendations fro
   </tr>
   <tr>
     <td>Meta fields</td>
-    <td>Here you can select meta fields to display <br><br><i>(Additional data utilizes the *addAdditionalRecommendationData* Hook and includes data from other plugins.)</i></td>
+    <td>Here you can select meta fields to display</td>
   </tr>
   <tr>
     <td>Recommendation template</td>

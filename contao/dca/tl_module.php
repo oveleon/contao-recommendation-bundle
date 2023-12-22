@@ -66,7 +66,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_metaFields'] = [
     'default'                 => ['date', 'author'],
     'exclude'                 => true,
     'inputType'               => 'checkbox',
-    'options'                 => ['image', 'date', 'author', 'rating', 'location', 'customField', 'additionalData'],
+    'options'                 => ['image', 'date', 'author', 'rating', 'location', 'customField'],
     'reference'               => &$GLOBALS['TL_LANG']['tl_recommendation'],
     'eval'                    => ['multiple'=>true],
     'sql'                     => "varchar(255) NOT NULL default ''"
