@@ -9,6 +9,7 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\BackendTemplate;
+use Contao\Config;
 use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\OptIn\OptIn;
 use Contao\Email;
@@ -29,11 +30,12 @@ use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
  * @property integer 	$id
  * @property string		$headline
  * @property string		$name
- * @property integer    $recommendation_archive
+ * @property integer	$recommendation_archive
  * @property array		$recommendation_optionalFormFields
- * @property string     $recommendation_customFieldLabel
+ * @property string		$recommendation_customFieldLabel
  * @property boolean	$recommendation_notify
  * @property boolean	$recommendation_moderate
+ * @property boolean	$recommendation_image_upload
  * @property boolean	$recommendation_disableCaptcha
  * @property string		$recommendation_privacyText
  * @property integer	$jumpTo
@@ -144,6 +146,12 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'inputType' => 'text',
                 'eval'      => ['optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true],
             ],
+            'image' => [
+                'name'      => 'image',
+                'label'     => $GLOBALS['TL_LANG']['tl_recommendation']['image'],
+                'inputType' => 'upload',
+                'eval'      => ['optional'=>true, 'maxlength'=>Config::get('maxFileSize'), 'extensions'=>implode(',', System::getContainer()->getParameter('contao.image.valid_extensions')), 'storeFile'=>true, 'doNotOverwrite'=>true, 'uploadFolder'=>Config::get('recommendationImageUploadFolder')]
+            ]
         ];
 
         // Add scope for auto alias archives
@@ -283,6 +291,11 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'scope'       => $arrWidgets['scope']->value ?? '',
                 'published'   => $this->recommendation_moderate ? '' : 1
             ];
+
+            if (!empty($_SESSION['FILES']['image']))
+            {
+                $arrData['imageUrl'] = "{{file::" . $_SESSION['FILES']['image']['uuid'] . "}}";
+            }
 
             // Store the recommendation
             $objRecommendation = new RecommendationModel();

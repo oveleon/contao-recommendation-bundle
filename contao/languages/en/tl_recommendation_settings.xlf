@@ -25,6 +25,12 @@
       <trans-unit id="tl_recommendation_settings.defaultPrefix">
         <source>recommendation</source>
       </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationImageUploadFolder.0">
+        <source>Target folder for images</source>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_settings.recommendationImageUploadFolder.1">
+        <source>Please select the target folder for images from the files directory.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
