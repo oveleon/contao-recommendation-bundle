@@ -1,3 +1,4 @@
+
 <div class="layout_latest arc_<?= $this->archiveId ?> block<?= $this->class ?>">
 
   <?php if ($this->addInternalImage): ?>

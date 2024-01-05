@@ -1,3 +1,4 @@
+
 <div class="layout_full block<?= $this->class ?>">
 
   <?php if ($this->headline): ?>
