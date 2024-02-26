@@ -10,6 +10,7 @@ namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\Controller;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
 use Contao\Input;
@@ -17,6 +18,7 @@ use Contao\Model\Collection;
 use Contao\Pagination;
 use Contao\StringUtil;
 use Contao\System;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 
 /**
@@ -162,11 +164,32 @@ class ModuleRecommendationList extends ModuleRecommendation
 
         $objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset, $minRating);
 
+        // Add summary details
+        $this->Template->totalCount = $intTotal;
+        $this->addSummary($objRecommendations);
+
         // Add recommendations
         if ($objRecommendations !== null)
         {
             $this->Template->recommendations = $this->parseRecommendations($objRecommendations);
         }
+    }
+
+    protected function addSummary($objRecommendations): void
+    {
+        Controller::loadLanguageFile('tl_recommendation_list');
+
+        $ratings = $objRecommendations->fetchEach('rating');
+        $grouped = \array_count_values($ratings);
+        $average = 0;
+
+        \array_walk($grouped, static function ($count, $number) use (&$average){
+            $average += ($number * $count);
+        });
+
+        $this->Template->average = $average / $this->Template->totalCount;
+        $this->Template->averageRound = ceil($this->Template->average);
+        $this->Template->countLabel = sprintf($GLOBALS['TL_LANG']['tl_recommendation_list']['recommendation_count'], $this->Template->totalCount);
     }
 
     /**
@@ -196,7 +219,8 @@ class ModuleRecommendationList extends ModuleRecommendation
             }
         }
 
-        return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured, $minRating);
+        //return RecommendationModel::countPublishedByPids($recommendationArchives, $blnFeatured, $minRating);
+        return $this->fetchItems($recommendationArchives, $blnFeatured, 0, 0, $minRating)?->count() ?? 0;
     }
 
     /**
@@ -247,7 +271,34 @@ class ModuleRecommendationList extends ModuleRecommendation
                 $order .= "$t.date DESC";
         }
 
-        return RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, ['order'=>$order]);
+        // Get archives
+        $archives = RecommendationArchiveModel::findMultipleByIds($recommendationArchives);
+        $archives = array_combine(
+            $archives->fetchEach('id'),
+            $archives->fetchAll()
+        );
+
+        // Fetch items
+        $items = [];
+
+        // Get auto item
+        $autoItem = Input::get('auto_item', false, true);
+
+        foreach (RecommendationModel::findPublishedByPids($recommendationArchives, $blnFeatured, $limit, $offset, $minRating, ['order'=>$order]) ?? [] as $item)
+        {
+            if($archives[$item->pid]['useAutoItem'] ?? null)
+            {
+                // Add only if the scope match to the current auto_item
+                if($autoItem === $item->scope)
+                {
+                    $items[] = $item;
+                }
+            }else{
+                $items[] = $item;
+            }
+        }
+
+        return new Collection($items, $t);
     }
 }
 

@@ -95,6 +95,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
             return;
         }
 
+        // Get archive record
+        $archive = RecommendationArchiveModel::findMultipleByIds($this->recommendation_archives);
+        $archive = $archive[0] ?? null;
+
         // Form fields
         $arrFields = [
             'author' => [
@@ -141,6 +145,16 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 'eval'      => ['optional'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true],
             ],
         ];
+
+        // Add scope for auto alias archives
+        if($archive && $archive->useAutoItem)
+        {
+            $arrFields['scope'] = [
+                'name'      => 'scope',
+                'inputType' => 'hidden',
+                'value'     => Input::get('auto_item', false, true)
+            ];
+        }
 
         // Captcha
         if (!$this->recommendation_disableCaptcha)
@@ -254,19 +268,20 @@ class ModuleRecommendationForm extends ModuleRecommendation
 
             // Prepare the record
             $arrData = [
-                'tstamp' => $time,
-                'pid' => $this->recommendation_archive,
-                'title' => $arrWidgets['title']->value ?: '',
-                'alias' => $arrWidgets['title']->value ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
-                'author' => $arrWidgets['author']->value,
-                'email' => $arrWidgets['email']->value ?: '',
-                'location' => $arrWidgets['location']->value ?: '',
-                'customField' => $arrWidgets['customField']->value ?: '',
-                'date' => $time,
-                'time' => $time,
-                'text' => $this->convertLineFeeds($strText),
-                'rating' => $arrWidgets['rating']->value,
-                'published' => $this->recommendation_moderate ? '' : 1
+                'tstamp'      => $time,
+                'pid'         => $this->recommendation_archive,
+                'title'       => $arrWidgets['title']->value ?? '',
+                'alias'       => isset($arrWidgets['title']) ? StringUtil::generateAlias($arrWidgets['title']->value) : '',
+                'author'      => $arrWidgets['author']->value,
+                'email'       => $arrWidgets['email']->value ?? '',
+                'location'    => $arrWidgets['location']->value ?? '',
+                'customField' => $arrWidgets['customField']->value ?? '',
+                'date'        => $time,
+                'time'        => $time,
+                'text'        => $this->convertLineFeeds($strText),
+                'rating'      => $arrWidgets['rating']->value,
+                'scope'       => $arrWidgets['scope']->value ?? '',
+                'published'   => $this->recommendation_moderate ? '' : 1
             ];
 
             // Store the recommendation

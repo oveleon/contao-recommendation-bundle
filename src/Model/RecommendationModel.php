@@ -124,7 +124,7 @@ class RecommendationModel extends Model
         }
 
         $t = static::$strTable;
-        $arrColumns = !is_numeric($varId) ? ["$t.alias=?"] : ["$t.id=?"];
+        $arrColumns = !preg_match('/^[1-9]\d*$/', $varId) ? ["BINARY $t.alias=?"] : ["$t.id=?"];
         $arrColumns[] = "$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ") AND $t.verified='1'";
 
         if (!static::isPreviewMode($arrOptions))

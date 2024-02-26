@@ -185,15 +185,12 @@ abstract class ModuleRecommendation extends Module
         $count = 0;
         $arrRecommendations = [];
 
-        while ($objRecommendations->next())
+        foreach ($objRecommendations as $recommendation)
         {
-            /** @var RecommendationModel $objRecommendation */
-            $objRecommendation = $objRecommendations->current();
-
             /** @var RecommendationArchiveModel $objRecommendationArchive */
-            $objRecommendationArchive = $objRecommendation->getRelated('pid');
+            $objRecommendationArchive = $recommendation->getRelated('pid');
 
-            $arrRecommendations[] = $this->parseRecommendation($objRecommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
+            $arrRecommendations[] = $this->parseRecommendation($recommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
         }
 
         return $arrRecommendations;
@@ -311,7 +308,7 @@ abstract class ModuleRecommendation extends Module
      */
     protected function getElapsedTime(string $strDateTime): string
     {
-        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime());
+        $objElapsedTime = (new \DateTime($strDateTime))->diff(new \DateTime(date("Y-m-d\TH:i:sP",time())));
 
         if (($years = $objElapsedTime->y) > 0)
         {

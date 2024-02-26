@@ -19,6 +19,7 @@ use Contao\Model\Collection;
  * @property string  $title
  * @property integer $jumpTo
  * @property boolean $protected
+ * @property boolean $useAutoItem
  * @property string  $groups
  *
  * @method static RecommendationArchiveModel|null findById($id, array $opt=array())

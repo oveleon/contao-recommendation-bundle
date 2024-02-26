@@ -12,19 +12,29 @@ namespace Oveleon\ContaoRecommendationBundle\Cron;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Doctrine\DBAL\Connection;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 use Psr\Log\LoggerInterface;
 
 #[AsCronJob('daily')]
 class PurgeRecommendationsCron
 {
-    public function __construct(private ContaoFramework $framework, private LoggerInterface|null $logger)
-    {
-    }
+    public function __construct(
+        private ContaoFramework $framework,
+        private Connection $connection,
+        private LoggerInterface|null $logger
+    ){}
 
     public function __invoke(): void
     {
         $this->framework->initialize();
+
+        $schemaManager = $this->connection->createSchemaManager();
+
+        if(!$schemaManager->tablesExist('tl_recommendation'))
+        {
+            return;
+        }
 
         $recommendations = $this->framework->getAdapter(RecommendationModel::class)->findExpiredRecommendations();
 
