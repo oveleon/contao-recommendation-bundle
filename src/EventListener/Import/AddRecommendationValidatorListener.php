@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Oveleon\ContaoRecommendationBundle\EventListener\Import;
 
 use Oveleon\ContaoRecommendationBundle\Import\Validator\RecommendationArchiveValidator;
+use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ProductInstaller\Import\Validator;
+use Oveleon\ProductInstaller\Import\Validator\ModuleValidator;
 
 class AddRecommendationValidatorListener
 {
@@ -22,5 +24,14 @@ class AddRecommendationValidatorListener
     {
         // Connects jumpTo pages
         Validator::addValidatorCollection([RecommendationArchiveValidator::class], ['setJumpToPageConnection']);
+    }
+
+    public function setArchiveConnections(array $row): array
+    {
+        return match ($row['type']) {
+            'recommendationlist', 'recommendationreader' => ['field' => 'recommendation_archives', 'table' => RecommendationArchiveModel::getTable()],
+            'recommendationform' => ['field' => 'recommendation_archive', 'table' => RecommendationArchiveModel::getTable()],
+            default => [],
+        };
     }
 }

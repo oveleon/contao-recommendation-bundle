@@ -8,3 +8,12 @@ setup:
                 label:                  'Recommendation-Archive → Redirect page'
                 description:            'One or more recommendation archives refer to a forwarding page that cannot be resolved. Your selection is applied to all other rating archives that reference the same redirection page.'
                 explanation:            'When importing one or more recommendation archives, the corresponding redirect page could not be found. Please select a page from your Contao instance to create a link between these archives and a page.<br/><br/><b>The following page was not imported and needs an alternative:</b>'
+        module:
+            recommendation_archives:
+                label:                  'Module → Recommendation archives'
+                description:            'One or more archives could not be assigned to the module. Your selection will be applied to the current module.'
+                explanation:            'During the import of one or more modules, the corresponding archives could not be found. Please select an archive from your Contao instance to create a link between this module and an archive.'
+            recommendation_archive:
+                label:                  'Module → Recommendation archive'
+                description:            'No archive could not be assigned to the module. Your selection will be applied to the current module.'
+                explanation:            'During the import of a module, no associated archive could be found. Please select an archive from your Contao instance to create a link between this module and an archive.'

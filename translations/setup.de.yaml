@@ -8,3 +8,12 @@ setup:
                 label:                  'Bewertungen-Archiv → Weiterleitungsseite'
                 description:            'Ein oder mehrere Bewertungen-Archive verweisen auf eine Weiterleitungsseite, welche nicht aufgelöst werden kann. Ihre Auswahl wird für alle weiteren Bewertungen-Archive, welche auf die selbe Weiterleitungsseite referenzieren, übernommen.'
                 explanation:            'Beim Importieren eines oder mehrerer Bewertungen-Archive konnte die zugehörige Weiterleitungsseite nicht gefunden werden. Wählen Sie bitte eine Seite aus Ihrer Contao-Instanz, um eine Verknüpfung zwischen diesen Archiven und einer Seite herzustellen.<br/><br/><b>Folgende Seite wurde nicht importiert und benötigt eine Alternative:</b>'
+        module:
+            recommendation_archives:
+                label:                  'Modul → Bewertungsarchive'
+                description:            'Dem Modul konnten ein oder mehrere Archive nicht zugeordnet werden. Ihre Auswahl wird für das derzeitige Modul übernommen.'
+                explanation:            'Beim Importieren eines oder mehrerer Module konnten zugehörige Archive nicht gefunden werden. Wählen Sie bitte ein Archiv aus Ihrer Contao-Instanz aus, um eine Verknüpfung zwischen diesem Modul und einem Archiv herzustellen.'
+            recommendation_archive:
+                label:                  'Modul → Bewertungsarchiv'
+                description:            'Dem Modul konnte kein Archiv nicht zugeordnet werden. Ihre Auswahl wird für das derzeitige Modul übernommen.'
+                explanation:            'Beim Importieren eines Moduls konnte kein zugehöriges Archiv gefunden werden. Wählen Sie bitte ein Archiv aus Ihrer Contao-Instanz aus, um eine Verknüpfung zwischen diesem Modul und einem Archiv herzustellen.'
