@@ -43,4 +43,5 @@ $GLOBALS['TL_MODELS']['tl_recommendation_archive'] = RecommendationArchiveModel:
 
 // Add product installer validators
 $GLOBALS['PI_HOOKS']['addValidator'][] = [AddRecommendationValidatorListener::class, 'addValidators'];
-$GLOBALS['PI_HOOKS']['setModuleValidatorArchiveConnections'][] = [AddRecommendationValidatorListener::class, 'setArchiveConnections'];
+$GLOBALS['PI_HOOKS']['setModuleValidatorArchiveConnections'][] = [AddRecommendationValidatorListener::class, 'setModuleArchiveConnections'];
+$GLOBALS['PI_HOOKS']['setUserGroupValidatorArchiveConnections'][] = [AddRecommendationValidatorListener::class, 'setUserGroupArchiveConnections'];

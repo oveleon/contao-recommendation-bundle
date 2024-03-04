@@ -26,12 +26,17 @@ class AddRecommendationValidatorListener
         Validator::addValidatorCollection([RecommendationArchiveValidator::class], ['setJumpToPageConnection']);
     }
 
-    public function setArchiveConnections(array $row): array
+    public function setModuleArchiveConnections(array $row): array
     {
         return match ($row['type']) {
             'recommendationlist', 'recommendationreader' => ['field' => 'recommendation_archives', 'table' => RecommendationArchiveModel::getTable()],
             'recommendationform' => ['field' => 'recommendation_archive', 'table' => RecommendationArchiveModel::getTable()],
             default => [],
         };
+    }
+
+    public function setUserGroupArchiveConnections(array &$connections): void
+    {
+        $connections['recommendations'] = RecommendationArchiveModel::getTable();
     }
 }
