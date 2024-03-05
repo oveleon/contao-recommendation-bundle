@@ -23,7 +23,10 @@ class AddRecommendationValidatorListener
     public function addValidators(): void
     {
         // Connects jumpTo pages
-        Validator::addValidatorCollection([RecommendationArchiveValidator::class], ['setJumpToPageConnection']);
+        if (method_exists('Validator', 'addValidatorCollection'))
+        {
+            Validator::addValidatorCollection([RecommendationArchiveValidator::class], ['setJumpToPageConnection']);
+        }
     }
 
     public function setModuleArchiveConnections(array $row): array
