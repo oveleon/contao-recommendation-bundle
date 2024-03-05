@@ -17,3 +17,7 @@ setup:
                 label:                  'Module → Recommendation archive'
                 description:            'No archive could not be assigned to the module. Your selection will be applied to the current module.'
                 explanation:            'During the import of a module, no associated archive could be found. Please select an archive from your Contao instance to create a link between this module and an archive.'
+        user_group:
+            recommendations:
+                label:                  'User group "%userGroupName%" → Recommendation archives'
+                description:            'One or more archives could not be assigned, please assign them manually.'

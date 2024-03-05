@@ -17,3 +17,7 @@ setup:
                 label:                  'Modul → Bewertungsarchiv'
                 description:            'Dem Modul konnte kein Archiv nicht zugeordnet werden. Ihre Auswahl wird für das derzeitige Modul übernommen.'
                 explanation:            'Beim Importieren eines Moduls konnte kein zugehöriges Archiv gefunden werden. Wählen Sie bitte ein Archiv aus Ihrer Contao-Instanz aus, um eine Verknüpfung zwischen diesem Modul und einem Archiv herzustellen.'
+        user_group:
+            recommendations:
+                label:                  'Benutzergruppe "%userGroupName%" → Bewertungsarchive'
+                description:            'Ein oder mehrere Archive konnten nicht zugewiesen werden, bitte weisen Sie diese manuell zu.'
