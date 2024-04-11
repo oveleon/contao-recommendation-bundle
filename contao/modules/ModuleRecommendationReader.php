@@ -10,6 +10,7 @@ namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
@@ -18,6 +19,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Front end module "recommendation reader".
@@ -54,14 +56,21 @@ class ModuleRecommendationReader extends ModuleRecommendation
             return $objTemplate->parse();
         }
 
-        // Set the item from the auto_item parameter
-        if (!isset($_GET['items']) && isset($_GET['auto_item']) && Config::get('useAutoItem'))
-        {
+        $auto_item = Input::get('auto_item');
+
+        if (
+            version_compare(ContaoCoreBundle::getVersion(), '5', '<') &&
+            !isset($_GET['items']) &&
+            isset($_GET['auto_item']) &&
+            $this->useAutoItem()
+        ) {
+            // Set the item from the auto_item parameter - Contao 4.13 BC
             Input::setGet('items', Input::get('auto_item'));
+            $auto_item = Input::get('items');
         }
 
         // Return an empty string if "items" is not set (to combine list and reader on same page)
-        if (!Input::get('items'))
+        if (null === $auto_item)
         {
             return '';
         }

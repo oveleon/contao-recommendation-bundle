@@ -9,6 +9,7 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\Config;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Date;
 use Contao\FilesModel;
@@ -252,7 +253,7 @@ abstract class ModuleRecommendation extends Module
     {
         $objPage = PageModel::findByPk($objRecommendation->getRelated('pid')->jumpTo);
 
-        return StringUtil::ampersand($objPage->getFrontendUrl((Config::get('useAutoItem') ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
+        return StringUtil::ampersand($objPage->getFrontendUrl(($this->useAutoItem() ? '/' : '/items/') . ($objRecommendation->alias ?: $objRecommendation->id)));
     }
 
     /**
@@ -342,5 +343,16 @@ abstract class ModuleRecommendation extends Module
     protected function translateElapsedTime(int $value, string $strUnit = 'justNow'): string
     {
         return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
+    }
+
+    /**
+     * Checks weather auto_item should be used to provide BC
+     *
+     * @deprecated - To be removed when contao 4.13 support ends
+     * @internal
+     */
+    protected function useAutoItem(): bool
+    {
+        return version_compare(ContaoCoreBundle::getVersion(), '5', '<') ? Config::get('useAutoItem') : true;
     }
 }

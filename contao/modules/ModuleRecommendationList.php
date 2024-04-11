@@ -66,7 +66,7 @@ class ModuleRecommendationList extends ModuleRecommendation
         }
 
         // Show the recommendation reader if an item has been selected
-        if ($this->recommendation_readerModule > 0 && (isset($_GET['items']) || (Config::get('useAutoItem') && isset($_GET['auto_item']))))
+        if ($this->recommendation_readerModule > 0 && (isset($_GET['items']) || ($this->useAutoItem() && isset($_GET['auto_item']))))
         {
             return $this->getFrontendModule($this->recommendation_readerModule, $this->strColumn);
         }
