@@ -20,8 +20,8 @@ System::loadLanguageFile('tl_recommendation_list');
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_activate';
 
 // Add palettes to tl_module
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_readerModule,recommendation_minRating,recommendation_featured,recommendation_order,numberOfItems,perPage;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_readerModule,recommendation_minRating,recommendation_featured,recommendation_order,numberOfItems,perPage;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize,recommendation_externalSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize,recommendation_externalSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_customFieldLabel,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{privacy_legend},recommendation_privacyText;{redirect_legend:hide},jumpTo;{email_legend:hide},recommendation_activate;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['recommendation_activate'] = 'recommendation_activateJumpTo,recommendation_activateText';
@@ -176,6 +176,20 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = [
     'options_callback'        => static fn () => Controller::getTemplateGroup('recommendation_'),
     'eval'                    => ['includeBlankOption' => true, 'chosen' => true, 'tl_class'=>'w50'],
     'sql'                     => "varchar(64) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_template'] = [
+    'exclude'                 => true,
+    'inputType'               => 'select',
+    'options_callback'        => static fn () => Controller::getTemplateGroup('recommendation_'),
+    'eval'                    => ['includeBlankOption' => true, 'chosen' => true, 'tl_class'=>'w50'],
+    'sql'                     => "varchar(64) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_externalSize'] = [
+    'inputType'               => 'text',
+    'eval'                    => ['multiple'=>true, 'size'=>2, 'rgxp'=>'natural', 'nospace'=>true, 'tl_class'=>'w50'],
+    'sql'                     => "varchar(64) COLLATE ascii_bin NOT NULL default ''"
 ];
 
 class tl_module_recommendation extends Backend

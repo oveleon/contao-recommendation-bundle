@@ -94,6 +94,12 @@
       <trans-unit id="tl_module.recommendation_template.1">
         <source>Here you can select the recommendation template.</source>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_externalSize.0">
+        <source>External size</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_externalSize.1">
+        <source>Width and height of the external images in pixels (e.g. 128x128).</source>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_order.0">
         <source>Sort order</source>
       </trans-unit>

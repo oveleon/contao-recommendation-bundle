@@ -125,6 +125,14 @@
         <source>Here you can select the recommendation template.</source>
         <target>Hier können Sie das Bewertungstemplate auswählen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_externalSize.0">
+        <source>External size</source>
+        <target>Externe Größe</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_externalSize.1">
+        <source>Width and height of the external images in pixels (e.g. 128x128).</source>
+        <target>Breite und Höhe der externen Bilder in Pixeln (z. B. 128x128).</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_order.0">
         <source>Sort order</source>
         <target>Sortierreihenfolge</target>

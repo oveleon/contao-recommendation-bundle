@@ -29,6 +29,7 @@ use Symfony\Component\Filesystem\Path;
  *
  * @property string $recommendation_template
  * @property mixed  $recommendation_metaFields
+ * @property mixed  $recommendation_externalSize
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -150,6 +151,17 @@ abstract class ModuleRecommendation extends Module
             $objModel = FilesModel::findByUuid(Config::get('recommendationDefaultImage'));
             $this->addInternalImage($objModel, $objTemplate);
         }
+
+        $size = StringUtil::deserialize($this->recommendation_externalSize);
+        $width = $height = 128;
+
+        if (\is_array($size) && !empty($size[0]) && !empty($size[1]))
+        {
+            $width = $size[0];
+            $height = $size[1];
+        }
+
+        $objTemplate->externalSize = ' width="' . $width . '" height="' . $height . '"';
 
         // HOOK: add custom logic
         if (isset($GLOBALS['TL_HOOKS']['parseRecommendation']) && \is_array($GLOBALS['TL_HOOKS']['parseRecommendation']))

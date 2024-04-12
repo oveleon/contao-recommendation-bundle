@@ -5,7 +5,7 @@
     <?php $this->insert('image', $this->arrData); ?>
   <?php elseif ($this->addExternalImage): ?>
     <figure class="image_container">
-      <img src="<?= $this->imageUrl ?>" width="128" height="128" itemprop="image">
+      <img src="<?= $this->imageUrl ?>"<?= $this->externalSize ?> itemprop="image">
     </figure>
   <?php endif; ?>
 
