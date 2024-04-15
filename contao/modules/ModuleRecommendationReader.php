@@ -14,6 +14,7 @@ use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Environment;
 use Contao\Input;
+use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
@@ -89,8 +90,17 @@ class ModuleRecommendationReader extends ModuleRecommendation
     protected function compile()
     {
         $this->Template->recommendation = '';
-        $this->Template->referer = 'javascript:history.go(-1)';
-        $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
+
+        if ($this->overviewPage)
+        {
+            $this->Template->referer = PageModel::findById($this->overviewPage)->getFrontendUrl();
+            $this->Template->back = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['goBack'];
+        }
+        else
+        {
+            $this->Template->referer = 'javascript:history.go(-1)';
+            $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
+        }
 
         // Get the recommendation item
         $objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(Input::get('auto_item'), $this->recommendation_archives);
