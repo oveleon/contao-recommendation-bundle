@@ -88,7 +88,8 @@ abstract class ModuleRecommendation extends Module
         if ($allowRedirect)
         {
             $objTemplate->allowRedirect = true;
-            $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $objRecommendation->title, true);
+            $moreLabel = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['more'];
+            $objTemplate->more = $this->generateLink($moreLabel, $objRecommendation, $objRecommendation->title ?: $objRecommendation, true);
         }
 
         if ($objRecommendation->title)
@@ -259,7 +260,7 @@ abstract class ModuleRecommendation extends Module
     {
         return sprintf('<a href="%s" title="%s" itemprop="url">%s%s</a>',
                         $this->generateRecommendationUrl($objRecommendation),
-                        StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $strTitle), true),
+                        StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readRecommendation'], $strTitle), true),
                         $strLink,
                         ($blnIsReadMore ? '<span class="invisible"> '.$strTitle.'</span>' : ''));
     }
