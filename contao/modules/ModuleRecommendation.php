@@ -371,6 +371,6 @@ abstract class ModuleRecommendation extends Module
      */
     protected function useAutoItem(): bool
     {
-        return version_compare(ContaoCoreBundle::getVersion(), '5', '<') ? Config::get('useAutoItem') : true;
+        return !str_starts_with(ContaoCoreBundle::getVersion(), '5.') ? Config::get('useAutoItem') : true;
     }
 }
