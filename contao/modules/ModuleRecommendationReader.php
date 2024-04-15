@@ -9,7 +9,6 @@
 namespace Oveleon\ContaoRecommendationBundle;
 
 use Contao\BackendTemplate;
-use Contao\Config;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Exception\InternalServerErrorException;
 use Contao\CoreBundle\Exception\PageNotFoundException;
@@ -19,7 +18,6 @@ use Contao\StringUtil;
 use Contao\System;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Front end module "recommendation reader".
@@ -95,7 +93,7 @@ class ModuleRecommendationReader extends ModuleRecommendation
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
         // Get the recommendation item
-        $objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(Input::get('items'), $this->recommendation_archives);
+        $objRecommendation = RecommendationModel::findPublishedByParentAndIdOrAlias(Input::get('auto_item'), $this->recommendation_archives);
 
         if (null === $objRecommendation)
         {
