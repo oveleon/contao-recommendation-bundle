@@ -67,7 +67,7 @@ abstract class ModuleRecommendation extends Module
     /**
      * Parse an item and return it as string
      */
-    protected function parseRecommendation(RecommendationModel $objRecommendation, RecommendationArchiveModel $objRecommendationArchive, string $strClass='', int $intCount=0): string
+    protected function parseRecommendation(RecommendationModel $objRecommendation, RecommendationArchiveModel $objRecommendationArchive, string $strClass='', int $intCount=0, bool $allowRedirect = false): string
     {
         $objTemplate = new FrontendTemplate($this->recommendation_template ?: 'recommendation_default');
         $objTemplate->setData($objRecommendation->row());
@@ -85,7 +85,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->class = $strClass;
         $objTemplate->archiveId = $objRecommendationArchive->id;
 
-        if ($objRecommendationArchive->jumpTo)
+        if ($allowRedirect)
         {
             $objTemplate->allowRedirect = true;
             $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $objRecommendation->title, true);
@@ -203,7 +203,13 @@ abstract class ModuleRecommendation extends Module
             /** @var RecommendationArchiveModel $objRecommendationArchive */
             $objRecommendationArchive = $recommendation->getRelated('pid');
 
-            $arrRecommendations[] = $this->parseRecommendation($recommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
+            $arrRecommendations[] = $this->parseRecommendation(
+                $recommendation,
+                $objRecommendationArchive,
+                ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'),
+                $count,
+                (bool) $objRecommendationArchive->jumpTo
+            );
         }
 
         return $arrRecommendations;
