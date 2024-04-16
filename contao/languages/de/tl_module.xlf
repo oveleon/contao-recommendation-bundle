@@ -45,6 +45,14 @@
         <source>Here you can select the meta fields.</source>
         <target>Hier können Sie die Meta-Felder auswählen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_useDialog.0">
+        <source>Use dialog popup</source>
+        <target>Dialog-Popup nutzen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_useDialog.1">
+        <source>Adds a dialog popup for the recommendation and disables the forwarding page. You don't need a reader module for this feature.</source>
+        <target>Fügt ein Dialog-Popup für die Bewertung hinzu und deaktiviert die Weiterleitungsseite. Für diese Funktion benötigen Sie kein Lesemodul.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_optionalFormFields.0">
         <source>Optional recommendation fields</source>
         <target>Optionale Bewertungsfelder</target>

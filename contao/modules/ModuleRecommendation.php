@@ -30,6 +30,7 @@ use Symfony\Component\Filesystem\Path;
  * @property string $recommendation_template
  * @property mixed  $recommendation_metaFields
  * @property mixed  $recommendation_externalSize
+ * @property bool   $recommendation_useDialog
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -67,7 +68,7 @@ abstract class ModuleRecommendation extends Module
     /**
      * Parse an item and return it as string
      */
-    protected function parseRecommendation(RecommendationModel $objRecommendation, RecommendationArchiveModel $objRecommendationArchive, string $strClass='', int $intCount=0, bool $allowRedirect = false): string
+    protected function parseRecommendation(RecommendationModel $objRecommendation, RecommendationArchiveModel $objRecommendationArchive, string $strClass='', int $intCount=0): string
     {
         $objTemplate = new FrontendTemplate($this->recommendation_template ?: 'recommendation_default');
         $objTemplate->setData($objRecommendation->row());
@@ -85,11 +86,18 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->class = $strClass;
         $objTemplate->archiveId = $objRecommendationArchive->id;
 
-        if ($allowRedirect)
+        $moreLabel = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['more'];
+
+        if ($this->recommendation_useDialog)
+        {
+            $objTemplate->dialog = true;
+            $objTemplate->more = $moreLabel;
+            $objRecommendationArchive->jumpTo = null;
+        }
+        elseif ($objRecommendationArchive->jumpTo)
         {
             $objTemplate->allowRedirect = true;
-            $moreLabel = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['more'];
-            $objTemplate->more = $this->generateLink($moreLabel, $objRecommendation, $objRecommendation->title ?: $objRecommendation, true);
+            $objTemplate->more = $this->generateLink($moreLabel, $objRecommendation, $objRecommendation->title ?: $objRecommendation->author, true);
         }
 
         if ($objRecommendation->title)
@@ -208,8 +216,7 @@ abstract class ModuleRecommendation extends Module
                 $recommendation,
                 $objRecommendationArchive,
                 ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'),
-                $count,
-                (bool) $objRecommendationArchive->jumpTo
+                $count
             );
         }
 
