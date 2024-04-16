@@ -164,6 +164,10 @@ The recommendation list can display published (and verified) recommendations fro
     <td>Number of recommendations per page - Activates pagination</td>
   </tr>
   <tr>
+    <td>Custom label</td>
+    <td>Allows customizing the translation to for the redirect link</td>
+  </tr>
+  <tr>
     <td>Meta fields</td>
     <td>Here you can select meta fields to display</td>
   </tr>
@@ -174,6 +178,10 @@ The recommendation list can display published (and verified) recommendations fro
   <tr>
     <td>Module template</td>
     <td>The modules template that is being used</td>
+  </tr>
+  <tr>
+    <td>Use dialog popup</td>
+    <td>Does not output the redirect link and embeds a dialog box instead. The `js_recommendation` template has to be included in the page layout</td>
   </tr>
   <tr>
     <td>Image settings</td>
@@ -202,6 +210,14 @@ The recommendation list can display published (and verified) recommendations fro
   <tr>
     <td>Recommendation archives</td>
     <td>Here you can select one or more archives to read recommendations from</td>
+  </tr>
+  <tr>
+    <td>Overview page</td>
+    <td>Adds the overview page to the template to not use ``javascript:history.go(-1)`` anymore</td>
+  </tr>
+  <tr>
+    <td>Custom label</td>
+    <td>Allows customizing the translation for the overview link</td>
   </tr>
   <tr>
     <td>Meta fields</td>
