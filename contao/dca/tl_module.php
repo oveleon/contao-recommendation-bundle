@@ -76,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_useDialog'] = [
     'exclude'                 => true,
     'filter'                  => true,
     'inputType'               => 'checkbox',
-    'eval'                    => ['tl_class'=>'clr'],
+    'eval'                    => ['submitOnChange'=>true, 'tl_class'=>'clr'],
     'sql'                     => "char(1) NOT NULL default ''"
 ];
 

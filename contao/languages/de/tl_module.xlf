@@ -157,6 +157,10 @@
         <source>Show only recommendations with a minimum rating.</source>
         <target>Nur Bewertungen mit einem Mindestrating anzeigen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.includeRecTemplate">
+        <source>To use the dialog-popup, the &lt;em&gt;%s&lt;/em&gt; template needs to be included in the page layout.</source>
+        <target>Um das Dialog-Popup zu nutzen muss das &lt;em&gt;%s&lt;/em&gt;-Template im Seitenlayout eingebunden sein.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

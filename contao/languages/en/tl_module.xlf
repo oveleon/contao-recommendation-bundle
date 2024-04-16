@@ -118,6 +118,9 @@
       <trans-unit id="tl_module.recommendation_minRating.1">
         <source>Show only recommendations with a minimum rating.</source>
       </trans-unit>
+      <trans-unit id="tl_module.includeRecTemplate">
+        <source>To use the dialog-popup, the &lt;em&gt;%s&lt;/em&gt; template needs to be included in the page layout.</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
