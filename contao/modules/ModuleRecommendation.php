@@ -30,6 +30,7 @@ use Symfony\Component\Filesystem\Path;
  * @property string $recommendation_template
  * @property mixed  $recommendation_metaFields
  * @property mixed  $recommendation_externalSize
+ * @property bool   $recommendation_useDialog
  */
 abstract class ModuleRecommendation extends Module
 {
@@ -85,10 +86,18 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->class = $strClass;
         $objTemplate->archiveId = $objRecommendationArchive->id;
 
-        if ($objRecommendationArchive->jumpTo)
+        $moreLabel = $this->customLabel ?: $GLOBALS['TL_LANG']['MSC']['more'];
+
+        if ($this->recommendation_useDialog)
+        {
+            $objTemplate->dialog = true;
+            $objTemplate->more = $moreLabel;
+            $objRecommendationArchive->jumpTo = null;
+        }
+        elseif ($objRecommendationArchive->jumpTo)
         {
             $objTemplate->allowRedirect = true;
-            $objTemplate->more = $this->generateLink($GLOBALS['TL_LANG']['MSC']['more'], $objRecommendation, $objRecommendation->title, true);
+            $objTemplate->more = $this->generateLink($moreLabel, $objRecommendation, $objRecommendation->title ?: $objRecommendation->author, true);
         }
 
         if ($objRecommendation->title)
@@ -203,7 +212,12 @@ abstract class ModuleRecommendation extends Module
             /** @var RecommendationArchiveModel $objRecommendationArchive */
             $objRecommendationArchive = $recommendation->getRelated('pid');
 
-            $arrRecommendations[] = $this->parseRecommendation($recommendation, $objRecommendationArchive, ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'), $count);
+            $arrRecommendations[] = $this->parseRecommendation(
+                $recommendation,
+                $objRecommendationArchive,
+                ((++$count == 1) ? ' first' : '') . (($count == $limit) ? ' last' : '') . ((($count % 2) == 0) ? ' odd' : ' even'),
+                $count
+            );
         }
 
         return $arrRecommendations;
@@ -253,7 +267,7 @@ abstract class ModuleRecommendation extends Module
     {
         return sprintf('<a href="%s" title="%s" itemprop="url">%s%s</a>',
                         $this->generateRecommendationUrl($objRecommendation),
-                        StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readMore'], $strTitle), true),
+                        StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['readRecommendation'], $strTitle), true),
                         $strLink,
                         ($blnIsReadMore ? '<span class="invisible"> '.$strTitle.'</span>' : ''));
     }
@@ -365,6 +379,6 @@ abstract class ModuleRecommendation extends Module
      */
     protected function useAutoItem(): bool
     {
-        return version_compare(ContaoCoreBundle::getVersion(), '5', '<') ? Config::get('useAutoItem') : true;
+        return !str_starts_with(ContaoCoreBundle::getVersion(), '5.') ? Config::get('useAutoItem') : true;
     }
 }

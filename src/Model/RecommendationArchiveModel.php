@@ -19,6 +19,7 @@ use Contao\Model\Collection;
  * @property string  $title
  * @property integer $jumpTo
  * @property boolean $protected
+ * @property boolean $useDialog
  * @property boolean $useAutoItem
  * @property string  $groups
  *
@@ -30,12 +31,16 @@ use Contao\Model\Collection;
  * @method static RecommendationArchiveModel|null findOneByTitle($val, array $opt=array())
  * @method static RecommendationArchiveModel|null findOneByJumpTo($val, array $opt=array())
  * @method static RecommendationArchiveModel|null findOneByProtected($val, array $opt=array())
+ * @method static RecommendationArchiveModel|null findOneByUseDialog($val, array $opt=array())
+ * @method static RecommendationArchiveModel|null findOneByUseAutoItem($val, array $opt=array())
  * @method static RecommendationArchiveModel|null findOneByGroups($val, array $opt=array())
  *
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTstamp($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByTitle($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByJumpTo($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByProtected($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByUseDialog($val, array $opt=array())
+ * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByUseAutoItem($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findByGroups($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findMultipleByIds($val, array $opt=array())
  * @method static Collection|RecommendationArchiveModel[]|RecommendationArchiveModel|null findBy($col, $val, array $opt=array())
@@ -46,6 +51,8 @@ use Contao\Model\Collection;
  * @method static integer countByTitle($val, array $opt=array())
  * @method static integer countByJumpTo($val, array $opt=array())
  * @method static integer countByProtected($val, array $opt=array())
+ * @method static integer countByUseDialog($val, array $opt=array())
+ * @method static integer countByUseAutoItem($val, array $opt=array())
  * @method static integer countByGroups($val, array $opt=array())
  */
 class RecommendationArchiveModel extends Model

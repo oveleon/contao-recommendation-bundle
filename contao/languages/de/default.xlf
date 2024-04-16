@@ -5,6 +5,10 @@
         <source>Currently there are no recommendations.</source>
         <target>Zurzeit sind keine Bewertungen vorhanden.</target>
       </trans-unit>
+      <trans-unit id="MSC.readRecommendation">
+        <source>Read the recommendation: %s</source>
+        <target>Die Bewertung lesen: %s</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

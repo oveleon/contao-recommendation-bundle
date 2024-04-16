@@ -4,6 +4,9 @@
       <trans-unit id="MSC.emptyRecommendationList">
         <source>Currently there are no recommendations.</source>
       </trans-unit>
+      <trans-unit id="MSC.readRecommendation">
+        <source>Read the recommendation: %s</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

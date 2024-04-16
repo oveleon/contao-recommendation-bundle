@@ -38,8 +38,8 @@
     <?php endif; ?>
 
     <div class="text" itemprop="description">
-      <?php if ($this->teaser && $this->allowRedirect): ?>
-        <?= $this->teaser ?>
+      <?php if ($this->teaser && ($this->allowRedirect || $this->dialog)): ?>
+        <?= method_exists($this, 'cspInlineStyles') ? $this->cspInlineStyles($this->teaser) : $this->teaser ?>
       <?php else: ?>
         <?= $this->text ?>
       <?php endif; ?>
@@ -47,6 +47,18 @@
 
     <?php if ($this->allowRedirect): ?>
       <p class="more"><?= $this->more ?></p>
+    <?php elseif ($this->dialog): ?>
+      <p class="more">
+        <span class="rec_show-modal" data-id="<?= $this->id ?>"><?= $this->more ?></span>
+      </p>
+      <dialog class="rec_dialog rec_dialog_<?= $this->id ?>">
+        <div class="rec_dialog--content">
+          <?= $this->text ?>
+          <form class="dialog-btn" method="dialog">
+            <button><?= $this->trans('MSC.close') ?></button>
+          </form>
+        </div>
+      </dialog>
     <?php endif; ?>
   </div>
 
