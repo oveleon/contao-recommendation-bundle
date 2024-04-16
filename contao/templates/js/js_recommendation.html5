@@ -1,0 +1,14 @@
+<?php $GLOBALS['TL_HEAD'][] = '<script>
+    window.addEventListener("load", () => {
+        new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                const elements = mutation.target.matches(".rec_show-modal") ? mutation.target : mutation.target.querySelectorAll(".rec_show-modal");
+                elements.forEach(element => {
+                    element.addEventListener("click", (el) => {
+                      document.querySelector(`.rec_dialog_${el.currentTarget.dataset?.id}`)?.showModal();
+                    })
+                });
+            });
+        }).observe(document, { attributes: false, childList: true, subtree: true });
+    })
+</script>';
