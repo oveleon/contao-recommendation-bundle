@@ -177,7 +177,7 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'load_callback' => [
                 [RecommendationListener::class, 'loadTime']
             ],
-            'sql'                     => "int(10) unsigned NOT NULL default 0"
+            'sql'                     => "int(10) NOT NULL default 0"
         ],
         'teaser' => [
             'exclude'                 => true,
