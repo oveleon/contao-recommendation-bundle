@@ -18,17 +18,15 @@ use Contao\Image;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
-use Doctrine\DBAL\Connection;
 use Oveleon\ContaoRecommendationBundle\Security\ContaoRecommendationPermissions;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RecommendationArchiveListener
 {
     public function __construct(
         protected ContaoFramework $framework,
-        protected Connection $connection,
-        protected Security $security
+        protected AuthorizationCheckerInterface $security,
     ){}
 
     /**
@@ -36,7 +34,7 @@ class RecommendationArchiveListener
      */
     public function editHeader(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        return System::getContainer()->get('security.helper')->isGranted(ContaoCorePermissions::USER_CAN_EDIT_FIELDS_OF_TABLE, 'tl_recommendation_archive') ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
+        return $this->security->isGranted(ContaoCorePermissions::USER_CAN_EDIT_FIELDS_OF_TABLE, 'tl_recommendation_archive') ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
@@ -44,7 +42,7 @@ class RecommendationArchiveListener
      */
     public function copyArchive(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        return System::getContainer()->get('security.helper')->isGranted(ContaoRecommendationPermissions::USER_CAN_CREATE_ARCHIVES) ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
+        return $this->security->isGranted(ContaoRecommendationPermissions::USER_CAN_CREATE_ARCHIVES) ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
@@ -52,7 +50,7 @@ class RecommendationArchiveListener
      */
     public function deleteArchive(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
-        return System::getContainer()->get('security.helper')->isGranted(ContaoRecommendationPermissions::USER_CAN_DELETE_ARCHIVES) ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
+        return $this->security->isGranted(ContaoRecommendationPermissions::USER_CAN_DELETE_ARCHIVES) ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
 
     /**
