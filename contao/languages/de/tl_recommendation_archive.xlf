@@ -85,19 +85,19 @@
         <source>Show the details of archive ID %s</source>
         <target>Die Details des Archivs ID %s anzeigen</target>
       </trans-unit>
+      <trans-unit id="tl_recommendation_archive.children.0">
+        <source>Edit archive</source>
+        <target>Archiv bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="tl_recommendation_archive.children.1">
+        <source>Edit archive ID %s</source>
+        <target>Archiv ID %s bearbeiten</target>
+      </trans-unit>
       <trans-unit id="tl_recommendation_archive.edit.0">
         <source>Edit archive</source>
         <target>Archiv bearbeiten</target>
       </trans-unit>
       <trans-unit id="tl_recommendation_archive.edit.1">
-        <source>Edit archive ID %s</source>
-        <target>Archiv ID %s bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="tl_recommendation_archive.editheader.0">
-        <source>Edit archive</source>
-        <target>Archiv bearbeiten</target>
-      </trans-unit>
-      <trans-unit id="tl_recommendation_archive.editheader.1">
         <source>Edit the archive settings</source>
         <target>Die Archiv-Einstellungen bearbeiten</target>
       </trans-unit>

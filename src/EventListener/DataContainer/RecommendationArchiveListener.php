@@ -32,7 +32,7 @@ class RecommendationArchiveListener
     /**
      * Return the edit header button
      */
-    public function editHeader(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
+    public function edit(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         return $this->security->isGranted(ContaoCorePermissions::USER_CAN_EDIT_FIELDS_OF_TABLE, 'tl_recommendation_archive') ? '<a href="' . Backend::addToUrl($href . '&amp;id=' . $row['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label) . '</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)) . ' ';
     }
