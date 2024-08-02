@@ -19,18 +19,14 @@ use Contao\Date;
 use Contao\Input;
 use Contao\PageModel;
 use Contao\System;
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
 
 class RecommendationListener
 {
     public function __construct(
         protected ContaoFramework $framework,
-        protected Connection $connection,
-        protected Security $security
     ){}
 
     /**
