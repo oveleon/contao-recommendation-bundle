@@ -6,6 +6,7 @@
  * (c) https://www.oveleon.de/
  */
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use Oveleon\ContaoRecommendationBundle\EventListener\DataContainer\RecommendationArchiveListener;
@@ -59,14 +60,14 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
             ]
         ],
         'operations' => [
-            'editheader' => [
-                'href'                => 'act=edit',
-                'icon'                => 'header.svg',
-                'button_callback'     => [RecommendationArchiveListener::class, 'editHeader']
-            ],
             'edit' => [
+                'href'                => 'act=edit',
+                'icon'                => 'edit.svg',
+                'button_callback'     => [RecommendationArchiveListener::class, 'edit']
+            ],
+            'children' => [
                 'href'                => 'table=tl_recommendation',
-                'icon'                => 'edit.svg'
+                'icon'                => 'children.svg'
             ],
             'copy' => [
                 'href'                => 'act=copy',
@@ -143,3 +144,21 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
         ]
     ]
 ];
+
+// Backwards compatibility for old icons and position
+$version = ContaoCoreBundle::getVersion();
+
+if (version_compare($version, '5', '<'))
+{
+    $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['edit']['icon'] = 'header.svg';
+    $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['children']['icon'] = 'edit.svg';
+
+    // Swap places for backwards compatibility
+    [
+        $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['children'],
+        $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['edit']
+    ] = [
+        $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['edit'],
+        $GLOBALS['TL_DCA']['tl_recommendation_archive']['list']['operations']['children']
+    ];
+}

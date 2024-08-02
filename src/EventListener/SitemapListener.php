@@ -17,15 +17,14 @@ use Contao\Database;
 use Contao\PageModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
-use Terminal42\ServiceAnnotationBundle\Annotation\ServiceTag;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-/**
- * @ServiceTag("kernel.event_listener", event=ContaoCoreEvents::SITEMAP)
- */
+#[AsEventListener(ContaoCoreEvents::SITEMAP)]
 class SitemapListener
 {
-    public function __construct(private ContaoFramework $framework)
-    {
+    public function __construct(
+        private ContaoFramework $framework
+    ) {
     }
 
     public function __invoke(SitemapEvent $event): void
