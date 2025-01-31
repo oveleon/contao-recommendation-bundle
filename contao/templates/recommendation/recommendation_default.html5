@@ -37,7 +37,7 @@
               <span class="star<?= ($i<=$this->rating) ? ' active' : '' ?>"<?= ($i<=$this->rating && $this->styles) ? $this->styles  : '' ?>>&#9733;</span>
             <?php endfor; ?>
           </span>
-          <?php endif; ?>
+        <?php endif; ?>
       </div>
     <?php endif; ?>
 

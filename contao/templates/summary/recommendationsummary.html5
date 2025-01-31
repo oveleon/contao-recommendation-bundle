@@ -1,0 +1,17 @@
+
+<!-- indexer::stop -->
+<div class="summary block" aria-label="<?= $this->summary ?>">
+  <span class="rating">
+    <?php for ($i=1;$i<=5;$i++):
+        $fraction = $this->average - floor($this->average);
+        $isActive = ($i <= floor($this->average)) ? ' active' : '';
+        $isHalf = ($i == ceil($this->average) && $fraction >= 0.3 && $fraction < 0.7) ? ' half' : '';
+        $isNextFull = ($i == ceil($this->average) && $fraction >= 0.7) ? ' active' : '';
+    ?>
+      <span class="star<?= $isActive . $isHalf . $isNextFull ?>"<?= ($i<=$this->rating && $this->styles) ? $this->styles  : '' ?>>&#9733;</span>
+    <?php endfor; ?>
+  </span>
+  <span class="average"><?= $this->averageRoundedLabel ?></span>
+  <span class="total">(<?= $this->countLabel ?>)</span>
+</div>
+<!-- indexer::continue -->

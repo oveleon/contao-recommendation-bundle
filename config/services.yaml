@@ -6,4 +6,4 @@ services:
 
   Oveleon\ContaoRecommendationBundle\:
     resource: '../src/'
-    exclude: '../src/{Model,DependencyInjection,Resources}'
+    exclude: '../src/{Model,DependencyInjection,Util}'

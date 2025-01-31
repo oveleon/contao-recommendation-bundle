@@ -40,9 +40,6 @@
       <trans-unit id="tl_recommendation_list.order_rating_desc">
         <source>Rating descending</source>
       </trans-unit>
-      <trans-unit id="tl_recommendation_list.recommendation_count">
-        <source>%s Reviews</source>
-      </trans-unit>
     </body>
   </file>
 </xliff>

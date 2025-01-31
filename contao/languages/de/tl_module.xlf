@@ -45,6 +45,14 @@
         <source>Here you can select the meta fields.</source>
         <target>Hier können Sie die Meta-Felder auswählen.</target>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_addSummary.0">
+        <source>Add summary</source>
+        <target>Zusammenfassung hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_addSummary.1">
+        <source>Adds the rating average and the total number of ratings.</source>
+        <target>Fügt den Bewertungsdurchschnitt und die Gesamtanzahl der Bewertungen hinzu.</target>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_useDialog.0">
         <source>Use dialog popup</source>
         <target>Dialog-Popup nutzen</target>

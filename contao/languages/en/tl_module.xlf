@@ -34,6 +34,12 @@
       <trans-unit id="tl_module.recommendation_metaFields.1">
         <source>Here you can select the meta fields.</source>
       </trans-unit>
+      <trans-unit id="tl_module.recommendation_addSummary.0">
+        <source>Add summary</source>
+      </trans-unit>
+      <trans-unit id="tl_module.recommendation_addSummary.1">
+        <source>Adds the rating average and the total number of ratings.</source>
+      </trans-unit>
       <trans-unit id="tl_module.recommendation_useDialog.0">
         <source>Use dialog popup</source>
       </trans-unit>

@@ -6,6 +6,7 @@ use Contao\ArrayUtil;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationForm;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationList;
 use Oveleon\ContaoRecommendationBundle\ModuleRecommendationReader;
+use Oveleon\ContaoRecommendationBundle\ModuleRecommendationSummary;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
 use Oveleon\ContaoRecommendationBundle\EventListener\Import\AddRecommendationValidatorListener;
@@ -29,7 +30,8 @@ ArrayUtil::arrayInsert($GLOBALS['FE_MOD'], 2, [
     'recommendation' => [
         'recommendationform'    => ModuleRecommendationForm::class,
         'recommendationlist'    => ModuleRecommendationList::class,
-        'recommendationreader'  => ModuleRecommendationReader::class
+        'recommendationreader'  => ModuleRecommendationReader::class,
+        'recommendationsummary' => ModuleRecommendationSummary::class
     ]
 ]);
 
