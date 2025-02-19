@@ -9,7 +9,7 @@
     </figure>
   <?php endif; ?>
 
-  <div class="layout_container">
+  <div class="layout_container<?= $this->teaser ? ' is--teaser' : '' ?>">
     <?php if ($this->headlineLink): ?>
       <h4 itemprop="name"><?= $this->headlineLink ?></h4>
     <?php endif; ?>
