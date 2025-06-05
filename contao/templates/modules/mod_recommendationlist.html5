@@ -2,9 +2,12 @@
 
 <?php $this->block('content'); ?>
 
+  <?= $this->average . ' ' . $this->averageRounded . ' ' . $this->countLabel ?>
+
   <?php if (empty($this->recommendations)): ?>
     <p class="empty"><?= $this->empty ?></p>
   <?php else: ?>
+    <?= $this->summary ?>
     <?= implode('', $this->recommendations) ?>
     <?= $this->pagination ?>
   <?php endif; ?>

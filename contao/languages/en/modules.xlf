@@ -34,6 +34,12 @@
       <trans-unit id="FMD.recommendationform.1">
         <source>Adds a recommendation form to the page</source>
       </trans-unit>
+      <trans-unit id="FMD.recommendationsummary.0">
+        <source>Recommendationsummary</source>
+      </trans-unit>
+      <trans-unit id="FMD.recommendationsummary.1">
+        <source>Adds a summary of all recommendations to the page</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

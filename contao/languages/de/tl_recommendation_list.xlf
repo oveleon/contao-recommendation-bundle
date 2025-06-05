@@ -53,10 +53,6 @@
         <source>Rating descending</source>
         <target>Bewertung absteigend</target>
       </trans-unit>
-      <trans-unit id="tl_recommendation_list.recommendation_count">
-        <source>%s Reviews</source>
-        <target>%s Bewertungen</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

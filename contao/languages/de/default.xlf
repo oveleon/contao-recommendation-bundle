@@ -9,6 +9,18 @@
         <source>Read the recommendation: %s</source>
         <target>Die Bewertung lesen: %s</target>
       </trans-unit>
+      <trans-unit id="MSC.recommendationSummary">
+        <source>Recommendation summary</source>
+        <target>Bewertungenszusammenfassung</target>
+      </trans-unit>
+      <trans-unit id="MSC.recommendationAverageLabel">
+        <source>%s of 5 stars</source>
+        <target>%s von 5 Sternen</target>
+      </trans-unit>
+      <trans-unit id="MSC.recommendationCount">
+        <source>%s Reviews</source>
+        <target>%s Bewertungen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

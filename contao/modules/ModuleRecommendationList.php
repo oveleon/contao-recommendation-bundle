@@ -20,6 +20,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationArchiveModel;
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;
+use Oveleon\ContaoRecommendationBundle\Util\Summary;
 
 /**
  * Front end module "recommendation list".
@@ -165,31 +166,17 @@ class ModuleRecommendationList extends ModuleRecommendation
         $objRecommendations = $this->fetchItems($this->recommendation_archives, $blnFeatured, ($limit ?: 0), $offset, $minRating);
 
         // Add summary details
-        $this->Template->totalCount = $intTotal;
-        $this->addSummary($objRecommendations);
+        if ($this->recommendation_addSummary)
+        {
+            $objSummary = new Summary($this->recommendation_archives, $intTotal, $blnFeatured, $minRating);
+            $this->Template->summary = $objSummary->generate();
+        }
 
         // Add recommendations
         if ($objRecommendations !== null)
         {
             $this->Template->recommendations = $this->parseRecommendations($objRecommendations);
         }
-    }
-
-    protected function addSummary($objRecommendations): void
-    {
-        Controller::loadLanguageFile('tl_recommendation_list');
-
-        $ratings = $objRecommendations->fetchEach('rating');
-        $grouped = \array_count_values($ratings);
-        $average = 0;
-
-        \array_walk($grouped, static function ($count, $number) use (&$average){
-            $average += ($number * $count);
-        });
-
-        $this->Template->average = $average / $this->Template->totalCount;
-        $this->Template->averageRound = ceil($this->Template->average);
-        $this->Template->countLabel = sprintf($GLOBALS['TL_LANG']['tl_recommendation_list']['recommendation_count'], $this->Template->totalCount);
     }
 
     /**

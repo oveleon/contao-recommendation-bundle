@@ -7,6 +7,15 @@
       <trans-unit id="MSC.readRecommendation">
         <source>Read the recommendation: %s</source>
       </trans-unit>
+      <trans-unit id="MSC.recommendationSummary">
+        <source>Recommendation summary</source>
+      </trans-unit>
+      <trans-unit id="MSC.recommendationAverageLabel">
+        <source>%s of 5 stars</source>
+      </trans-unit>
+      <trans-unit id="MSC.recommendationCount">
+        <source>%s Reviews</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>
