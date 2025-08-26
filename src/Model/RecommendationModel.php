@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -116,7 +118,7 @@ class RecommendationModel extends Model
     /**
      * Find a published recommendation from one or more recommendation archives by its ID or alias
      */
-    public static function findPublishedByParentAndIdOrAlias(mixed $varId, $arrPids, array $arrOptions=array()): ?RecommendationModel
+    public static function findPublishedByParentAndIdOrAlias(mixed $varId, $arrPids, array $arrOptions=[]): ?RecommendationModel
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -124,7 +126,7 @@ class RecommendationModel extends Model
         }
 
         $t = static::$strTable;
-        $arrColumns = !preg_match('/^[1-9]\d*$/', $varId) ? ["BINARY $t.alias=?"] : ["$t.id=?"];
+        $arrColumns = !preg_match('/^[1-9]\d*$/', (string) $varId) ? ["BINARY $t.alias=?"] : ["$t.id=?"];
         $arrColumns[] = "$t.pid IN(" . implode(',', array_map('\intval', $arrPids)) . ") AND $t.verified='1'";
 
         if (!static::isPreviewMode($arrOptions))
@@ -139,7 +141,7 @@ class RecommendationModel extends Model
     /**
      * Find published recommendations with the default redirect target by their parent ID
      */
-    public static function findPublishedByPid(int $intPid, array $arrOptions=array()): Collection|RecommendationModel|array|null
+    public static function findPublishedByPid(int $intPid, array $arrOptions=[]): Collection|RecommendationModel|array|null
     {
         $t = static::$strTable;
         $arrColumns = ["$t.pid=? AND $t.verified='1'"];
@@ -161,7 +163,7 @@ class RecommendationModel extends Model
     /**
      * Find published recommendations by their parent ID
      */
-    public static function findPublishedByPids($arrPids, bool $blnFeatured=null, int $intLimit=0, int $intOffset=0, $minRating=null, array $arrOptions=array()): Collection|RecommendationModel|array|null
+    public static function findPublishedByPids($arrPids, bool $blnFeatured=null, int $intLimit=0, int $intOffset=0, $minRating=null, array $arrOptions=[]): Collection|RecommendationModel|array|null
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -205,7 +207,7 @@ class RecommendationModel extends Model
     /**
      * Count published recommendations by their parent ID
      */
-    public static function countPublishedByPids($arrPids, bool $blnFeatured=null, $minRating=null, array $arrOptions=array()): int
+    public static function countPublishedByPids($arrPids, bool $blnFeatured=null, $minRating=null, array $arrOptions=[]): int
     {
         if (empty($arrPids) || !\is_array($arrPids))
         {
@@ -241,7 +243,7 @@ class RecommendationModel extends Model
     /**
      * Find registrations that have not been activated for more than 24 hours
      */
-    public static function findExpiredRecommendations(array $arrOptions=array()): Collection|RecommendationModel|array|null
+    public static function findExpiredRecommendations(array $arrOptions=[]): Collection|RecommendationModel|array|null
     {
         $t = static::$strTable;
         $objDatabase = Database::getInstance();

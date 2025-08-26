@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -17,26 +19,16 @@ use Contao\System;
 
 class Summary
 {
-    protected $arrArchives;
-
-    protected $intTotal;
-
-    protected $blnFeatured;
-
-    protected $minRating;
-
-    protected $intPrecision;
-
-    public function __construct(array $recommendationArchives, int $intTotal, bool $blnFeatured=null, $minRating=null, int $intPrecision=1)
-    {
-        $this->arrArchives = $recommendationArchives;
-        $this->intTotal = $intTotal;
-        $this->blnFeatured = $blnFeatured;
-        $this->minRating = $minRating;
-        $this->intPrecision = $intPrecision;
+    public function __construct(
+        protected array $arrArchives,
+        protected int $intTotal,
+        protected bool|null $blnFeatured = null,
+        protected int|null $minRating = null,
+        protected int $intPrecision = 1
+    ) {
     }
 
-    public function generate()
+    public function generate(): string
     {
         $average = $this->getAverageRating();
         $averageRounded = round($average, $this->intPrecision);

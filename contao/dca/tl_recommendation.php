@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -54,49 +56,25 @@ $GLOBALS['TL_DCA']['tl_recommendation'] = [
             'child_record_class'      => 'no_padding'
         ],
         'global_operations' => [
-            'all' => [
-                'href'                => 'act=select',
-                'class'               => 'header_edit_all',
-                'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
-            ]
+            'all',
         ],
         'operations' => [
-            'edit' => [
-                'href'                => 'act=edit',
-                'icon'                => 'edit.svg'
-            ],
-            'copy' => [
-                'href'                => 'act=paste&amp;mode=copy',
-                'icon'                => 'copy.svg'
-            ],
-            'cut' => [
-                'href'                => 'act=paste&amp;mode=cut',
-                'icon'                => 'cut.svg'
-            ],
-            'delete' => [
-                'href'                => 'act=delete',
-                'icon'                => 'delete.svg',
-                'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
-            ],
-            'toggle' => [
-                'href'                => 'act=toggle&amp;field=published',
-                'icon'                => 'visible.svg',
-                'showInHeader'        => true
-            ],
+            'edit',
+            'copy',
+            'cut',
+            'delete',
+            'toggle',
             'feature' => [
-                'href'                => 'act=toggle&amp;field=featured',
-                'icon'                => 'featured.svg',
+                'href' => 'act=toggle&amp;field=featured',
+                'icon' => 'featured.svg',
             ],
-            'show' => [
-                'href'                => 'act=show',
-                'icon'                => 'show.svg'
-            ]
+            'show',
         ]
     ],
 
     // Palettes
     'palettes' => [
-        'default'                     => '{title_legend},author,title,alias,email,location;{date_legend},date,time;{recommendation_legend},text,imageUrl,rating,customField;{teaser_legend:hide},teaser;{expert_legend:hide},cssClass,featured;{publish_legend},published,start,stop'
+        'default'                     => '{title_legend},author,title,alias,email,location;{date_legend},date,time;{recommendation_legend},text,imageUrl,rating,customField;{teaser_legend:collapsed},teaser;{expert_legend:collapsed},cssClass,featured;{publish_legend},published,start,stop'
     ],
 
     // Fields

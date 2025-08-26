@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oveleon\ContaoRecommendationBundle\Import\Validator;
 
 use Oveleon\ContaoRecommendationBundle\Model\RecommendationModel;

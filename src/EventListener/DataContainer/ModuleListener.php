@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oveleon\ContaoRecommendationBundle\EventListener\DataContainer;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;

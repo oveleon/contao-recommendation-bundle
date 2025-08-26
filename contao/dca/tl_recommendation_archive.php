@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -51,13 +53,9 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
                 'href'                => 'do=recommendation_settings',
                 'class'				  => '',
                 'icon'                => 'edit.svg',
-                'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
+                'attributes'          => 'data-action="contao--scroll-offset#store"'
             ],
-            'all' => [
-                'href'                => 'act=select',
-                'class'               => 'header_edit_all',
-                'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
-            ]
+            'all',
         ],
         'operations' => [
             'edit' => [
@@ -65,10 +63,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
                 'icon'                => 'edit.svg',
                 'button_callback'     => [RecommendationArchiveListener::class, 'edit']
             ],
-            'children' => [
-                'href'                => 'table=tl_recommendation',
-                'icon'                => 'children.svg'
-            ],
+            'children',
             'copy' => [
                 'href'                => 'act=copy',
                 'icon'                => 'copy.svg',
@@ -77,20 +72,17 @@ $GLOBALS['TL_DCA']['tl_recommendation_archive'] = [
             'delete' => [
                 'href'                => 'act=delete',
                 'icon'                => 'delete.svg',
-                'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"',
+                'attributes'          => 'data-action="contao--scroll-offset#store" onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirmFile'] ?? null) . '\'))return false"',
                 'button_callback'     => [RecommendationArchiveListener::class, 'deleteArchive']
             ],
-            'show' => [
-                'href'                => 'act=show',
-                'icon'                => 'show.svg'
-            ]
+            'show',
         ]
     ],
 
     // Palettes
     'palettes' => [
         '__selector__'                => ['protected'],
-        'default'                     => '{title_legend},title,jumpTo;{protected_legend:hide},protected;{expert_legend:hide},useAutoItem'
+        'default'                     => '{title_legend},title,jumpTo;{protected_legend:collapsed},protected;{expert_legend:collapsed},useAutoItem'
     ],
 
     // Subpalettes

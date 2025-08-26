@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -20,10 +22,10 @@ System::loadLanguageFile('tl_recommendation_list');
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'recommendation_activate';
 
 // Add palettes to tl_module
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_readerModule,recommendation_minRating,recommendation_featured,recommendation_order,numberOfItems,perPage,customLabel;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl,recommendation_addSummary,recommendation_useDialog;{image_legend:hide},imgSize,recommendation_externalSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives,overviewPage,customLabel;{template_legend:hide},recommendation_metaFields,recommendation_template,customTpl;{image_legend:hide},imgSize,recommendation_externalSize;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_customFieldLabel,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{privacy_legend},recommendation_privacyText;{redirect_legend:hide},jumpTo;{email_legend:hide},recommendation_activate;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationsummary'] = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_minRating,recommendation_featured;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationlist']    = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_readerModule,recommendation_minRating,recommendation_featured,recommendation_order,numberOfItems,perPage,customLabel;{template_legend:collapsed},recommendation_metaFields,recommendation_template,customTpl,recommendation_addSummary,recommendation_useDialog;{image_legend:collapsed},imgSize,recommendation_externalSize;{protected_legend:collapsed},protected;{expert_legend:collapsed},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationreader']  = '{title_legend},name,headline,type;{config_legend},recommendation_archives,overviewPage,customLabel;{template_legend:collapsed},recommendation_metaFields,recommendation_template,customTpl;{image_legend:collapsed},imgSize,recommendation_externalSize;{protected_legend:collapsed},protected;{expert_legend:collapsed},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationform']    = '{title_legend},name,headline,type;{config_legend},recommendation_archive,recommendation_optionalFormFields,recommendation_customFieldLabel,recommendation_notify,recommendation_moderate,recommendation_disableCaptcha;{privacy_legend},recommendation_privacyText;{redirect_legend:collapsed},jumpTo;{email_legend:collapsed},recommendation_activate;{template_legend:collapsed},customTpl;{protected_legend:collapsed},protected;{expert_legend:collapsed},guests,cssID';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['recommendationsummary'] = '{title_legend},name,headline,type;{config_legend},recommendation_archives,recommendation_minRating,recommendation_featured;{template_legend:collapsed},customTpl;{protected_legend:collapsed},protected;{expert_legend:collapsed},guests,cssID';
 
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['recommendation_activate'] = 'recommendation_activateJumpTo,recommendation_activateText';
@@ -179,10 +181,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['recommendation_activateText'] = [
     'exclude'                 => true,
     'inputType'               => 'textarea',
     'eval'                    => ['style'=>'height:120px', 'decodeEntities'=>true, 'alwaysSave'=>true],
-    'load_callback' =>
-        [
-        ['tl_module_recommendation', 'getRecommendationActivationDefault']
-        ],
+    'load_callback'           => [['tl_module_recommendation', 'getRecommendationActivationDefault']],
     'sql'                     => "text NULL"
 ];
 
@@ -257,7 +256,7 @@ class tl_module_recommendation extends Backend
      */
     public function getRecommendationActivationDefault(mixed $varValue): mixed
     {
-        if (trim($varValue) === '')
+        if (trim((string) $varValue) === '')
         {
             $varValue = (is_array($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'] ?? null) ? $GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'][1] : ($GLOBALS['TL_LANG']['tl_recommendation_notification']['email_activation'] ?? null));
         }

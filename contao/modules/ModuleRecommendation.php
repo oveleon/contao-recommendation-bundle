@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -39,7 +41,7 @@ abstract class ModuleRecommendation extends Module
      */
     protected function sortOutProtected(array $arrArchives): array
     {
-        if (empty($arrArchives) || !\is_array($arrArchives))
+        if (empty($arrArchives))
         {
             return $arrArchives;
         }
@@ -122,7 +124,7 @@ abstract class ModuleRecommendation extends Module
         $objTemplate->location = $arrMeta['location'] ?? null;
 
         // Add styles
-        $color = unserialize(Config::get('recommendationActiveColor'))[0] ?? null;
+        $color = unserialize(Config::get('recommendationActiveColor') ?? '')[0] ?? null;
         $objTemplate->styles = $color ? ' style="color:#'.$color.'"' : '';
 
         $objTemplate->addExternalImage = false;

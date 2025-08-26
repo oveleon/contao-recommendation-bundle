@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -50,20 +52,15 @@ class ModuleRecommendationReader extends ModuleRecommendation
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
+            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', ['do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id]));
 
             return $objTemplate->parse();
         }
 
         $auto_item = Input::get('auto_item');
 
-        if (
-            version_compare(ContaoCoreBundle::getVersion(), '5', '<') &&
-            !isset($_GET['items']) &&
-            isset($_GET['auto_item']) &&
-            $this->useAutoItem()
-        ) {
-            // Set the item from the auto_item parameter - Contao 4.13 BC
+        if (Input::get('auto_item'))
+        {
             Input::setGet('items', Input::get('auto_item'));
             $auto_item = Input::get('items');
         }
@@ -76,7 +73,7 @@ class ModuleRecommendationReader extends ModuleRecommendation
 
         $this->recommendation_archives = $this->sortOutProtected(StringUtil::deserialize($this->recommendation_archives));
 
-        if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
+        if (empty($this->recommendation_archives))
         {
             throw new InternalServerErrorException('The recommendation reader ID ' . $this->id . ' has no archives specified.');
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -53,7 +55,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
      *
      * @return string
      */
-    public function generate(): string
+    public function generate()
     {
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
@@ -64,14 +66,14 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
+            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', ['do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id]));
 
             return $objTemplate->parse();
         }
 
         $this->recommendation_archives = $this->sortOutProtected([$this->recommendation_archive]);
 
-        if (empty($this->recommendation_archives) || !\is_array($this->recommendation_archives))
+        if (empty($this->recommendation_archives))
         {
             throw new InternalServerErrorException('The recommendation form ID ' . $this->id . ' has no archive specified.');
         }
@@ -88,7 +90,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         System::loadLanguageFile('tl_recommendation_notification');
 
         // Verify recommendation
-        if (strncmp(Input::get('token'), 'rec-', 4) === 0)
+        if (str_starts_with(Input::get('token'), 'rec-'))
         {
             $this->verifyRecommendation();
 
@@ -257,14 +259,14 @@ class ModuleRecommendationForm extends ModuleRecommendation
             $time = time();
 
             // Do not parse any tags in the recommendation
-            $strText = StringUtil::specialchars(trim($arrWidgets['text']->value));
+            $strText = StringUtil::specialchars(trim((string) $arrWidgets['text']->value));
             $strText = str_replace(['&amp;', '&lt;', '&gt;'], ['[&]', '[lt]', '[gt]'], $strText);
 
             // Remove multiple line feeds
             $strText = preg_replace('@\n\n+@', "\n\n", $strText);
 
             // Prevent cross-site request forgeries
-            $strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strText);
+            $strText = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', (string) $strText);
 
             // Prepare the record
             $arrData = [
@@ -326,7 +328,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $strText = preg_replace('/\r?\n/', '<br>', $strText);
 
         // Use paragraphs to generate new lines
-        if (strncmp('<p>', $strText, 3) !== 0)
+        if (strncmp('<p>', (string) $strText, 3) !== 0)
         {
             $strText = '<p>' . $strText . '</p>';
         }
@@ -338,7 +340,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
             '@</div></p>@'     => '</div>'     // Do not nest DIVs inside paragraphs
         ];
 
-        return preg_replace(array_keys($arrReplace), array_values($arrReplace), $strText);
+        return preg_replace(array_keys($arrReplace), array_values($arrReplace), (string) $strText);
     }
 
     /**
@@ -414,7 +416,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         $arrTokenData = $arrData;
         $arrTokenData['token']   = $optInToken->getIdentifier();
         $arrTokenData['domain']  = Idna::decode(Environment::get('host'));
-        $arrTokenData['link']    = Idna::decode(Environment::get('base')) . Environment::get('request') . ((str_contains(Environment::get('request'), '?')) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
+        $arrTokenData['link']    = Idna::decode(Environment::get('base')) . Environment::get('request') . ((str_contains((string) Environment::get('request'), '?')) ? '&' : '?') . 'token=' . $optInToken->getIdentifier();
         $arrTokenData['channel'] = '';
 
         // Send the token

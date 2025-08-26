@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 class SitemapListener
 {
     public function __construct(
-        private ContaoFramework $framework
+        private readonly ContaoFramework $framework
     ) {
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -27,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_recommendation_settings'] = [
     'fields' => [
         'recommendationDefaultImage' => [
             'inputType'               => 'fileTree',
-            'eval'                    => ['fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=> Config::get('validImageTypes'), 'tl_class'=>'clr']
+            'eval'                    => ['fieldType'=>'radio', 'filesOnly'=>true, 'isGallery'=>true, 'extensions'=> '%contao.image.valid_extensions%', 'tl_class'=>'clr']
         ],
         'recommendationActiveColor' => [
             'inputType'               => 'text',

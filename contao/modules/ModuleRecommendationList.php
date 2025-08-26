@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -42,7 +44,7 @@ class ModuleRecommendationList extends ModuleRecommendation
      *
      * @return string
      */
-    public function generate(): string
+    public function generate()
     {
         $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
@@ -53,7 +55,7 @@ class ModuleRecommendationList extends ModuleRecommendation
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
+            $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', ['do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id]));
 
             return $objTemplate->parse();
         }
@@ -76,7 +78,7 @@ class ModuleRecommendationList extends ModuleRecommendation
         if (System::getContainer()->has('fos_http_cache.http.symfony_response_tagger'))
         {
             $responseTagger = System::getContainer()->get('fos_http_cache.http.symfony_response_tagger');
-            $responseTagger->addTags(array_map(static function ($id) { return 'contao.db.tl_recommendation_archive.' . $id; }, $this->recommendation_archives));
+            $responseTagger->addTags(array_map(static fn($id) => 'contao.db.tl_recommendation_archive.' . $id, $this->recommendation_archives));
         }
 
         return parent::generate();
@@ -240,23 +242,12 @@ class ModuleRecommendationList extends ModuleRecommendation
             $order .= "$t.featured DESC, ";
         }
 
-        switch ($this->recommendation_order)
-        {
-            case 'order_random':
-                $order .= "RAND()";
-                break;
-
-            case 'order_date_asc':
-                $order .= "$t.date";
-                break;
-
-            case 'order_rating_desc':
-                $order .= "$t.rating DESC";
-                break;
-
-            default:
-                $order .= "$t.date DESC";
-        }
+        match ($this->recommendation_order) {
+            'order_random' => $order .= "RAND()",
+            'order_date_asc' => $order .= "$t.date",
+            'order_rating_desc' => $order .= "$t.rating DESC",
+            default => $order .= "$t.date DESC",
+        };
 
         // Get archives
         $archives = RecommendationArchiveModel::findMultipleByIds($recommendationArchives);

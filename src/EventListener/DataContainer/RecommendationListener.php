@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Oveleon Recommendation Bundle.
  *
@@ -70,10 +72,7 @@ class RecommendationListener
     {
         $db = Database::getInstance();
 
-        $aliasExists = function (string $alias) use ($dc, $db): bool
-        {
-            return $db->prepare("SELECT id FROM tl_recommendation WHERE alias=? AND id!=?")->execute($alias, $dc->id)->numRows > 0;
-        };
+        $aliasExists = (fn(string $alias): bool => $db->prepare("SELECT id FROM tl_recommendation WHERE alias=? AND id!=?")->execute($alias, $dc->id)->numRows > 0);
 
         // Generate alias if there is none
         if (!$varValue)
@@ -86,7 +85,7 @@ class RecommendationListener
 
             $varValue = System::getContainer()->get('contao.slug')->generate($title, RecommendationArchiveModel::findByPk($dc->activeRecord->pid)->jumpTo, $aliasExists);
         }
-        elseif (preg_match('/^[1-9]\d*$/', $varValue))
+        elseif (preg_match('/^[1-9]\d*$/', (string) $varValue))
         {
             throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasNumeric'], $varValue));
         }
