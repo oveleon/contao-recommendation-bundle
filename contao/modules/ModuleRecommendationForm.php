@@ -89,8 +89,10 @@ class ModuleRecommendationForm extends ModuleRecommendation
         System::loadLanguageFile('tl_recommendation');
         System::loadLanguageFile('tl_recommendation_notification');
 
+        $token = Input::get('token');
+
         // Verify recommendation
-        if (str_starts_with(Input::get('token'), 'rec-'))
+        if (null !== $token && str_starts_with((string) $token, 'rec-'))
         {
             $this->verifyRecommendation();
 
@@ -149,7 +151,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
         ];
 
         // Add scope for auto alias archives
-        if($archive && $archive->useAutoItem)
+        if ($archive && $archive->useAutoItem)
         {
             $arrFields['scope'] = [
                 'name'      => 'scope',
@@ -203,7 +205,7 @@ class ModuleRecommendationForm extends ModuleRecommendation
                 continue;
             }
 
-            /** @var Widget $strClass */
+            /** @var Widget|string $strClass */
             $strClass = $GLOBALS['TL_FFL'][$arrField['inputType']];
 
             // Continue if the class is not defined
