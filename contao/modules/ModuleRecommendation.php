@@ -349,7 +349,7 @@ abstract class ModuleRecommendation extends Module
         }
         elseif (($weeks = $objElapsedTime->d) > 6)
         {
-            return $this->translateElapsedTime(round($weeks/7), 'week');
+            return $this->translateElapsedTime((int) round($weeks / 7), 'week');
         }
         elseif (($days = $objElapsedTime->d) > 0)
         {
@@ -361,7 +361,7 @@ abstract class ModuleRecommendation extends Module
         }
         else
         {
-            return $GLOBALS['TL_LANG']['tl_recommendation']['justNow'];
+            return $GLOBALS['TL_LANG']['tl_recommendation']['justNow'] ?? 'just now';
         }
     }
 
@@ -370,7 +370,12 @@ abstract class ModuleRecommendation extends Module
      */
     protected function translateElapsedTime(int $value, string $strUnit = 'justNow'): string
     {
-        return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
+        if (isset($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)]))
+        {
+            return sprintf($GLOBALS['TL_LANG']['tl_recommendation'][$strUnit][!($value>1)], $value);
+        }
+
+        return '';
     }
 
     /**

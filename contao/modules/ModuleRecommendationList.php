@@ -28,6 +28,7 @@ use Oveleon\ContaoRecommendationBundle\Util\Summary;
  * Front end module "recommendation list".
  *
  * @property array  $recommendation_archives
+ * @property string $recommendation_minRating
  * @property string $recommendation_featured
  * @property string $recommendation_order
  */
@@ -94,7 +95,7 @@ class ModuleRecommendationList extends ModuleRecommendation
         $limit = null;
         $offset = 0;
 
-        $minRating = $this->recommendation_minRating;
+        $minRating = (int) $this->recommendation_minRating;
 
 
         // Maximum number of items
@@ -104,18 +105,12 @@ class ModuleRecommendationList extends ModuleRecommendation
         }
 
         // Handle featured recommendations
-        if ($this->recommendation_featured == 'featured')
+        $blnFeatured = match ($this->recommendation_featured)
         {
-            $blnFeatured = true;
-        }
-        elseif ($this->recommendation_featured == 'unfeatured')
-        {
-            $blnFeatured = false;
-        }
-        else
-        {
-            $blnFeatured = null;
-        }
+            'featured' => true,
+            'unfeatured' => false,
+            default => null,
+        };
 
         $this->Template->recommendations = [];
         $this->Template->empty = $GLOBALS['TL_LANG']['MSC']['emptyRecommendationList'];
