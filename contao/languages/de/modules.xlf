@@ -22,7 +22,7 @@
         <target>Bewertungen</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationlist.0">
-        <source>Recommendationlist</source>
+        <source>Recommendation list</source>
         <target>Bewertungsliste</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationlist.1">
@@ -30,7 +30,7 @@
         <target>Fügt der Seite eine Bewertungsliste hinzu</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationreader.0">
-        <source>Recommendationreader</source>
+        <source>Recommendation reader</source>
         <target>Bewertungsleser</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationreader.1">
@@ -46,7 +46,7 @@
         <target>Fügt der Seite ein Formular für Bewertungen hinzu</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationsummary.0">
-        <source>Recommendationsummary</source>
+        <source>Recommendation summary</source>
         <target>Bewertungszusammenfassung</target>
       </trans-unit>
       <trans-unit id="FMD.recommendationsummary.1">

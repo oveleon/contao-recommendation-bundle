@@ -17,13 +17,13 @@
         <source>Recommendations</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationlist.0">
-        <source>Recommendationlist</source>
+        <source>Recommendation list</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationlist.1">
         <source>Adds a list of recommendations to the page</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationreader.0">
-        <source>Recommendationreader</source>
+        <source>Recommendation reader</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationreader.1">
         <source>Shows the details of a recommendation</source>
@@ -35,7 +35,7 @@
         <source>Adds a recommendation form to the page</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationsummary.0">
-        <source>Recommendationsummary</source>
+        <source>Recommendation summary</source>
       </trans-unit>
       <trans-unit id="FMD.recommendationsummary.1">
         <source>Adds a summary of all recommendations to the page</source>

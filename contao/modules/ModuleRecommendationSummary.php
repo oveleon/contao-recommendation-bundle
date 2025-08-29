@@ -28,6 +28,7 @@ use Oveleon\ContaoRecommendationBundle\Util\Summary;
  * Front end module "recommendation summary".
  *
  * @property array  $recommendation_archives
+ * @property string $recommendation_minRating
  * @property string $recommendation_featured
  * @property string $recommendation_order
  */
@@ -83,21 +84,15 @@ class ModuleRecommendationSummary extends ModuleRecommendation
      */
     protected function compile()
     {
-        $minRating = $this->recommendation_minRating;
+        $minRating = (int) $this->recommendation_minRating; // Min rating has been saved as char in the db, this casts it into an int
 
         // Handle featured recommendations
-        if ($this->recommendation_featured == 'featured')
+        $blnFeatured = match ($this->recommendation_featured)
         {
-            $blnFeatured = true;
-        }
-        elseif ($this->recommendation_featured == 'unfeatured')
-        {
-            $blnFeatured = false;
-        }
-        else
-        {
-            $blnFeatured = null;
-        }
+            'featured' => true,
+            'unfeatured' => false,
+            default => null,
+        };
 
         // Get the total number of items
         $intTotal = $this->countItems($this->recommendation_archives, $blnFeatured, $minRating);
