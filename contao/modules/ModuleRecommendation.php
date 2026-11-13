@@ -138,7 +138,7 @@ abstract class ModuleRecommendation extends Module
         // Add an image
         if ($objRecommendation->imageUrl != '')
         {
-            $objRecommendation->imageUrl = $container->get('contao.insert_tag.parser')->replace($objRecommendation->imageUrl);
+            $objRecommendation->imageUrl = urldecode($container->get('contao.insert_tag.parser')->replace($objRecommendation->imageUrl));
 
             // Insert tag parser on contao ^5 returns a leading slash whilst contao 4.13 does not
             if (Path::isAbsolute($objRecommendation->imageUrl))
